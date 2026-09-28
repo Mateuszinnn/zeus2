@@ -146,6 +146,17 @@ nunca para dar ênfase. Ênfase é cor de fundo ou peso de tipo.
 
 Ícone é de traço, não preenchido, com espessura constante em todo o sistema.
 
+**A marca.** O símbolo do Zeus é um **raio atravessando o Z na diagonal**,
+fundido à letra — não um raio colocado ao lado dela. O raio é o corte que separa
+as duas metades do Z, e essa negativa é a forma. Construção geométrica e plana:
+sem bisel, sem contorno, sem sombra projetada, sem gradiente. O Z é roxo; o raio
+é laranja.
+
+Essa é a **única aparição decorativa do laranja em todo o sistema** — em todo o
+resto ele significa atenção ou posição. A exceção vale porque a marca é
+identidade, não dado, e porque um raio de qualquer outra cor deixa de ser o raio
+do Zeus.
+
 ## Do's and Don'ts
 
 **Do**

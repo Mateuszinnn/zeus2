@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Zeus">
+  <mask id="zeus-bolt-cut">
+    <rect width="64" height="64" fill="#fff"/>
+    <polygon points="34,8 10,37 32,37 30,56 54,27 32,27"
+             fill="#000" stroke="#000" stroke-width="5" stroke-linejoin="round"/>
+  </mask>
+  <path d="M12,10 H52 V21 L30,43 H52 V54 H12 V43 L34,21 H12 Z"
+        fill="#7A5AF8" mask="url(#zeus-bolt-cut)"/>
+  <polygon points="34,8 10,37 32,37 30,56 54,27 32,27" fill="#FD853A"/>
+</svg>

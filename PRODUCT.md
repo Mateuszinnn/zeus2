@@ -93,7 +93,15 @@ expansão:
 - Paleta: `#FFFFFF` · `#FD853A` (laranja) · `#7A5AF8` (roxo) · `#362E46`
   (Gray 80) · `#867E96` (Gray 40) · `#F2EEF8` (Gray 20).
 
-Não há logo fornecido. O ícone de marca precisa ser criado.
+**Marca gráfica fornecida pelo usuário:** a palavra "Zeus" com um **raio
+atravessando o Z na diagonal**, fundido à letra. O usuário autorizou
+explicitamente recolorir e modernizar — o original é azul com contorno escuro,
+bisel e sombra projetada, linguagem dos anos 90.
+
+O que é vinculante é a **ideia**: o nome Zeus e o raio fundido ao Z. Cor,
+acabamento e construção são livres e devem seguir a paleta e o material plano do
+sistema. O arquivo original não está no repositório; a marca é reconstruída como
+vetor.
 
 Voz e personalidade não foram definidas pelo usuário. **Decisão em aberto.**
 
