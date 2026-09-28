@@ -6,6 +6,14 @@
 
 **Status:** aprovado · **Data:** 2026-09-28 · **Stack:** React + Vite + TypeScript + Tailwind CSS
 
+**Documentos irmãos.** [`PRODUCT.md`](../../../PRODUCT.md) é a autoridade sobre
+verdade de produto — usuários, propósito, contexto de uso, marca.
+[`DESIGN.md`](../../../DESIGN.md) é a autoridade sobre o mundo visual e seus
+invariantes, no formato que o Impeccable lê. **Este documento é o contrato de
+implementação:** os valores exatos, a anatomia de cada componente, o mapa de
+telas e o checklist. Se um valor divergir entre este documento e o `DESIGN.md`,
+este está certo — corrija o `DESIGN.md`.
+
 ---
 
 ## 1. Contexto e escopo

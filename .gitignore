@@ -1,0 +1,34 @@
+# Dependências e build
+node_modules/
+dist/
+dist-ssr/
+.vite/
+*.local
+
+# Logs
+npm-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Editor / SO
+.DS_Store
+Thumbs.db
+.idea/
+*.swp
+
+# Claude Code — preferências locais da máquina
+.claude/settings.local.json
+
+# Impeccable — payload do skill (15MB de binário).
+# Reinstale com: npx impeccable install --providers=claude --scope=project
+.claude/skills/impeccable/
+.claude/agents/impeccable-*.md
+
+# Impeccable — artefatos efêmeros (screenshots, sessões, caches).
+# config.json, design.json e surfaces/ são versionados de propósito.
+.impeccable/config.local.json
+.impeccable/build/
+.impeccable/live/sessions/
+.impeccable/live/inject-journal.json
+.impeccable/mocks/
+.impeccable/review/
