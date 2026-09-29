@@ -42,6 +42,18 @@ Instalado para guiar o desenvolvimento de frontend: skill com 24 comandos,
   `/impeccable polish` antes de fechar. Varredura manual:
   `npx impeccable detect`.
 
+## Verificação
+
+| Comando | O que prova |
+|---|---|
+| `npm run typecheck` | Os tipos fecham. |
+| `npm run build` | O bundle compila. |
+| `npm run smoke` | **Toda rota renderiza de verdade**, nos dois perfis. Inclui um caso negativo que reprova se o teste ficar vazio. |
+| `npx impeccable detect` | As 61 regras determinísticas de design. |
+
+Nenhum dos três primeiros prova que a tela está boa — só que ela não quebrou.
+A inspeção visual continua sendo trabalho de olho.
+
 ## Regras que mais se violam sem perceber
 
 - Nada de hex, px de cor ou família de fonte literal no JSX — só tokens semânticos.
@@ -53,5 +65,7 @@ Instalado para guiar o desenvolvimento de frontend: skill com 24 comandos,
 - Operação mockada passa por `src/mocks/delay.ts` (300–600ms).
 - A marca é **Zeus**. "Edu.Link" é marca de terceiro do mockup de referência e
   não aparece em lugar nenhum.
+- Os nomes das habilidades ficam **em inglês** (Listening, Speaking, Reading,
+  Writing, Use of English). Todo o resto da interface é em português.
 
 O §10 do design system é o checklist a rodar antes de dar qualquer tela por pronta.

@@ -7,7 +7,8 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "preview": "vite preview",
-    "typecheck": "tsc -b --noEmit"
+    "typecheck": "tsc -b --noEmit",
+    "smoke": "vite build --ssr src/smoke.tsx --outDir dist-smoke --logLevel error && node dist-smoke/smoke.js"
   },
   "dependencies": {
     "@fontsource/lato": "^5.1.0",

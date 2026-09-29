@@ -456,9 +456,13 @@ Rótulo `label` `text-primary` acima · controle · texto de ajuda ou erro em
 com `aria-describedby` e `aria-invalid`. Campo obrigatório marca `*` em
 `#F04438` após o rótulo.
 
-Controles: `Input`, `Textarea`, `Select`, `DatePicker`, `Checkbox`, `Radio`,
-`Toggle` — todos altura 40px (exceto Textarea), `radius-md`, mesmo padrão de
-foco do FilterSelect.
+Controles: `TextInput`, `TextArea`, `NativeSelect`, `Checkbox`, `Radio`,
+`Toggle` — todos altura 40px (exceto TextArea), `radius-md`, mesmo padrão de
+foco do Select.
+
+`ReadOnlyField` é o par somente-leitura: rótulo `label` `text-muted` acima,
+valor em `body-strong` `text-primary`, **sem moldura**. Campo desabilitado para
+exibir dado parece defeito — não use.
 
 ### Modal
 
@@ -709,6 +713,8 @@ Antes de considerar qualquer tela pronta:
       para a paginação existir.
 - [ ] Componentes usados constam da §5; qualquer componente novo foi adicionado
       a este documento no mesmo PR.
+- [ ] `npm run smoke` verde: toda rota renderiza de verdade nos dois perfis.
+      Build e typecheck só provam que compila.
 
 ---
 

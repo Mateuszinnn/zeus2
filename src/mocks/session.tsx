@@ -25,8 +25,15 @@ export function useSession(): Session {
   return ctx
 }
 
-export function SessionProvider({ children }: { children: ReactNode }) {
-  const [role, setRole] = useState<Role | null>(null)
+export function SessionProvider({
+  children,
+  initialRole = null,
+}: {
+  children: ReactNode
+  /** Sessão já aberta. Usado pelo teste de fumaça e por deep link. */
+  initialRole?: Role | null
+}) {
+  const [role, setRole] = useState<Role | null>(initialRole)
 
   const signIn = useCallback((next: Role) => setRole(next), [])
   const signOut = useCallback(() => setRole(null), [])

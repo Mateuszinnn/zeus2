@@ -349,12 +349,23 @@ export interface Incident {
   kind: string
   severity: Severity
   note: string
+  /** Providência tomada e registrada. */
+  handled: boolean
 }
 
 export const INCIDENTS: Incident[] = [
-  { id: 'oc-1', studentId: 't2a-17', date: '2026-04-07', kind: 'Faltas seguidas', severity: 'serious', note: 'Quarta ausência consecutiva sem justificativa. Risco de perder a vaga no semestre.' },
-  { id: 'oc-2', studentId: 't4b-18', date: '2026-04-06', kind: 'Tarefas não entregues', severity: 'medium', note: 'Três tarefas de Use of English em aberto no bimestre.' },
-  { id: 'oc-3', studentId: 't2a-25', date: '2026-04-01', kind: 'Saída antecipada', severity: 'light', note: 'Saiu às 08:40 com autorização do responsável.' },
+  { id: 'oc-1', studentId: 't2a-17', date: '2026-04-07', kind: 'Faltas seguidas', severity: 'serious', note: 'Quarta ausência consecutiva sem justificativa. Risco de perder a vaga no semestre.', handled: false },
+  { id: 'oc-2', studentId: 't4b-18', date: '2026-04-06', kind: 'Tarefas não entregues', severity: 'medium', note: 'Três tarefas de Use of English em aberto no bimestre.', handled: false },
+  { id: 'oc-3', studentId: 't2a-25', date: '2026-04-01', kind: 'Saída antecipada', severity: 'light', note: 'Saiu às 08:40 com autorização do responsável.', handled: true },
+  { id: 'oc-4', studentId: 't4b-25', date: '2026-03-31', kind: 'Faltas seguidas', severity: 'serious', note: 'Ausente em cinco das últimas oito aulas. Secretaria acionou a escola de origem.', handled: false },
+  { id: 'oc-5', studentId: 't2a-8', date: '2026-03-26', kind: 'Desempenho em queda', severity: 'medium', note: 'Média caiu de 5,4 para 3,6 entre as duas avaliações de Use of English.', handled: false },
+  { id: 'oc-6', studentId: 't4b-4', date: '2026-03-24', kind: 'Uso de celular em prova', severity: 'medium', note: 'Consultou tradutor durante o reading test. Avaliação refeita na aula seguinte.', handled: true },
+  { id: 'oc-7', studentId: 't2a-21', date: '2026-03-19', kind: 'Atrasos recorrentes', severity: 'light', note: 'Sexto atraso acima de quinze minutos no bimestre.', handled: true },
+  { id: 'oc-8', studentId: 't4b-18', date: '2026-03-17', kind: 'Conversa em sala', severity: 'light', note: 'Conversa paralela durante o listening. Combinado feito com a turma.', handled: true },
+  { id: 'oc-9', studentId: 't2a-13', date: '2026-03-12', kind: 'Speaking não realizado', severity: 'medium', note: 'Faltou à prova oral sem justificativa. Reagendada para 24 de março.', handled: true },
+  { id: 'oc-10', studentId: 't4b-8', date: '2026-03-05', kind: 'Atrasos recorrentes', severity: 'light', note: 'Chega junto com o fim do warm-up desde o início do bimestre.', handled: false },
+  { id: 'oc-11', studentId: 't2a-11', date: '2026-02-26', kind: 'Elogio em ata', severity: 'light', note: 'Assumiu a monitoria do grupo de conversação sem ser solicitada.', handled: true },
+  { id: 'oc-12', studentId: 't4b-22', date: '2026-02-19', kind: 'Material incompleto', severity: 'light', note: 'Sem o workbook há três aulas. Responsável avisado pela secretaria.', handled: true },
 ]
 
 /* ------------------------------------------------------------------ *
