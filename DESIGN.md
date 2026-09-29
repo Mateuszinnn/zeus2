@@ -71,9 +71,13 @@ de aprovação, 75% é frequência mínima.
 
 ## Typography
 
-**Lato é a única família**, em três pesos: Regular, Medium e Bold. Restrição
-vinculante do usuário. Uma segunda família, ou um peso fora desses três, é
-violação do mundo.
+**Lato é a única família.** Restrição vinculante do usuário. Uma segunda
+família é violação do mundo.
+
+A família distribuída não traz o peso 500, então os três papéis da imagem de
+tipografia — Regular, Medium e Bold — assentam em **dois pesos reais, 400 e
+700**. Medium e Bold dividem o 700 e se separam por tamanho e cor. Nenhum outro
+peso entra no sistema.
 
 O contraste de tipo é feito por **peso e cor, não por tamanho**. A escala é
 curta de propósito — título de página em 28px é o único salto grande; todo o

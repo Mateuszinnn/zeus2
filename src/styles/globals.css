@@ -1,0 +1,136 @@
+@import 'tailwindcss';
+@import './tokens.css';
+
+/* ------------------------------------------------------------------ *
+ * Base
+ * ------------------------------------------------------------------ */
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--color-app);
+    color: var(--color-primary);
+    font-family: var(--font-sans);
+    font-size: var(--text-body);
+    line-height: var(--text-body--line-height);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Números que não dançam entre linhas. Vale para toda coluna numérica;
+   * aplicado na raiz porque este produto é quase todo número. */
+  body {
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* As partes que não desenhamos também carregam o design. */
+  ::selection {
+    background-color: var(--color-purple-200);
+    color: var(--color-gray-90);
+  }
+
+  :root {
+    caret-color: var(--color-accent);
+    accent-color: var(--color-accent);
+    scrollbar-color: var(--color-gray-35) transparent;
+    scrollbar-width: thin;
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: var(--color-gray-35);
+    border-radius: var(--radius-full, 9999px);
+    border: 3px solid transparent;
+    background-clip: content-box;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: var(--color-gray-40);
+  }
+
+  /* A faixa escura tem seu próprio contraste de barra de rolagem. */
+  .scroll-on-dark {
+    scrollbar-color: var(--color-gray-70) transparent;
+  }
+
+  .scroll-on-dark::-webkit-scrollbar-thumb {
+    background-color: var(--color-gray-70);
+  }
+
+  a {
+    color: var(--color-brand);
+    text-underline-offset: 3px;
+    text-decoration-thickness: 1px;
+  }
+
+  /* Foco visível em tudo. Remover sem substituir é bug bloqueante. */
+  :focus-visible {
+    outline: 2px solid var(--color-focus);
+    outline-offset: 2px;
+    border-radius: var(--radius-sm);
+  }
+
+  /* O ponteiro não pinta seleção em texto de tabela durante a varredura. */
+  [data-scan] {
+    user-select: none;
+  }
+}
+
+/* ------------------------------------------------------------------ *
+ * Movimento — um único momento autorado: o cartão que se desdobra.
+ * ------------------------------------------------------------------ */
+
+@layer utilities {
+  .ease-expo {
+    transition-timing-function: var(--ease-out-expo);
+  }
+
+  /* Esqueleto de carregamento. Brilho suave, nunca pulsação de opacidade
+   * no bloco inteiro, que lê como falha de renderização. */
+  .skeleton {
+    background-image: linear-gradient(
+      90deg,
+      var(--color-gray-30) 0%,
+      var(--color-gray-25) 40%,
+      var(--color-gray-30) 80%
+    );
+    background-size: 240% 100%;
+    animation: skeleton-sweep 1.4s var(--ease-out-expo) infinite;
+  }
+
+  @keyframes skeleton-sweep {
+    from {
+      background-position: 140% 0;
+    }
+    to {
+      background-position: -40% 0;
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .skeleton {
+    background-image: none;
+    background-color: var(--color-gray-30);
+  }
+}

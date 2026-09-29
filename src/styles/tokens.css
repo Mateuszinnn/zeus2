@@ -1,0 +1,151 @@
+/* Tokens do design system do Zeus.
+ *
+ * Duas camadas: primitivos primeiro, semânticos derivados deles. Componentes
+ * consomem APENAS a camada semântica — um primitivo solto no JSX é bug de
+ * revisão, e um hex literal é bug bloqueante.
+ *
+ * Referência: docs/superpowers/specs/2026-09-28-design-system-design.md §2
+ */
+
+@theme {
+  /* ---------------------------------------------------------------- *
+   * Camada 1 — primitivos
+   * ---------------------------------------------------------------- */
+
+  /* Roxo — ação e desempenho adequado. Âncora de marca: 500. */
+  --color-purple-50: #f4f1fe;
+  --color-purple-100: #ebe5fe;
+  --color-purple-200: #dacffd;
+  --color-purple-300: #c2affb;
+  --color-purple-400: #a287f9;
+  --color-purple-500: #7a5af8;
+  --color-purple-600: #6438f0;
+  --color-purple-700: #5326dc;
+  --color-purple-800: #4520b8;
+  --color-purple-900: #391d96;
+
+  /* Laranja — posição e atenção. Âncora de marca: 500. */
+  --color-orange-50: #fff6ed;
+  --color-orange-100: #ffead5;
+  --color-orange-200: #fed7aa;
+  --color-orange-300: #fdba74;
+  --color-orange-400: #fd9a5c;
+  --color-orange-500: #fd853a;
+  --color-orange-600: #ea6a1c;
+  --color-orange-700: #c24f13;
+  --color-orange-800: #9a3f16;
+  --color-orange-900: #7c3515;
+
+  /* Cinza de matiz roxo (~260°). Cinza neutro é proibido no sistema. */
+  --color-gray-0: #ffffff;
+  --color-gray-20: #f2eef8;
+  --color-gray-25: #faf8fd;
+  --color-gray-30: #e4dfee;
+  --color-gray-35: #c5bdd4;
+  --color-gray-40: #867e96;
+  --color-gray-50: #6e6682;
+  --color-gray-70: #443b57;
+  --color-gray-80: #362e46;
+  --color-gray-90: #251f32;
+
+  /* Estado. Não vieram da paleta de marca: o produto codifica desempenho
+   * por cor e a paleta original não cobria os extremos. */
+  --color-success: #12b76a;
+  --color-success-soft: #ecfdf3;
+  --color-success-ink: #027a48;
+  --color-warning: #f79009;
+  --color-warning-soft: #fffaeb;
+  --color-warning-ink: #b54708;
+  --color-error: #f04438;
+  --color-error-soft: #fef3f2;
+  --color-error-ink: #b42318;
+
+  /* ---------------------------------------------------------------- *
+   * Camada 2 — semânticos. É o que o código usa.
+   * ---------------------------------------------------------------- */
+
+  /* Superfícies */
+  --color-app: var(--color-gray-20);
+  --color-surface: var(--color-gray-0);
+  --color-surface-alt: var(--color-gray-25);
+  --color-sidebar: var(--color-gray-90);
+  --color-sidebar-active: var(--color-gray-70);
+
+  /* Texto */
+  --color-primary: var(--color-gray-80);
+  --color-secondary: var(--color-gray-50);
+  --color-muted: var(--color-gray-40);
+  --color-disabled: var(--color-gray-35);
+  --color-on-dark: var(--color-gray-0);
+  --color-on-dark-muted: #a79fb5;
+  --color-brand: var(--color-purple-600);
+
+  /* Bordas */
+  --color-default: var(--color-gray-30);
+  --color-strong: var(--color-gray-35);
+  --color-focus: var(--color-purple-500);
+
+  /* Acentos */
+  --color-accent: var(--color-purple-500);
+  --color-accent-hover: var(--color-purple-600);
+  --color-accent-soft: var(--color-purple-50);
+  --color-accent-2: var(--color-orange-500);
+
+  /* ---------------------------------------------------------------- *
+   * Tipografia — Lato, três pesos. Nenhuma outra família.
+   * ---------------------------------------------------------------- */
+  --font-sans: 'Lato', system-ui, -apple-system, sans-serif;
+
+  /* O Lato distribuído tem 100/300/400/700/900 — NÃO existe peso 500.
+   * O papel "Medium" do design system (nome de aluno, valor em destaque,
+   * rótulo de campo) resolve para 700: sem isso, `font-medium` cairia para
+   * 400 e ficaria idêntico ao corpo, apagando a hierarquia em silêncio.
+   * Ênfase e título dividem o 700 e se separam por tamanho e cor, que é
+   * como o sistema já opera. */
+  --font-weight-medium: 700;
+
+  --text-display: 1.75rem; /* 28 */
+  --text-display--line-height: 2.25rem; /* 36 */
+  --text-display--font-weight: 700;
+  --text-display--letter-spacing: -0.01em;
+
+  --text-h2: 1.25rem; /* 20 */
+  --text-h2--line-height: 1.75rem; /* 28 */
+  --text-h2--font-weight: 700;
+
+  --text-h3: 1rem; /* 16 */
+  --text-h3--line-height: 1.5rem; /* 24 */
+  --text-h3--font-weight: 700;
+
+  --text-body: 0.875rem; /* 14 */
+  --text-body--line-height: 1.25rem; /* 20 */
+
+  --text-label: 0.8125rem; /* 13 */
+  --text-label--line-height: 1.125rem; /* 18 */
+  --text-label--font-weight: 500;
+
+  --text-caption: 0.75rem; /* 12 */
+  --text-caption--line-height: 1rem; /* 16 */
+
+  /* ---------------------------------------------------------------- *
+   * Forma — o raio cresce junto com a superfície.
+   * ---------------------------------------------------------------- */
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-2xl: 20px;
+
+  /* ---------------------------------------------------------------- *
+   * Profundidade — suave, curta e tingida de roxo.
+   * Sombra preta neutra suja a paleta.
+   * ---------------------------------------------------------------- */
+  --shadow-xs: 0 1px 2px rgba(54, 46, 70, 0.05);
+  --shadow-sm: 0 1px 3px rgba(54, 46, 70, 0.08), 0 1px 2px rgba(54, 46, 70, 0.04);
+  --shadow-md: 0 4px 8px -2px rgba(54, 46, 70, 0.08), 0 2px 4px -2px rgba(54, 46, 70, 0.04);
+  --shadow-lg: 0 12px 16px -4px rgba(54, 46, 70, 0.08), 0 4px 6px -2px rgba(54, 46, 70, 0.03);
+
+  /* Curva única do sistema: saída exponencial, a partir de um estado
+   * já visível. Nada entra na tela "aparecendo". */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+}

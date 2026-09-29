@@ -140,11 +140,22 @@ Esta é a camada que o código usa.
 
 ### 2.3 Tipografia
 
-**Fonte única: Lato.** Pesos 400 (Regular), 500 (Medium), 700 (Bold). Não use
-outros pesos nem outra família. Fallback: `'Lato', system-ui, -apple-system, sans-serif`.
+**Fonte única: Lato.** Não use outra família. Fallback:
+`'Lato', system-ui, -apple-system, sans-serif`.
 
-Carregue via `@fontsource/lato` (pesos 400/500/700, subset latin) — self-hosted,
-sem dependência de CDN na apresentação.
+Carregue via `@fontsource/lato` (subset latin) — self-hosted, sem dependência de
+CDN na apresentação.
+
+> **O Lato distribuído não tem peso 500.** A família servida pelo Google Fonts
+> e pelo Fontsource traz 100 / 300 / 400 / 700 / 900. O papel **Medium** da
+> imagem de tipografia resolve para **700**, fixado uma única vez no token
+> `--font-weight-medium`. Sem essa amarração, `font-medium` cairia
+> silenciosamente para 400, ficando idêntico ao corpo e apagando a hierarquia
+> de nome de aluno, valor em destaque e rótulo de campo.
+>
+> Ênfase e título passam a dividir o 700 e se separam por **tamanho e cor**,
+> que é como o sistema já opera. Carregue apenas 400 e 700: os outros três
+> pesos não têm papel definido e não devem entrar no bundle.
 
 | token | tamanho / entrelinha | peso | uso |
 |---|---|---|---|
@@ -196,20 +207,26 @@ Card usa `sm`. Dropdown e popover usam `lg`. Modal usa `lg` + overlay
 
 ### 2.7 Implementação dos tokens
 
-`src/styles/tokens.css` declara os primitivos e semânticos como CSS custom
-properties em `:root`. `tailwind.config.ts` mapeia cada token para uma classe,
-lendo a variável:
+O projeto usa **Tailwind v4**, cuja configuração é CSS-first: não existe
+`tailwind.config.ts`. `src/styles/tokens.css` declara as duas camadas dentro de
+um único bloco `@theme`, e cada token gera a utilitária correspondente.
 
-```ts
-// tailwind.config.ts — recorte ilustrativo
-colors: {
-  surface: 'var(--bg-surface)',
-  app:     'var(--bg-app)',
-  primary: 'var(--text-primary)',
-  muted:   'var(--text-muted)',
-  accent:  { DEFAULT: 'var(--accent-primary)', hover: 'var(--accent-primary-hover)' },
+```css
+/* src/styles/tokens.css — recorte */
+@theme {
+  --color-purple-500: #7a5af8;   /* primitivo */
+  --color-gray-20: #f2eef8;
+
+  --color-accent: var(--color-purple-500);  /* semântico */
+  --color-app: var(--color-gray-20);
+  --color-surface: var(--color-gray-0);
+  --color-muted: var(--color-gray-40);
 }
 ```
+
+A camada semântica referenciar a primitiva por `var()` é o que mantém o
+contrato: trocar a marca é reescrever dez linhas de semântica, sem tocar em
+componente.
 
 Uso em componente: `className="bg-surface text-primary border-default"`.
 **Nunca** `className="bg-[#FFFFFF]"`.
@@ -534,7 +551,9 @@ primário de largura total. **Qualquer credencial entra.** Um seletor discreto
 
 **Avisos** — lista cronológica de comunicados. Cada item: título `h3`, autor e
 data em `caption`, trecho do corpo, `StatusBadge` de prioridade. Não lidos com
-marcador `accent-primary` de 4px à esquerda. `teacher` vê botão "Novo aviso"
+um ponto `accent-primary` de 8px antes do título. (Era uma barra de 4px à
+esquerda; virou ponto porque borda lateral colorida acima de 1px é um clichê de
+callout que o piso de qualidade recusa, e o ponto lê melhor em lista densa.) `teacher` vê botão "Novo aviso"
 que abre Modal com formulário; `student` apenas lê.
 · `PageHeader`, `Card`, `StatusBadge`, `Button`, `Modal`, `FormField`, `EmptyState`
 
