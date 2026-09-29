@@ -28,7 +28,7 @@
 
   /* As partes que não desenhamos também carregam o design. */
   ::selection {
-    background-color: var(--color-purple-200);
+    background-color: var(--color-selection);
     color: var(--color-gray-90);
   }
 

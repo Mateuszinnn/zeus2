@@ -10,9 +10,9 @@ const SIZES = {
 /* Sem foto, as iniciais assentam num fundo derivado do hash do nome — o
  * mesmo aluno recebe sempre a mesma cor, em todas as telas. */
 const TONES = [
-  'bg-purple-100 text-purple-800',
-  'bg-orange-100 text-orange-800',
-  'bg-gray-30 text-gray-80',
+  'bg-tone-1 text-tone-1-ink',
+  'bg-tone-2 text-tone-2-ink',
+  'bg-tone-3 text-tone-3-ink',
 ] as const
 
 function toneOf(name: string): string {

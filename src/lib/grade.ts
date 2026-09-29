@@ -26,7 +26,7 @@ interface LevelStyle {
 
 const STYLES: Record<GradeLevel, LevelStyle> = {
   excellent: { fill: 'bg-success', soft: 'bg-success-soft', ink: 'text-success-ink', label: 'Excelente' },
-  adequate: { fill: 'bg-accent', soft: 'bg-accent-soft', ink: 'text-purple-700', label: 'Aprovado' },
+  adequate: { fill: 'bg-accent', soft: 'bg-accent-soft', ink: 'text-accent-ink', label: 'Aprovado' },
   attention: { fill: 'bg-warning', soft: 'bg-warning-soft', ink: 'text-warning-ink', label: 'Recuperável' },
   critical: { fill: 'bg-error', soft: 'bg-error-soft', ink: 'text-error-ink', label: 'Crítico' },
 }

@@ -69,7 +69,7 @@ export function Tabs({ items, value, onChange, label, className }: TabsProps) {
               <span
                 className={cn(
                   'rounded-full px-2 py-0.5 text-caption',
-                  active ? 'bg-accent-soft text-purple-700' : 'bg-gray-20 text-muted',
+                  active ? 'bg-accent-soft text-accent-ink' : 'bg-gray-20 text-muted',
                 )}
               >
                 {item.count}

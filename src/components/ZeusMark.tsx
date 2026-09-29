@@ -2,8 +2,12 @@
  * é a forma, não um raio colocado por cima. Construção plana: sem bisel, sem
  * contorno, sem sombra.
  *
- * O laranja do raio é a ÚNICA aparição decorativa dessa cor no sistema.
- * Em todo o resto ela significa atenção ou posição. Ver DESIGN.md §Shapes.
+ * Com a paleta monocromática, azul sobre azul viraria lama. Então o Z herda a
+ * cor do contexto (`currentColor`): escuro sobre o login claro, branco sobre a
+ * faixa de navegação. O raio fica no azul claro da marca e é o único elemento
+ * fixo — é ele que identifica o produto nos dois fundos.
+ *
+ * Ver DESIGN.md §Shapes.
  */
 
 const BOLT = '34,8 10,37 32,37 30,56 54,27 32,27'
@@ -24,21 +28,10 @@ export function ZeusMark({ size = 28, className }: { size?: number; className?: 
       </mask>
       <path
         d="M12,10 H52 V21 L30,43 H52 V54 H12 V43 L34,21 H12 Z"
-        className="fill-purple-500"
+        fill="currentColor"
         mask="url(#zeus-bolt-cut)"
       />
-      <polygon points={BOLT} className="fill-orange-500" />
+      <polygon points={BOLT} className="fill-accent-bright" />
     </svg>
-  )
-}
-
-export function ZeusLockup({ className }: { className?: string }) {
-  return (
-    <div className={className}>
-      <span className="flex items-center gap-2.5">
-        <ZeusMark size={28} />
-        <span className="text-h2 text-on-dark">Zeus</span>
-      </span>
-    </div>
   )
 }

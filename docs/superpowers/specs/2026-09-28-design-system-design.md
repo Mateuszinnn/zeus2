@@ -66,52 +66,46 @@ primitivo  (purple-500, gray-90)  →  semântico  (bg-surface, text-muted)  →
 
 ### 2.1 Cor — primitivos
 
-As três cores de marca vieram do color scheme fornecido. Cada uma foi expandida
-em escala por ajuste de luminosidade preservando o matiz, porque um tom só não
-resolve hover, borda, fundo suave e estado pressionado.
+A paleta são **cinco azuis** fornecidos pelo usuário. Eles caem em pontos
+naturais de uma única rampa de matiz ~200°, e os degraus entre eles foram
+derivados por luminosidade preservando o matiz — um tom só não resolve hover,
+borda, fundo suave e estado pressionado.
 
-**Roxo — cor primária de ação.** Âncora de marca: `500 = #7A5AF8`.
-
-| | 50 | 100 | 200 | 300 | 400 | **500** | 600 | 700 | 800 | 900 |
+| | 50 | 100 | 200 | 300 | **400** | **500** | **600** | 700 | 800 | **900** |
 |---|---|---|---|---|---|---|---|---|---|---|
-| hex | `#F4F1FE` | `#EBE5FE` | `#DACFFD` | `#C2AFFB` | `#A287F9` | `#7A5AF8` | `#6438F0` | `#5326DC` | `#4520B8` | `#391D96` |
+| hex | `#E8F1F2` | `#D3E6EE` | `#A8D2E5` | `#6BB8E2` | `#1B98E0` | `#247BA0` | `#006494` | `#08506F` | `#0E3B52` | `#13293D` |
+| marca | Azure X11 | | | | Carolina | Celadon | Sapphire | | | Prussian |
 
-**Laranja — cor de destaque e alerta de desempenho.** Âncora: `500 = #FD853A`.
-
-| | 50 | 100 | 200 | 300 | 400 | **500** | 600 | 700 | 800 | 900 |
-|---|---|---|---|---|---|---|---|---|---|---|
-| hex | `#FFF6ED` | `#FFEAD5` | `#FED7AA` | `#FDBA74` | `#FD9A5C` | `#FD853A` | `#EA6A1C` | `#C24F13` | `#9A3F16` | `#7C3515` |
-
-**Cinza — estrutura, texto e superfícies.** Não é cinza neutro: tem matiz roxo
-(~260°), herdado de `#362E46`, `#867E96` e `#F2EEF8`. Usar cinza neutro ao lado
-da marca suja a paleta.
+**Cinza — estrutura, texto e superfícies.** Não é cinza neutro: carrega o mesmo
+matiz azul (~205°) com saturação muito baixa, para não competir com o azul de
+ação.
 
 | token | hex | uso |
 |---|---|---|
 | `gray-0` | `#FFFFFF` | superfície de card, fundo de tabela |
-| `gray-20` | `#F2EEF8` | **marca** · fundo da aplicação, linha zebrada |
-| `gray-25` | `#FAF8FD` | hover de linha de tabela |
-| `gray-30` | `#E4DFEE` | bordas, divisores, trilho de progresso |
-| `gray-35` | `#C5BDD4` | texto desabilitado, placeholder |
-| `gray-40` | `#867E96` | **marca** · texto secundário, cabeçalho de tabela, ícones |
-| `gray-50` | `#6E6682` | texto secundário com mais peso |
-| `gray-70` | `#443B57` | item ativo/hover da sidebar |
-| `gray-80` | `#362E46` | **marca** · texto principal |
-| `gray-90` | `#251F32` | fundo da sidebar |
+| `gray-20` | `#E8F1F2` | **marca** · fundo da aplicação (= Azure X11) |
+| `gray-25` | `#F5FAFB` | hover de linha de tabela |
+| `gray-30` | `#D6E3E8` | bordas, divisores, trilho de progresso |
+| `gray-35` | `#AFC2CC` | texto desabilitado, placeholder |
+| `gray-40` | `#5A7686` | texto secundário, cabeçalho de tabela (4,8:1 sobre branco) |
+| `gray-50` | `#46606E` | texto secundário com mais peso |
+| `gray-70` | `#2A4A63` | item ativo/hover da sidebar |
+| `gray-80` | `#1E3448` | texto principal |
+| `gray-90` | `#13293D` | **marca** · fundo da sidebar (= Prussian) |
 
-> Nota sobre a sidebar: no mockup ela é mais escura que `#362E46`. `gray-90`
-> é o fundo e `gray-70` o item ativo — é isso que produz o bloco destacado do
-> item selecionado.
+**Semânticas de estado.** Sucesso `#12B76A` / `#ECFDF3` / `#027A48`, atenção
+`#F79009` / `#FFFAEB` / `#B54708`, erro `#F04438` / `#FEF3F2` / `#B42318`.
 
-**Semânticas de estado.** O mockup usa verde, vermelho e amarelo nas barras de
-nota; essas cores não estavam no color scheme e foram definidas aqui.
+Elas **não pertencem à rampa azul** e são as únicas cores não-azuis do sistema.
+Existem porque o produto codifica desempenho por cor e uma escala de nota
+monocromática não comunicaria nada — ou seja, elas carregam dado, não marca.
 
-| | base | fundo suave | texto sobre fundo suave |
-|---|---|---|---|
-| Sucesso | `#12B76A` | `#ECFDF3` | `#027A48` |
-| Atenção | `#F79009` | `#FFFAEB` | `#B54708` |
-| Erro | `#F04438` | `#FEF3F2` | `#B42318` |
-| Informação | `purple-500` | `purple-50` | `purple-700` |
+> **A paleta é monocromática, e isso custou uma distinção.** Na paleta anterior
+> havia um par quente/frio: laranja marcava **posição** e roxo marcava **ação**.
+> Agora as duas são azuis. A distinção passou a vir do **peso**: a página atual
+> da paginação é a única superfície preenchida da lista. Onde for preciso
+> separar dois papéis, separe por preenchimento e valor — introduzir um matiz
+> fora da rampa para resolver isso é violação do mundo visual.
 
 ### 2.2 Cor — semânticos
 
@@ -129,14 +123,25 @@ Esta é a camada que o código usa.
 | `text-muted` | `gray-40` | cabeçalho de tabela, metadados, breadcrumb |
 | `text-disabled` | `gray-35` | placeholder, desabilitado |
 | `text-on-dark` | `gray-0` | texto sobre sidebar |
-| `text-on-dark-muted` | `#A79FB5` | item inativo da sidebar |
-| `text-brand` | `purple-600` | link, texto de ação |
+| `text-on-dark-muted` | `#8FA9B8` | item inativo da sidebar |
+| `text-brand` | `blue-600` | link, texto de ação |
 | `border-default` | `gray-30` | input, card, divisor |
 | `border-strong` | `gray-35` | separador com ênfase |
-| `border-focus` | `purple-500` | anel de foco |
-| `accent-primary` | `purple-500` | botão primário, seleção |
-| `accent-primary-hover` | `purple-600` | — |
-| `accent-secondary` | `orange-500` | destaque, página ativa da paginação |
+| `border-focus` | `blue-600` | anel de foco |
+| `accent` | `blue-600` | botão primário, seleção, desempenho adequado |
+| `accent-hover` | `blue-700` | — |
+| `accent-soft` | `blue-100` | fundo suave de pílula e aba ativa |
+| `accent-ink` | `blue-700` | texto sobre `accent-soft` (6,8:1) |
+| `accent-bright` | `blue-400` | ícone ativo sobre a faixa escura, raio da marca |
+| `accent-deep` | `blue-800` | painel de marca do login |
+| `tone-1/2/3` + `-ink` | `blue-100` · `blue-200` · `gray-30` | fundos de avatar, por hash do nome |
+| `selection` | `blue-200` | seleção de texto do navegador |
+
+**Nenhum componente referencia primitivo.** Os tokens `accent-ink`,
+`accent-bright`, `accent-deep`, `tone-*` e `selection` existem exatamente para
+isso: eles nasceram na troca de paleta, quando onze componentes ainda citavam
+`purple-700`, `orange-50` e afins direto no JSX. Com eles, trocar a marca é
+reescrever a camada semântica — e mais nada.
 
 ### 2.3 Tipografia
 
@@ -244,7 +249,7 @@ porque a barra de progresso é percentual.
 | Faixa (0–10) | Percentual | Cor | Rótulo |
 |---|---|---|---|
 | 8,5 – 10,0 | ≥ 85% | Sucesso `#12B76A` | Excelente |
-| 5,0 – 8,4 | 50–84% | Roxo `#7A5AF8` | Aprovado |
+| 5,0 – 8,4 | 50–84% | Azul de ação `#006494` | Aprovado |
 | 4,0 – 4,9 | 40–49% | Atenção `#F79009` | Recuperável |
 | 0,0 – 3,9 | < 40% | Erro `#F04438` | Crítico |
 
@@ -422,8 +427,10 @@ Avaliada), tipo de falta (Justificada/Não justificada).
 ### Pagination
 
 Setas `‹` `›` em `text-muted`, desabilitadas nos extremos. Páginas como pílulas
-de 32px, `radius-md`. Página ativa: `orange-50` de fundo, `orange-600` de texto
-— é o destaque laranja do mockup. Reticências para faixas longas.
+de 32px, `radius-md`. Página ativa em **`accent` sólido com texto branco**: numa
+paleta monocromática a posição não se distingue por matiz, então ela se
+distingue por peso — é a única superfície preenchida da lista. Reticências para
+faixas longas.
 
 ### PerPageSelect
 
@@ -482,8 +489,8 @@ real na apresentação.
 ### Avatar
 
 Circular, tamanhos 24/32/40/48px. Sem foto: iniciais sobre fundo derivado do
-hash do nome, escolhido entre `purple-100`, `orange-100`, `gray-30`, com texto
-na variante 700 correspondente. `AvatarGroup` sobrepõe com -8px e borda branca
+hash do nome, escolhido entre os tokens `tone-1`, `tone-2` e `tone-3`, com o
+`-ink` correspondente. `AvatarGroup` sobrepõe com -8px e borda branca
 de 2px, mostrando "+N" após o terceiro.
 
 ### Tabs

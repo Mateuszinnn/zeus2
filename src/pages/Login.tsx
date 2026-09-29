@@ -53,7 +53,7 @@ export function Login() {
     <div className="flex min-h-dvh bg-app">
       <div className="flex flex-1 items-center justify-center px-4 py-10">
         <form onSubmit={submit} className="w-full max-w-100">
-          <span className="flex items-center gap-2.5">
+          <span className="flex items-center gap-2.5 text-primary">
             <ZeusMark size={36} />
             <span className="text-h2 text-primary">Zeus</span>
           </span>
@@ -133,9 +133,9 @@ export function Login() {
       </div>
 
       {/* O bloco de identidade só aparece onde sobra largura para ele. */}
-      <div className="relative hidden flex-1 overflow-hidden bg-purple-700 lg:block">
+      <div className="relative hidden flex-1 overflow-hidden bg-accent-deep lg:block">
         <div className="absolute inset-0 flex items-center justify-center">
-          <ZeusMark size={340} className="opacity-15" />
+          <ZeusMark size={340} className="text-on-dark opacity-15" />
         </div>
         <div className="absolute right-12 bottom-12 left-12">
           <p className="text-h2 text-on-dark text-balance">

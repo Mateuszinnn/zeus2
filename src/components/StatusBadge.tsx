@@ -5,7 +5,7 @@ const TONES = {
   success: 'bg-success-soft text-success-ink',
   warning: 'bg-warning-soft text-warning-ink',
   error: 'bg-error-soft text-error-ink',
-  info: 'bg-accent-soft text-purple-700',
+  info: 'bg-accent-soft text-accent-ink',
   neutral: 'bg-gray-20 text-secondary',
 } as const
 

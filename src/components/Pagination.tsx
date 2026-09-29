@@ -1,9 +1,12 @@
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { cn } from '@/lib/cn'
 
-/* Página ativa em laranja: é o destaque de POSIÇÃO do sistema, um dos dois
- * únicos empregos dessa cor fora da marca. Texto laranja escuro sobre fundo
- * laranja suave — nunca texto branco sobre o laranja de marca. */
+/* Página ativa em acento SÓLIDO.
+ *
+ * A paleta é monocromática, então posição não pode se distinguir por matiz —
+ * antes o laranja marcava posição e o roxo marcava ação. Aqui a distinção vem
+ * do PESO: a página atual é a única superfície preenchida da lista, e nada
+ * mais na paginação tem fundo. */
 
 interface PaginationProps {
   page: number
@@ -48,7 +51,7 @@ export function Pagination({ page, pageCount, onChange }: PaginationProps) {
                 className={cn(
                   'size-8 rounded-md text-body transition-colors duration-150 ease-expo',
                   entry === page
-                    ? 'bg-orange-50 font-medium text-orange-700'
+                    ? 'bg-accent font-medium text-on-dark'
                     : 'text-secondary hover:bg-gray-20 hover:text-primary',
                 )}
               >

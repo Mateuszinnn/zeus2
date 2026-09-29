@@ -38,35 +38,43 @@ com o número ao lado. Ela aparece em notas, frequência e progresso de entrega,
 
 ## Colors
 
-Palette estabelecida pelo usuário como restrição vinculante. Os três tons de
-marca abaixo são normativos; as escalas ao redor deles existem para cobrir
-hover, borda, fundo suave e estado pressionado.
+Paleta de **cinco azuis**, fornecida pelo usuário como restrição vinculante.
+Elas caem em pontos naturais de uma única rampa de matiz ~200°, da mais clara
+à mais escura, e é isso que dá coesão ao sistema inteiro:
 
-**Roxo — ação e desempenho adequado.** Âncora `#7A5AF8`. É a cor do botão
-primário, do foco, do link e da faixa de nota adequada. Escala de apoio de
-`#F4F1FE` (fundo suave) a `#391D96` (pressionado).
+| | hex | papel |
+|---|---|---|
+| Azure X11 | `#E8F1F2` | o fundo da aplicação, sobre o qual os cartões brancos flutuam |
+| Carolina | `#1B98E0` | o azul que sobrevive sobre o escuro: ícone ativo e o raio da marca |
+| Celadon | `#247BA0` | degrau intermediário da rampa |
+| Sapphire | `#006494` | a cor da ação: botão primário, foco, link, desempenho adequado |
+| Prussian | `#13293D` | a faixa de navegação, o único escuro da tela |
 
-**Laranja — posição e atenção.** Âncora `#FD853A`. Deliberadamente escasso: marca
-a página atual da paginação e a faixa de nota em atenção. Nunca é fundo de botão
-primário, e **nunca recebe texto por cima** — texto laranja vai em `#C24F13`
-sobre `#FFF6ED`.
+Os degraus entre elas foram derivados por luminosidade, preservando o matiz,
+para cobrir hover, borda, fundo suave e estado pressionado.
 
-**Cinza de matiz roxo — estrutura.** Âncoras de marca `#F2EEF8` (fundo da
-aplicação), `#867E96` (texto secundário e cabeçalho de tabela) e `#362E46`
-(texto principal). A faixa escura da navegação é `#251F32`, um passo além da
-âncora, para que o item selecionado — em `#443B57` — leia como bloco destacado.
-Cinza neutro é proibido: todo cinza do sistema carrega o matiz ~260° herdado
-dessas três cores.
+**Cinza com matiz azul.** Toda a escala de estrutura e texto carrega o mesmo
+matiz ~205°, com saturação muito baixa, para não competir com o azul de ação.
+Cinza neutro ao lado desta paleta suja a tela.
+
+**A paleta é monocromática, e isso tem uma consequência.** Antes existia um par
+quente/frio: o laranja marcava **posição** e o roxo marcava **ação**, duas
+coisas diferentes com matizes diferentes. Agora ambas são azuis, e a distinção
+passa a vir do **peso**, não do matiz: a página atual da paginação é a única
+superfície preenchida da lista, e nada mais ali tem fundo. Onde o sistema
+precisar separar dois papéis, separe por preenchimento e valor — nunca
+introduza um matiz fora desta rampa para resolver o problema.
 
 **Estado.** Sucesso `#12B76A`, atenção `#F79009`, erro `#F04438`, cada um com
-fundo suave e variante escura para texto. Essas cores não vieram da paleta de
-marca — foram estabelecidas aqui porque o produto codifica desempenho por cor e
-a paleta original não cobria os extremos.
+fundo suave e variante escura para texto. Essas cores **não são da marca** e
+não seguem a rampa: o produto codifica desempenho por cor, e uma escala de nota
+monocromática não comunicaria nada. São as únicas cores não-azuis do sistema, e
+existem porque carregam dado.
 
 **A regra de faixa.** Nota, frequência e gravidade escolhem a cor por limiar, e
-o limiar é único para todo o sistema. Nota 0–10: ≥8,5 sucesso · 5,0–8,4 roxo ·
-4,0–4,9 atenção · <4,0 erro. Frequência: ≥90% sucesso · 75–89% roxo · 60–74%
-atenção · <60% erro.
+o limiar é único para todo o sistema. Nota 0–10: ≥8,5 sucesso · 5,0–8,4 azul de
+ação · 4,0–4,9 atenção · <4,0 erro. Frequência: ≥90% sucesso · 75–89% azul ·
+60–74% atenção · <60% erro.
 
 Os cortes saem da regra institucional do CIL, não do gosto: **5,0 é a média de
 aprovação**, **4,0** marca quem está abaixo mas ao alcance de recuperar, e
@@ -157,13 +165,13 @@ nunca para dar ênfase. Ênfase é cor de fundo ou peso de tipo.
 **A marca.** O símbolo do Zeus é um **raio atravessando o Z na diagonal**,
 fundido à letra — não um raio colocado ao lado dela. O raio é o corte que separa
 as duas metades do Z, e essa negativa é a forma. Construção geométrica e plana:
-sem bisel, sem contorno, sem sombra projetada, sem gradiente. O Z é roxo; o raio
-é laranja.
+sem bisel, sem contorno, sem sombra projetada, sem gradiente.
 
-Essa é a **única aparição decorativa do laranja em todo o sistema** — em todo o
-resto ele significa atenção ou posição. A exceção vale porque a marca é
-identidade, não dado, e porque um raio de qualquer outra cor deixa de ser o raio
-do Zeus.
+Numa paleta monocromática, um Z azul com raio azul vira lama. Então **o Z herda
+a cor do contexto** — escuro sobre o login claro, branco sobre a faixa de
+navegação — e **o raio fica fixo no Carolina `#1B98E0`**. É o raio, não o Z, que
+identifica o produto nos dois fundos, e ele é a única aparição decorativa de cor
+em todo o sistema: em qualquer outro lugar, cor significa dado.
 
 ## Do's and Don'ts
 
@@ -181,12 +189,14 @@ do Zeus.
 
 - Não escreva cor, tamanho de fonte ou família literal no componente. Tudo passa
   por token.
-- Não coloque texto sobre o laranja de marca.
+- Não introduza matiz fora da rampa azul. Dois papéis que precisam se
+  distinguir se separam por preenchimento e valor, não por uma cor nova.
 - Não introduza uma segunda família tipográfica, nem peso fora de Regular /
   Medium / Bold.
-- Não use gradiente decorativo, vidro, textura ou sombra colorida fora do roxo.
+- Não use gradiente decorativo, vidro, textura ou sombra colorida fora do azul
+  escuro da marca.
 - Não eleve linha de tabela no hover, nem anime o que não mudou de estado.
-- Não use cinza neutro em lugar nenhum.
+- Não use cinza neutro em lugar nenhum: todo cinza carrega o matiz azul.
 - Não exiba dado com campo desabilitado. Somente-leitura é valor sem moldura.
 - Não reproduza a marca "Edu.Link" do mockup de referência em nenhum lugar — é
   marca de terceiro; a marca do produto é Zeus.

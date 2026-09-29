@@ -58,7 +58,7 @@ export function AppShell() {
           >
             <Menu size={20} />
           </button>
-          <span className="flex items-center gap-2">
+          <span className="flex items-center gap-2 text-primary">
             <ZeusMark size={22} />
             <span className="text-h3 text-primary">Zeus</span>
           </span>

@@ -55,7 +55,7 @@ export function ClassDistribution() {
                 className={cn(
                   'rounded-sm px-3 py-1.5 text-caption font-medium transition-colors duration-150 ease-expo',
                   scope === option.id
-                    ? 'bg-accent-soft text-purple-700'
+                    ? 'bg-accent-soft text-accent-ink'
                     : 'text-muted hover:text-primary',
                 )}
               >

@@ -110,8 +110,13 @@ texto, nem em dado mock.
 expansão:
 
 - Tipografia: **Lato**, pesos Bold, Medium, Regular.
-- Paleta: `#FFFFFF` · `#FD853A` (laranja) · `#7A5AF8` (roxo) · `#362E46`
-  (Gray 80) · `#867E96` (Gray 40) · `#F2EEF8` (Gray 20).
+- Paleta: cinco azuis — `#13293D` (Prussian) · `#006494` (Sapphire) ·
+  `#247BA0` (Celadon) · `#1B98E0` (Carolina) · `#E8F1F2` (Azure X11).
+
+> A paleta anterior era roxo e laranja sobre cinzas lilás. O usuário a
+> substituiu integralmente por esta. Fica o registro porque ela já mudou uma
+> vez: tudo que depende de cor vive na camada semântica de
+> `src/styles/tokens.css`, e é lá que uma próxima troca acontece.
 
 **Marca gráfica fornecida pelo usuário:** a palavra "Zeus" com um **raio
 atravessando o Z na diagonal**, fundido à letra. O usuário autorizou

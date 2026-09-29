@@ -12,44 +12,44 @@
    * Camada 1 — primitivos
    * ---------------------------------------------------------------- */
 
-  /* Roxo — ação e desempenho adequado. Âncora de marca: 500. */
-  --color-purple-50: #f4f1fe;
-  --color-purple-100: #ebe5fe;
-  --color-purple-200: #dacffd;
-  --color-purple-300: #c2affb;
-  --color-purple-400: #a287f9;
-  --color-purple-500: #7a5af8;
-  --color-purple-600: #6438f0;
-  --color-purple-700: #5326dc;
-  --color-purple-800: #4520b8;
-  --color-purple-900: #391d96;
+  /* Azul — a paleta inteira do sistema.
+   *
+   * As CINCO cores de marca fornecidas pelo usuário caem em pontos naturais
+   * de uma única rampa de matiz ~200°, da mais clara à mais escura. Os degraus
+   * entre elas foram derivados por luminosidade, preservando o matiz.
+   *
+   *   50  Azure X11   ·  400 Carolina  ·  500 Celadon
+   *   600 Sapphire    ·  900 Prussian
+   */
+  --color-blue-50: #e8f1f2; /* marca · Azure X11 */
+  --color-blue-100: #d3e6ee;
+  --color-blue-200: #a8d2e5;
+  --color-blue-300: #6bb8e2;
+  --color-blue-400: #1b98e0; /* marca · Carolina */
+  --color-blue-500: #247ba0; /* marca · Celadon */
+  --color-blue-600: #006494; /* marca · Sapphire */
+  --color-blue-700: #08506f;
+  --color-blue-800: #0e3b52;
+  --color-blue-900: #13293d; /* marca · Prussian */
 
-  /* Laranja — posição e atenção. Âncora de marca: 500. */
-  --color-orange-50: #fff6ed;
-  --color-orange-100: #ffead5;
-  --color-orange-200: #fed7aa;
-  --color-orange-300: #fdba74;
-  --color-orange-400: #fd9a5c;
-  --color-orange-500: #fd853a;
-  --color-orange-600: #ea6a1c;
-  --color-orange-700: #c24f13;
-  --color-orange-800: #9a3f16;
-  --color-orange-900: #7c3515;
-
-  /* Cinza de matiz roxo (~260°). Cinza neutro é proibido no sistema. */
+  /* Cinza — estrutura, texto e superfícies.
+   *
+   * Não é cinza neutro: carrega o mesmo matiz azul da marca, com saturação
+   * muito baixa, para não competir com o azul de ação. Cinza neutro ao lado
+   * desta paleta suja a tela. */
   --color-gray-0: #ffffff;
-  --color-gray-20: #f2eef8;
-  --color-gray-25: #faf8fd;
-  --color-gray-30: #e4dfee;
-  --color-gray-35: #c5bdd4;
-  --color-gray-40: #867e96;
-  --color-gray-50: #6e6682;
-  --color-gray-70: #443b57;
-  --color-gray-80: #362e46;
-  --color-gray-90: #251f32;
+  --color-gray-20: #e8f1f2; /* = Azure X11: o fundo da aplicação */
+  --color-gray-25: #f5fafb;
+  --color-gray-30: #d6e3e8;
+  --color-gray-35: #afc2cc;
+  --color-gray-40: #5a7686; /* 4,8:1 sobre branco — o piso para texto */
+  --color-gray-50: #46606e;
+  --color-gray-70: #2a4a63;
+  --color-gray-80: #1e3448;
+  --color-gray-90: #13293d; /* = Prussian: a faixa de navegação */
 
   /* Estado. Não vieram da paleta de marca: o produto codifica desempenho
-   * por cor e a paleta original não cobria os extremos. */
+   * por cor, e uma escala de nota monocromática não comunica nada. */
   --color-success: #12b76a;
   --color-success-soft: #ecfdf3;
   --color-success-ink: #027a48;
@@ -77,22 +77,41 @@
   --color-muted: var(--color-gray-40);
   --color-disabled: var(--color-gray-35);
   --color-on-dark: var(--color-gray-0);
-  --color-on-dark-muted: #a79fb5;
-  --color-brand: var(--color-purple-600);
+  --color-on-dark-muted: #8fa9b8;
+  --color-brand: var(--color-blue-600);
 
   /* Bordas */
   --color-default: var(--color-gray-30);
   --color-strong: var(--color-gray-35);
-  --color-focus: var(--color-purple-500);
+  --color-focus: var(--color-blue-600);
 
-  /* Acentos */
-  --color-accent: var(--color-purple-500);
-  --color-accent-hover: var(--color-purple-600);
-  --color-accent-soft: var(--color-purple-50);
-  --color-accent-2: var(--color-orange-500);
+  /* Acentos
+   *
+   * `accent` carrega a ação e o desempenho adequado.
+   * `accent-bright` é o azul que sobrevive sobre a faixa escura: ícone de
+   * item ativo e o raio da marca.
+   * `accent-deep` é o campo de marca do login. */
+  --color-accent: var(--color-blue-600);
+  --color-accent-hover: var(--color-blue-700);
+  --color-accent-soft: var(--color-blue-100);
+  --color-accent-ink: var(--color-blue-700);
+  --color-accent-bright: var(--color-blue-400);
+  --color-accent-deep: var(--color-blue-800);
+
+  /* Tons de avatar. Derivados do hash do nome, para o mesmo aluno receber
+   * sempre a mesma cor em todas as telas. */
+  --color-tone-1: var(--color-blue-100);
+  --color-tone-1-ink: var(--color-blue-800);
+  --color-tone-2: var(--color-blue-200);
+  --color-tone-2-ink: var(--color-blue-900);
+  --color-tone-3: var(--color-gray-30);
+  --color-tone-3-ink: var(--color-gray-80);
+
+  /* Seleção de texto do navegador. */
+  --color-selection: var(--color-blue-200);
 
   /* ---------------------------------------------------------------- *
-   * Tipografia — Lato, três pesos. Nenhuma outra família.
+   * Tipografia — Lato, dois pesos reais. Nenhuma outra família.
    * ---------------------------------------------------------------- */
   --font-sans: 'Lato', system-ui, -apple-system, sans-serif;
 
@@ -137,13 +156,13 @@
   --radius-2xl: 20px;
 
   /* ---------------------------------------------------------------- *
-   * Profundidade — suave, curta e tingida de roxo.
+   * Profundidade — suave, curta e tingida do azul escuro da marca.
    * Sombra preta neutra suja a paleta.
    * ---------------------------------------------------------------- */
-  --shadow-xs: 0 1px 2px rgba(54, 46, 70, 0.05);
-  --shadow-sm: 0 1px 3px rgba(54, 46, 70, 0.08), 0 1px 2px rgba(54, 46, 70, 0.04);
-  --shadow-md: 0 4px 8px -2px rgba(54, 46, 70, 0.08), 0 2px 4px -2px rgba(54, 46, 70, 0.04);
-  --shadow-lg: 0 12px 16px -4px rgba(54, 46, 70, 0.08), 0 4px 6px -2px rgba(54, 46, 70, 0.03);
+  --shadow-xs: 0 1px 2px rgba(19, 41, 61, 0.06);
+  --shadow-sm: 0 1px 3px rgba(19, 41, 61, 0.1), 0 1px 2px rgba(19, 41, 61, 0.05);
+  --shadow-md: 0 4px 8px -2px rgba(19, 41, 61, 0.1), 0 2px 4px -2px rgba(19, 41, 61, 0.05);
+  --shadow-lg: 0 12px 16px -4px rgba(19, 41, 61, 0.1), 0 4px 6px -2px rgba(19, 41, 61, 0.04);
 
   /* Curva única do sistema: saída exponencial, a partir de um estado
    * já visível. Nada entra na tela "aparecendo". */
