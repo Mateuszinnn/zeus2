@@ -27,7 +27,7 @@ export function Pagination({ page, pageCount, onChange }: PaginationProps) {
   if (pageCount <= 1) return null
 
   return (
-    <nav aria-label="Paginação">
+    <nav aria-label="Pagination">
       <ul className="flex items-center gap-1">
         <li>
           <Arrow
@@ -47,7 +47,7 @@ export function Pagination({ page, pageCount, onChange }: PaginationProps) {
                 type="button"
                 onClick={() => onChange(entry)}
                 aria-current={entry === page ? 'page' : undefined}
-                aria-label={`Página ${entry}`}
+                aria-label={`Page ${entry}`}
                 className={cn(
                   'size-8 rounded-md text-body transition-colors duration-150 ease-expo',
                   entry === page
@@ -87,7 +87,7 @@ function Arrow({
       type="button"
       onClick={onClick}
       disabled={disabled}
-      aria-label={direction === 'prev' ? 'Página anterior' : 'Próxima página'}
+      aria-label={direction === 'prev' ? 'Previous page' : 'Next page'}
       className={cn(
         'flex size-8 items-center justify-center rounded-md text-muted',
         'transition-colors duration-150 ease-expo',

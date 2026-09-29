@@ -28,10 +28,10 @@ import { submissionsOf, type Submission, type SubmissionState } from '@/mocks/re
 const ALL = 'all'
 
 const STATE_LABEL: Record<SubmissionState, string> = {
-  submitted: 'Entregue',
-  late: 'Entregue com atraso',
-  missing: 'Não entregue',
-  graded: 'Avaliada',
+  submitted: 'Submitted',
+  late: 'Submitted late',
+  missing: 'Not submitted',
+  graded: 'Graded',
 }
 
 const STATE_TONE: Record<SubmissionState, 'success' | 'warning' | 'error' | 'info'> = {
@@ -71,16 +71,16 @@ export function Tarefas() {
   return (
     <>
       <PageHeader
-        title="Tarefas"
-        subtitle={`${TERM.label} · ${ASSIGNMENTS.length} tarefas no bimestre`}
-        crumbs={[{ label: 'Painel', to: '/painel' }, { label: 'Tarefas' }]}
+        title="Assignments"
+        subtitle={`${TERM.label} · ${ASSIGNMENTS.length} assignments this term`}
+        crumbs={[{ label: 'Dashboard', to: '/dashboard' }, { label: 'Assignments' }]}
         actions={
           <Select
-            label="Filtrar por turma"
+            label="Filter by class"
             value={turma}
             onChange={setTurma}
             options={[
-              { value: ALL, label: 'Todas as turmas' },
+              { value: ALL, label: 'All classes' },
               ...TURMAS.map((t) => ({ value: t.id, label: `${t.name} · ${t.stage}` })),
             ]}
           />
@@ -97,8 +97,8 @@ export function Tarefas() {
         <Card>
           <EmptyState
             icon={<ClipboardList size={40} />}
-            title="Nenhuma tarefa nesta turma"
-            description="Nada foi publicado para esta turma no bimestre. Troque o filtro para ver as demais."
+            title="No assignment in this class"
+            description="Nothing was posted for this class this term. Change the filter to see the others."
           />
         </Card>
       ) : (
@@ -138,20 +138,20 @@ function AssignmentCard({
       <CardBody className="flex flex-1 flex-col gap-5">
         <div className="flex flex-wrap items-center gap-3">
           <StatusBadge tone={graded ? 'success' : overdue ? 'error' : 'info'}>
-            {graded ? 'Avaliada' : overdue ? `Venceu ${relativeDay(assignment.due, TODAY)}` : `Vence ${relativeDay(assignment.due, TODAY)}`}
+            {graded ? 'Graded' : overdue ? `Due ${relativeDay(assignment.due, TODAY)}` : `Due ${relativeDay(assignment.due, TODAY)}`}
           </StatusBadge>
           <span className="text-caption text-muted">
-            {turmaById(assignment.turmaId).name} · prazo {shortDate(assignment.due)}
+            {turmaById(assignment.turmaId).name} · due {shortDate(assignment.due)}
           </span>
         </div>
 
         <div>
           <div className="flex items-baseline justify-between gap-3">
             <span className="text-body font-medium text-primary">
-              {assignment.submitted} de {assignment.total} entregues
+              {assignment.submitted} of {assignment.total} submitted
             </span>
             <span className="text-caption text-muted">
-              {assignment.total - assignment.submitted} faltando
+              {assignment.total - assignment.submitted} missing
             </span>
           </div>
           <div
@@ -159,7 +159,7 @@ function AssignmentCard({
             aria-valuenow={Math.round(pct)}
             aria-valuemin={0}
             aria-valuemax={100}
-            aria-label={`Entregas de ${assignment.title}`}
+            aria-label={`Submissions for ${assignment.title}`}
             className="mt-2 h-2 overflow-hidden rounded-full bg-gray-30"
           >
             <div
@@ -171,7 +171,7 @@ function AssignmentCard({
 
         <div className="mt-auto">
           <Button variant={graded ? 'secondary' : 'primary'} onClick={onOpen}>
-            {graded ? 'Ver entregas' : 'Lançar notas'}
+            {graded ? 'View submissions' : 'Enter grades'}
           </Button>
         </div>
       </CardBody>
@@ -194,13 +194,13 @@ function AssignmentDetail({
   async function commit(submission: Submission, next: number) {
     setScores((prev) => ({ ...prev, [submission.studentId]: next }))
     await delay()
-    toast(`${skill.name} de ${studentById(submission.studentId).name} lançado: ${next}.`)
+    toast(`${skill.name} for ${studentById(submission.studentId).name} set to ${next}.`)
   }
 
   const columns: Column<Submission>[] = [
     {
       key: 'name',
-      header: 'Nome',
+      header: 'Name',
       cell: (row) => {
         const student = studentById(row.studentId)
         return (
@@ -213,7 +213,7 @@ function AssignmentDetail({
     },
     {
       key: 'state',
-      header: 'Entrega',
+      header: 'Submission',
       width: 'w-52',
       cell: (row) => <StatusBadge tone={STATE_TONE[row.state]}>{STATE_LABEL[row.state]}</StatusBadge>,
     },
@@ -223,13 +223,13 @@ function AssignmentDetail({
       width: 'w-64',
       cell: (row) => {
         if (row.state === 'missing') {
-          return <span className="text-caption text-disabled">sem entrega para avaliar</span>
+          return <span className="text-caption text-disabled">nothing submitted to grade</span>
         }
         const value = scores[row.studentId] ?? row.score ?? 0
         return (
           <GradeCell
             value={value}
-            label={`${skill.name} de ${studentById(row.studentId).name}`}
+            label={`${skill.name} for ${studentById(row.studentId).name}`}
             onCommit={(next) => commit(row, next)}
           />
         )
@@ -241,24 +241,24 @@ function AssignmentDetail({
     <>
       <PageHeader
         title={assignment.title}
-        subtitle={`${skill.name} · ${turmaById(assignment.turmaId).name} · prazo ${shortDate(assignment.due)}`}
+        subtitle={`${skill.name} · ${turmaById(assignment.turmaId).name} · due ${shortDate(assignment.due)}`}
         crumbs={[
-          { label: 'Painel', to: '/painel' },
-          { label: 'Tarefas', to: '/tarefas' },
+          { label: 'Dashboard', to: '/dashboard' },
+          { label: 'Assignments', to: '/assignments' },
           { label: assignment.title },
         ]}
         actions={
           <Button variant="secondary" icon={<ArrowLeft size={16} />} onClick={onBack}>
-            Voltar às tarefas
+            Back to assignments
           </Button>
         }
       />
       <Card>
         <CardHeader
-          title="Entregas"
+          title="Submissions"
           meta={
             <span className="text-caption text-muted">
-              {assignment.submitted} de {assignment.total} entregues
+              {assignment.submitted} of {assignment.total} submitted
             </span>
           }
         />
@@ -266,12 +266,12 @@ function AssignmentDetail({
           columns={columns}
           rows={rows}
           rowKey={(row) => row.studentId}
-          caption={`Entregas de ${assignment.title} por aluno`}
+          caption={`Submissions for ${assignment.title} per student`}
           empty={
             <EmptyState
               icon={<ClipboardList size={40} />}
-              title="Nenhuma entrega ainda"
-              description="Nenhum aluno enviou esta tarefa até agora."
+              title="No submissions yet"
+              description="No student has submitted this assignment yet."
             />
           }
         />

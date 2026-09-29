@@ -1,5 +1,6 @@
 /* Captura cada rota nos dois perfis, em 1440 e 390, e reporta erro de console
- * e rolagem horizontal.
+ * e rolagem horizontal. A interface e em ingles; os seletores seguem os
+ * rotulos reais.
  *
  * Existe porque typecheck, build e o teste de fumaça provam que a tela ABRE,
  * nunca que ela está certa. Foi este script que mostrou que a tabela de notas
@@ -24,27 +25,27 @@ const PROFILES = [
   {
     role: 'teacher',
     routes: [
-      ['painel', '/painel'],
-      ['turmas', '/turmas'],
-      ['alunos', '/alunos'],
-      ['notas', '/notas'],
-      ['faltas', '/faltas'],
-      ['ocorrencias', '/ocorrencias'],
-      ['tarefas', '/tarefas'],
-      ['matriculas', '/matriculas'],
-      ['avisos', '/avisos'],
-      ['configuracoes', '/configuracoes'],
-      ['contato', '/contato'],
+      ['painel', '/dashboard'],
+      ['turmas', '/classes'],
+      ['alunos', '/students'],
+      ['notas', '/grades'],
+      ['faltas', '/attendance'],
+      ['ocorrencias', '/incidents'],
+      ['tarefas', '/assignments'],
+      ['matriculas', '/enrollments'],
+      ['avisos', '/announcements'],
+      ['configuracoes', '/settings'],
+      ['contato', '/contact'],
     ],
   },
   {
     role: 'student',
     routes: [
-      ['meu-painel', '/meu-painel'],
-      ['minhas-notas', '/minhas-notas'],
-      ['minhas-faltas', '/minhas-faltas'],
-      ['minhas-tarefas', '/minhas-tarefas'],
-      ['minha-ficha', '/minha-ficha'],
+      ['meu-painel', '/my-dashboard'],
+      ['minhas-notas', '/my-grades'],
+      ['minhas-faltas', '/my-attendance'],
+      ['minhas-tarefas', '/my-assignments'],
+      ['minha-ficha', '/my-record'],
     ],
   },
 ]
@@ -71,13 +72,13 @@ function ctx() {
 {
   const context = await ctx()
   const page = await context.newPage()
-  await page.goto(`${BASE}/entrar`, { waitUntil: 'networkidle' })
-  await page.screenshot({ path: `${OUT}/desktop-entrar.png` })
-  await overflowOf(page, 'desktop/entrar')
+  await page.goto(`${BASE}/sign-in`, { waitUntil: 'networkidle' })
+  await page.screenshot({ path: `${OUT}/desktop-sign-in.png` })
+  await overflowOf(page, 'desktop/sign-in')
   await page.setViewportSize(MOBILE)
   await page.waitForTimeout(250)
-  await page.screenshot({ path: `${OUT}/mobile-entrar.png` })
-  await overflowOf(page, 'mobile/entrar')
+  await page.screenshot({ path: `${OUT}/mobile-sign-in.png` })
+  await overflowOf(page, 'mobile/sign-in')
   await context.close()
 }
 
@@ -89,10 +90,10 @@ for (const { role, routes } of PROFILES) {
   })
   page.on('pageerror', (e) => problems.push(`pageerror: ${e.message.slice(0, 160)}`))
 
-  await page.goto(`${BASE}/entrar`, { waitUntil: 'networkidle' })
-  if (role === 'student') await page.getByRole('button', { name: /^Aluno/ }).click()
-  await page.getByRole('button', { name: 'Entrar', exact: true }).click()
-  await page.waitForFunction(() => location.pathname.includes('painel'), null, { timeout: 10000 })
+  await page.goto(`${BASE}/sign-in`, { waitUntil: 'networkidle' })
+  if (role === 'student') await page.getByRole('button', { name: /^Student/ }).click()
+  await page.getByRole('button', { name: 'Sign in', exact: true }).click()
+  await page.waitForFunction(() => location.pathname.includes('dashboard'), null, { timeout: 10000 })
 
   for (const [name, route] of routes) {
     if (!page.url().endsWith(route)) {

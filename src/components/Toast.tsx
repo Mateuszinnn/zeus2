@@ -69,7 +69,7 @@ export function ToastProvider({ children }: { children: ReactNode }) {
             <button
               type="button"
               onClick={() => dismiss(toast.id)}
-              aria-label="Fechar aviso"
+              aria-label="Dismiss"
               className="shrink-0 rounded-sm text-muted transition-colors hover:text-primary"
             >
               <X size={16} />

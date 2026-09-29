@@ -25,10 +25,10 @@ interface LevelStyle {
 }
 
 const STYLES: Record<GradeLevel, LevelStyle> = {
-  excellent: { fill: 'bg-success', soft: 'bg-success-soft', ink: 'text-success-ink', label: 'Excelente' },
-  adequate: { fill: 'bg-accent', soft: 'bg-accent-soft', ink: 'text-accent-ink', label: 'Aprovado' },
-  attention: { fill: 'bg-warning', soft: 'bg-warning-soft', ink: 'text-warning-ink', label: 'Recuperável' },
-  critical: { fill: 'bg-error', soft: 'bg-error-soft', ink: 'text-error-ink', label: 'Crítico' },
+  excellent: { fill: 'bg-success', soft: 'bg-success-soft', ink: 'text-success-ink', label: 'Excellent' },
+  adequate: { fill: 'bg-accent', soft: 'bg-accent-soft', ink: 'text-accent-ink', label: 'Passing' },
+  attention: { fill: 'bg-warning', soft: 'bg-warning-soft', ink: 'text-warning-ink', label: 'At risk' },
+  critical: { fill: 'bg-error', soft: 'bg-error-soft', ink: 'text-error-ink', label: 'Critical' },
 }
 
 /** Nota de 0 a 10. Cortes em 8,5 · 5,0 · 4,0.

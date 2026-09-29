@@ -92,13 +92,17 @@ Ocorrências · Tarefas · Avisos · Matrículas/Minha ficha.
 **Fora de escopo:** persistência, autenticação real, controle de acesso real,
 internacionalização, impressão, perfil de responsável, perfil de administrador.
 
-**Terminologia:** vocabulário escolar brasileiro para a estrutura — turma,
-estágio, bimestre, matrícula, frequência, ocorrência, média. Nunca traduzir do
-inglês do mockup de referência ("check-in period", "gradebook").
+**Idioma da interface: inglês**, por decisão do usuário. É defensável num
+centro de línguas que ensina inglês — a própria interface vira exposição à
+língua.
 
-Exceção deliberada: os **nomes das habilidades permanecem em inglês**
-(Listening, Speaking, Reading, Writing, Use of English), porque é assim que
-professor e aluno de CIL as chamam. Traduzi-las soaria falso.
+O que **não** se traduz, porque são nomes próprios de brasileiros e de
+instituições reais: nomes de alunos, responsáveis e professores, o nome do
+Centro Interescolar de Línguas, as escolas de origem e as regiões
+administrativas. Traduzi-los soaria falso e descreveria pessoas que não
+existem.
+
+Os documentos do projeto seguem em português: eles são para quem constrói.
 
 ## Brand Commitments
 

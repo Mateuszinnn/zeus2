@@ -5,14 +5,15 @@ import { grade as fmtGrade, percent as fmtPercent, plural } from '@/lib/format'
 import { levelStyle, type GradeLevel } from '@/lib/grade'
 import { STUDENTS, TURMAS, gradeDistribution, studentsOf } from '@/mocks/data'
 
-/* A 60 alunos, "média geral 7,2" não informa nada que o professor já não saiba.
- * O que informa é a FORMA da turma: quantos em cada faixa, e onde está a massa.
+/* At 60 students, "overall average 7.2" tells the teacher nothing they do not
+ * already know. What tells them something is the SHAPE of the class: how many
+ * in each band, and where the mass sits.
  *
- * Cada fatia carrega a contagem e o rótulo textual — quem não distingue a cor
- * lê a mesma informação. */
+ * Every slice carries its count and its text label — anyone who cannot tell the
+ * colours apart reads the same information. */
 
 const SCOPES = [
-  { id: 'all', label: 'As duas turmas' },
+  { id: 'all', label: 'Both classes' },
   ...TURMAS.map((t) => ({ id: t.id, label: t.name })),
 ]
 
@@ -38,12 +39,12 @@ export function ClassDistribution() {
   return (
     <Card className="flex flex-col">
       <CardHeader
-        title="Como as turmas estão"
-        meta={<span className="text-caption text-muted">{plural(total, 'aluno', 'alunos')}</span>}
+        title="How the classes are doing"
+        meta={<span className="text-caption text-muted">{plural(total, 'student', 'students')}</span>}
         actions={
           <div
             role="group"
-            aria-label="Escolher turma"
+            aria-label="Choose class"
             className="flex rounded-md border border-default p-0.5"
           >
             {SCOPES.map((option) => (
@@ -68,8 +69,8 @@ export function ClassDistribution() {
 
       <CardBody className="flex flex-1 flex-col gap-6">
         <div className="flex flex-wrap gap-x-10 gap-y-4">
-          <Figure label="Média do bimestre" value={fmtGrade(average)} />
-          <Figure label="Frequência" value={fmtPercent(attendance)} />
+          <Figure label="Term average" value={fmtGrade(average)} />
+          <Figure label="Attendance" value={fmtPercent(attendance)} />
         </div>
 
         <div>
@@ -122,15 +123,15 @@ function LegendRow({ level, count, total }: { level: GradeLevel; count: number; 
         <span className="text-label text-primary">{style.label}</span>
       </span>
       <span className="mt-0.5 block pl-4.5 text-caption text-muted">
-        {count} de {total} · {range}
+        {count} of {total} · {range}
       </span>
     </li>
   )
 }
 
 const RANGE: Record<GradeLevel, string> = {
-  excellent: '8,5 a 10',
-  adequate: '5,0 a 8,4',
-  attention: '4,0 a 4,9',
-  critical: 'abaixo de 4,0',
+  excellent: '8.5 to 10',
+  adequate: '5.0 to 8.4',
+  attention: '4.0 to 4.9',
+  critical: 'below 4.0',
 }

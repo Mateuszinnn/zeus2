@@ -23,11 +23,11 @@ import {
 } from '@/mocks/data'
 import { submissionFor, type SubmissionState } from '@/mocks/records'
 
-type Bucket = 'pendentes' | 'entregues' | 'avaliadas'
+type Bucket = 'pending' | 'submitted' | 'graded'
 
 export function MinhasTarefas() {
   const student = studentById(DEMO_STUDENT_ID)
-  const [tab, setTab] = useState<Bucket>('pendentes')
+  const [tab, setTab] = useState<Bucket>('pending')
   const [submitted, setSubmitted] = useState<Record<string, boolean>>({})
   const [composing, setComposing] = useState<Assignment | null>(null)
 
@@ -42,27 +42,27 @@ export function MinhasTarefas() {
   }
 
   const buckets: Record<Bucket, Assignment[]> = {
-    pendentes: mine.filter((a) => stateOf(a) === 'missing'),
-    entregues: mine.filter((a) => ['submitted', 'late'].includes(stateOf(a))),
-    avaliadas: mine.filter((a) => stateOf(a) === 'graded'),
+    pending: mine.filter((a) => stateOf(a) === 'missing'),
+    submitted: mine.filter((a) => ['submitted', 'late'].includes(stateOf(a))),
+    graded: mine.filter((a) => stateOf(a) === 'graded'),
   }
 
   return (
     <>
       <PageHeader
-        title="Minhas tarefas"
+        title="My assignments"
         subtitle={`${TERM.label} · ${mine.length} tarefas no bimestre`}
-        crumbs={[{ label: 'Meu painel', to: '/meu-painel' }, { label: 'Minhas tarefas' }]}
+        crumbs={[{ label: 'My dashboard', to: '/my-dashboard' }, { label: 'My assignments' }]}
       />
 
       <Tabs
-        label="Situação das tarefas"
+        label="Assignment status"
         value={tab}
         onChange={(v) => setTab(v as Bucket)}
         items={[
-          { id: 'pendentes', label: 'Pendentes', count: buckets.pendentes.length },
-          { id: 'entregues', label: 'Entregues', count: buckets.entregues.length },
-          { id: 'avaliadas', label: 'Avaliadas', count: buckets.avaliadas.length },
+          { id: 'pending', label: 'Pending', count: buckets.pending.length },
+          { id: 'submitted', label: 'Submitted', count: buckets.submitted.length },
+          { id: 'graded', label: 'Graded', count: buckets.graded.length },
         ]}
         className="mb-6"
       />
@@ -103,17 +103,17 @@ export function MinhasTarefas() {
 }
 
 const EMPTY: Record<Bucket, { title: string; description: string }> = {
-  pendentes: {
-    title: 'Nada pendente',
-    description: 'Você entregou tudo que estava em aberto. A próxima tarefa aparece aqui assim que a professora publicar.',
+  pending: {
+    title: 'Nothing pending',
+    description: 'You have turned in everything that was open. The next assignment shows up here as soon as your teacher posts it.',
   },
-  entregues: {
-    title: 'Nada aguardando correção',
-    description: 'Você não tem entregas esperando a professora corrigir neste momento.',
+  submitted: {
+    title: 'Nothing waiting to be marked',
+    description: 'You have nothing waiting to be marked right now.',
   },
-  avaliadas: {
-    title: 'Nenhuma nota publicada ainda',
-    description: 'Assim que a professora lançar a nota de uma tarefa entregue, ela aparece aqui com o comentário.',
+  graded: {
+    title: 'No grade posted yet',
+    description: 'As soon as your teacher grades a submitted assignment, it shows up here with the feedback.',
   },
 }
 
@@ -149,12 +149,12 @@ function TaskCard({
             }
           >
             {state === 'graded'
-              ? 'Avaliada'
+              ? 'Graded'
               : state === 'missing'
                 ? overdue
-                  ? `Atrasada ${relativeDay(assignment.due, TODAY)}`
-                  : `Vence ${relativeDay(assignment.due, TODAY)}`
-                : 'Entregue'}
+                  ? `Due ${relativeDay(assignment.due, TODAY)}`
+                  : `Due ${relativeDay(assignment.due, TODAY)}`
+                : 'Submitted'}
           </StatusBadge>
           <span className="text-caption text-muted">prazo {shortDate(assignment.due)}</span>
         </div>
@@ -167,7 +167,7 @@ function TaskCard({
               className="w-full"
             />
             <p className="text-body text-secondary">
-              Boa evolução no vocabulário. Cuide da concordância no passado.
+              Good progress on vocabulary. Watch your agreement in the past tense.
             </p>
           </>
         )}
@@ -175,7 +175,7 @@ function TaskCard({
         {state === 'missing' && (
           <div className="mt-auto">
             <Button variant="primary" icon={<Send size={14} />} onClick={onSubmit}>
-              Entregar
+              Turn in
             </Button>
           </div>
         )}
@@ -203,7 +203,7 @@ function SubmitModal({
     await delay()
     setSaving(false)
     onSubmitted(assignment.id)
-    toast(`"${assignment.title}" entregue.`)
+    toast(`"${assignment.title}" turned in.`)
     setNote('')
     onClose()
   }
@@ -212,21 +212,21 @@ function SubmitModal({
     <Modal
       open={assignment !== null}
       onClose={onClose}
-      title={assignment ? `Entregar: ${assignment.title}` : 'Entregar'}
+      title={assignment ? `Turn in: ${assignment.title}` : 'Turn in'}
       footer={
         <>
           <Button variant="ghost" onClick={onClose}>
             Cancelar
           </Button>
           <Button variant="primary" loading={saving} onClick={send}>
-            Entregar
+            Turn in
           </Button>
         </>
       }
     >
       <Field
-        label="Comentário para a professora"
-        hint="Opcional. Conte se teve alguma dificuldade."
+        label="A note for your teacher"
+        hint="Optional. Tell your teacher if anything was hard."
       >
         {(props) => (
           <TextArea

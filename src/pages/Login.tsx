@@ -14,28 +14,29 @@ import {
   turmaOf,
 } from '@/mocks/data'
 
-/* A única tela sem o shell.
+/* The only screen without the shell.
  *
- * Qualquer credencial entra: não há autenticação. O seletor de perfil abaixo do
- * formulário é o que permite alternar entre professor e aluno ao vivo, durante
- * a apresentação, sem tela de administração. */
+ * Any credentials get in: there is no authentication. The profile selector
+ * below the form is what allows switching between teacher and student live,
+ * during the presentation, with no admin screen. */
 
-/* Os textos saem dos dados, não de literais: quando o produto mudou de escola
- * regular para CIL, os literais aqui ficaram dizendo "5º ano" por semanas. */
+/* These strings come from the data, not from literals: when the product moved
+ * from regular school to CIL, the literals here kept saying "5th grade" for
+ * weeks. */
 const DEMO_STUDENT = studentById(DEMO_STUDENT_ID)
 
 const ROLES: { id: Role; label: string; hint: string }[] = [
-  { id: 'teacher', label: 'Professora', hint: `${TEACHER.name} · ${TEACHER.role}` },
+  { id: 'teacher', label: 'Teacher', hint: `${TEACHER.name} · ${TEACHER.role}` },
   {
     id: 'student',
-    label: 'Aluno',
+    label: 'Student',
     hint: `${DEMO_STUDENT.name} · ${turmaLabel(turmaOf(DEMO_STUDENT))}`,
   },
 ]
 
 export function Login() {
-  const [email, setEmail] = useState('helena.vasconcelos@cil.exemplo.br')
-  const [password, setPassword] = useState('demonstracao')
+  const [email, setEmail] = useState('helena.vasconcelos@cil.example.br')
+  const [password, setPassword] = useState('demonstration')
   const [role, setRole] = useState<Role>('teacher')
   const [busy, setBusy] = useState(false)
   const { signIn } = useSession()
@@ -46,7 +47,7 @@ export function Login() {
     setBusy(true)
     await new Promise((r) => setTimeout(r, 450))
     signIn(role)
-    navigate(role === 'student' ? '/meu-painel' : '/painel', { replace: true })
+    navigate(role === 'student' ? '/my-dashboard' : '/dashboard', { replace: true })
   }
 
   return (
@@ -58,10 +59,10 @@ export function Login() {
             <span className="text-h2 text-primary">Zeus</span>
           </span>
 
-          <h1 className="mt-8 text-display text-primary">Entrar</h1>
+          <h1 className="mt-8 text-display text-primary">Sign in</h1>
           <p className="mt-1 text-body text-secondary">
-            {SCHOOL.name} · {SCHOOL.course}. Notas por habilidade, frequência, tarefas e
-            matrícula.
+            {SCHOOL.name} · {SCHOOL.course}. Grades by skill, attendance, assignments and
+            enrollment.
           </p>
 
           <div className="mt-8 flex flex-col gap-5">
@@ -74,8 +75,8 @@ export function Login() {
               autoComplete="username"
             />
             <Field
-              id="senha"
-              label="Senha"
+              id="password"
+              label="Password"
               type="password"
               value={password}
               onChange={setPassword}
@@ -88,7 +89,7 @@ export function Login() {
                 defaultChecked
                 className="size-4 rounded-sm border-default text-accent"
               />
-              Lembrar-me
+              Remember me
             </label>
           </div>
 
@@ -99,12 +100,12 @@ export function Login() {
             loading={busy}
             className="mt-6 w-full"
           >
-            Entrar
+            Sign in
           </Button>
 
           <fieldset className="mt-8 border-t border-default pt-6">
-            <legend className="sr-only">Escolher perfil da sessão</legend>
-            <p className="text-label text-secondary">Entrar como</p>
+            <legend className="sr-only">Choose the session profile</legend>
+            <p className="text-label text-secondary">Sign in as</p>
             <div className="mt-3 grid gap-2 sm:grid-cols-2">
               {ROLES.map((option) => (
                 <button
@@ -125,22 +126,22 @@ export function Login() {
               ))}
             </div>
             <p className="mt-3 text-caption text-muted">
-              Demonstração: qualquer credencial entra, e o perfil escolhido define o que o sistema
-              mostra.
+              Demo: any credentials get you in, and the profile you pick decides what the system
+              shows.
             </p>
           </fieldset>
         </form>
       </div>
 
-      {/* O bloco de identidade só aparece onde sobra largura para ele. */}
+      {/* The identity panel only appears where there is width to spare. */}
       <div className="relative hidden flex-1 overflow-hidden bg-accent-deep lg:block">
         <div className="absolute inset-0 flex items-center justify-center">
           <ZeusMark size={340} className="text-on-dark opacity-15" />
         </div>
         <div className="absolute right-12 bottom-12 left-12">
           <p className="text-h2 text-on-dark text-balance">
-            O dia inteiro da turma em uma tela — chamada, notas por habilidade, tarefas e
-            avisos.
+            A whole class day on one screen — roll call, grades by skill, assignments and
+            announcements.
           </p>
         </div>
       </div>

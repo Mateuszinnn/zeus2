@@ -49,10 +49,10 @@ export function DataTable<T>({
 
   return (
     <>
-      {/* Em largura de telefone a tabela deixa de ser tabela: cada registro
-          vira um cartão com o rótulo acima do valor. Rolagem horizontal dentro
-          de um contêiner esconde as colunas que importam — numa tela de notas,
-          esconde justamente as notas. */}
+      {/* At phone width the table stops being a table: each record becomes a
+          card with the label above the value. Horizontal scrolling inside a
+          container hides the columns that matter — on a grades screen, it hides
+          exactly the grades. */}
       <ul className="flex flex-col gap-3 p-4 md:hidden">
         {state === 'loading'
           ? Array.from({ length: 5 }, (_, i) => (
@@ -65,8 +65,8 @@ export function DataTable<T>({
                   {columns.slice(1).map((column) => (
                     <div key={column.key} className="min-w-0">
                       <dt className="text-caption text-muted">{column.header}</dt>
-                      {/* No cartão o valor encosta no rótulo: o alinhamento à
-                          direita só faz sentido dentro da coluna da tabela. */}
+                      {/* In the card the value sits next to its label: right
+                          alignment only makes sense inside a table column. */}
                       <dd className="mt-0.5 [&>button]:w-auto [&>button]:text-left">
                         {column.cell(row)}
                       </dd>
@@ -194,11 +194,11 @@ export function TableFooter({
   return (
     <div className="flex flex-wrap items-center justify-between gap-4 border-t border-default px-6 py-4">
       <p className="text-caption text-muted">
-        Exibindo {from}–{to} de {total}
+        Showing {from}–{to} of {total}
       </p>
       {children}
       <div className="flex items-center gap-2 text-caption text-muted">
-        <span>Resultados por página</span>
+        <span>Results per page</span>
         {perPage}
       </div>
     </div>

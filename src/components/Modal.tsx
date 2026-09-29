@@ -69,7 +69,7 @@ export function Modal({ open, onClose, title, size = 'md', footer, children }: M
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
       <button
         type="button"
-        aria-label="Fechar"
+        aria-label="Close"
         tabIndex={-1}
         onClick={onClose}
         className="absolute inset-0 bg-gray-90/50 backdrop-blur-[2px]"
@@ -78,20 +78,20 @@ export function Modal({ open, onClose, title, size = 'md', footer, children }: M
         ref={panelRef}
         role="dialog"
         aria-modal="true"
-        aria-labelledby="modal-titulo"
+        aria-labelledby="modal-title"
         className={cn(
           'relative flex max-h-[85dvh] w-full flex-col rounded-lg bg-surface shadow-lg',
           WIDTHS[size],
         )}
       >
         <header className="flex items-center justify-between gap-4 border-b border-default px-6 py-5">
-          <h2 id="modal-titulo" className="text-h3 text-primary">
+          <h2 id="modal-title" className="text-h3 text-primary">
             {title}
           </h2>
           <button
             type="button"
             onClick={onClose}
-            aria-label="Fechar"
+            aria-label="Close"
             className="rounded-md p-1.5 text-muted transition-colors hover:bg-gray-20 hover:text-primary"
           >
             <X size={18} />

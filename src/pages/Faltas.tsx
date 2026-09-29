@@ -24,7 +24,7 @@ import { SESSIONS, attendanceSummary, type AttendanceSummary } from '@/mocks/rec
 export function Faltas() {
   const [params] = useSearchParams()
   const [tab, setTab] = useState<'chamada' | 'historico'>('chamada')
-  const [turmaId, setTurmaId] = useState(params.get('turma') ?? TURMAS[0].id)
+  const [turmaId, setTurmaId] = useState(params.get('class') ?? TURMAS[0].id)
   const [done, setDone] = useState<Record<string, boolean>>({ t4b: true })
   const [loading, setLoading] = useState(true)
   const [sortKey, setSortKey] = useState('name')
@@ -54,7 +54,7 @@ export function Faltas() {
   const columns: Column<AttendanceSummary>[] = [
     {
       key: 'name',
-      header: 'Nome',
+      header: 'Name',
       sortable: true,
       cell: ({ student }) => (
         <span className="flex items-center gap-3">
@@ -65,7 +65,7 @@ export function Faltas() {
     },
     {
       key: 'presences',
-      header: 'Presenças',
+      header: 'Present',
       width: 'w-32',
       align: 'right',
       cell: (row) => (
@@ -76,7 +76,7 @@ export function Faltas() {
     },
     {
       key: 'absences',
-      header: 'Faltas',
+      header: 'Absences',
       sortable: true,
       width: 'w-28',
       align: 'right',
@@ -84,25 +84,25 @@ export function Faltas() {
     },
     {
       key: 'justified',
-      header: 'Justificadas',
+      header: 'Excuseds',
       width: 'w-36',
       cell: (row) =>
         row.justified > 0 ? (
           <StatusBadge tone="info">{row.justified} justificada(s)</StatusBadge>
         ) : (
-          <span className="text-caption text-disabled">nenhuma</span>
+          <span className="text-caption text-disabled">none</span>
         ),
     },
     {
       key: 'percent',
-      header: 'Frequência',
+      header: 'Attendance',
       sortable: true,
       width: 'w-56',
       cell: (row) => (
         <GradeBar
           value={row.percent}
           kind="attendance"
-          label={`Frequência de ${row.student.name}`}
+          label={`Attendance for ${row.student.name}`}
         />
       ),
     },
@@ -119,12 +119,12 @@ export function Faltas() {
   return (
     <>
       <PageHeader
-        title="Faltas"
-        subtitle={`${TERM.label} · ${SESSIONS.length} aulas dadas · frequência mínima ${MIN_ATTENDANCE}%`}
-        crumbs={[{ label: 'Painel', to: '/painel' }, { label: 'Faltas' }]}
+        title="Absences"
+        subtitle={`${TERM.label} · ${SESSIONS.length} classes held · minimum attendance ${MIN_ATTENDANCE}%`}
+        crumbs={[{ label: 'Dashboard', to: '/dashboard' }, { label: 'Absences' }]}
         actions={
           <Select
-            label="Escolher turma"
+            label="Choose class"
             value={turmaId}
             onChange={setTurmaId}
             options={TURMAS.map((t) => ({ value: t.id, label: `${t.name} · ${t.stage}` }))}
@@ -133,12 +133,12 @@ export function Faltas() {
       />
 
       <Tabs
-        label="Modo da tela de faltas"
+        label="Attendance screen mode"
         value={tab}
         onChange={(v) => setTab(v as 'chamada' | 'historico')}
         items={[
-          { id: 'chamada', label: 'Chamada de hoje' },
-          { id: 'historico', label: 'Histórico do bimestre', count: atRisk || undefined },
+          { id: 'chamada', label: 'Roll call for today' },
+          { id: 'historico', label: 'Term history', count: atRisk || undefined },
         ]}
         className="mb-6"
       />
@@ -148,11 +148,11 @@ export function Faltas() {
           <Card>
             <EmptyState
               icon={<CalendarX size={40} />}
-              title={`Chamada do ${turma.name} já foi feita`}
-              description={`A frequência de ${weekday(TODAY)}, ${shortDate(TODAY)}, já está registrada. Abra o histórico para revisar o bimestre inteiro.`}
+              title={`Roll call for ${turma.name} is already done`}
+              description={`Attendance for ${weekday(TODAY)}, ${shortDate(TODAY)} is already recorded. Open the history to review the whole term.`}
               action={
                 <Button variant="secondary" onClick={() => setTab('historico')}>
-                  Ver histórico
+                  View history
                 </Button>
               }
             />
@@ -182,7 +182,7 @@ export function Faltas() {
             columns={columns}
             rows={rows}
             rowKey={(row) => row.student.id}
-            caption={`Frequência dos alunos do ${turma.name} no bimestre`}
+            caption={`Attendance for students in ${turma.name} this term`}
             state={loading ? 'loading' : 'ready'}
             sortKey={sortKey}
             sortDirection={sortDirection}
@@ -190,8 +190,8 @@ export function Faltas() {
             empty={
               <EmptyState
                 icon={<SearchX size={40} />}
-                title="Turma sem alunos"
-                description="Nenhum aluno matriculado nesta turma até agora."
+                title="Class with no students"
+                description="No student enrolled in this class so far."
               />
             }
           />

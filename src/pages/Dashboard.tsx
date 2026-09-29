@@ -39,7 +39,7 @@ export function Dashboard() {
       return
     }
     if (pending.kind === 'grading' && pending.turma) {
-      navigate(`/notas?turma=${pending.turma.id}`)
+      navigate(`/grades?class=${pending.turma.id}`)
       return
     }
     toast(`"${pending.title}" entra na tela de tarefas.`)
@@ -48,9 +48,9 @@ export function Dashboard() {
   return (
     <>
       <PageHeader
-        title={`Bom dia, ${firstName(TEACHER.name)}`}
-        subtitle={`${SCHOOL.course} · ${TERM.label} · ${TURMAS.map(turmaLabel).join(' e ')}`}
-        crumbs={[{ label: 'Painel' }]}
+        title={`Good morning, ${firstName(TEACHER.name)}`}
+        subtitle={`${SCHOOL.course} · ${TERM.label} · ${TURMAS.map(turmaLabel).join(' and ')}`}
+        crumbs={[{ label: 'Dashboard' }]}
       />
 
       {loading ? (

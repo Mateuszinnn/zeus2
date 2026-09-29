@@ -27,31 +27,31 @@ interface NavItem {
 }
 
 const TEACHER_NAV: NavItem[] = [
-  { to: '/painel', label: 'Painel', icon: LayoutDashboard },
-  { to: '/turmas', label: 'Turmas', icon: BookOpen },
-  { to: '/alunos', label: 'Alunos', icon: Users },
-  { to: '/notas', label: 'Notas', icon: GraduationCap },
-  { to: '/faltas', label: 'Faltas', icon: CalendarCheck },
-  { to: '/ocorrencias', label: 'Ocorrências', icon: TriangleAlert },
-  { to: '/tarefas', label: 'Tarefas', icon: ClipboardList },
-  { to: '/avisos', label: 'Avisos', icon: Megaphone },
-  { to: '/matriculas', label: 'Matrículas', icon: FileText },
+  { to: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
+  { to: '/classes', label: 'Classes', icon: BookOpen },
+  { to: '/students', label: 'Students', icon: Users },
+  { to: '/grades', label: 'Grades', icon: GraduationCap },
+  { to: '/attendance', label: 'Attendance', icon: CalendarCheck },
+  { to: '/incidents', label: 'Incidents', icon: TriangleAlert },
+  { to: '/assignments', label: 'Assignments', icon: ClipboardList },
+  { to: '/announcements', label: 'Announcements', icon: Megaphone },
+  { to: '/enrollments', label: 'Enrollments', icon: FileText },
 ]
 
 const STUDENT_NAV: NavItem[] = [
-  { to: '/meu-painel', label: 'Meu painel', icon: LayoutDashboard },
-  { to: '/minhas-notas', label: 'Minhas notas', icon: GraduationCap },
-  { to: '/minhas-faltas', label: 'Minhas faltas', icon: CalendarCheck },
-  { to: '/minhas-ocorrencias', label: 'Minhas ocorrências', icon: TriangleAlert },
-  { to: '/minhas-tarefas', label: 'Minhas tarefas', icon: ClipboardList },
-  { to: '/avisos', label: 'Avisos', icon: Megaphone },
-  { to: '/minha-ficha', label: 'Minha ficha', icon: FileText },
+  { to: '/my-dashboard', label: 'My dashboard', icon: LayoutDashboard },
+  { to: '/my-grades', label: 'My grades', icon: GraduationCap },
+  { to: '/my-attendance', label: 'My attendance', icon: CalendarCheck },
+  { to: '/my-incidents', label: 'My incidents', icon: TriangleAlert },
+  { to: '/my-assignments', label: 'My assignments', icon: ClipboardList },
+  { to: '/announcements', label: 'Announcements', icon: Megaphone },
+  { to: '/my-record', label: 'My record', icon: FileText },
 ]
 
 const FOOTER_NAV: NavItem[] = [
-  { to: '/configuracoes', label: 'Configurações', icon: Settings },
-  { to: '/ajuda', label: 'Ajuda', icon: CircleHelp },
-  { to: '/contato', label: 'Contato', icon: MessageCircle },
+  { to: '/settings', label: 'Settings', icon: Settings },
+  { to: '/help', label: 'Help', icon: CircleHelp },
+  { to: '/contact', label: 'Contact', icon: MessageCircle },
 ]
 
 export function navFor(role: Role): NavItem[] {
@@ -104,7 +104,7 @@ export function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
 
       <div className="mx-5 my-4 h-px bg-sidebar-active" />
 
-      <nav aria-label="Navegação principal" className="scroll-on-dark flex-1 overflow-y-auto px-3">
+      <nav aria-label="Main navigation" className="scroll-on-dark flex-1 overflow-y-auto px-3">
         <ul className="flex flex-col gap-1">
           {items.map((item) => (
             <li key={item.to}>
@@ -132,7 +132,7 @@ export function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
               )}
             >
               <LogOut size={20} aria-hidden="true" />
-              Sair
+              Sign out
             </button>
           </li>
         </ul>

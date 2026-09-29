@@ -4,7 +4,7 @@ import { cn } from '@/lib/cn'
 interface EmptyStateProps {
   icon: ReactNode
   title: string
-  /** Texto específico da tela. "Nenhum resultado" genérico é proibido. */
+  /** Screen-specific copy. A generic "No results" is not allowed. */
   description: string
   action?: ReactNode
   className?: string

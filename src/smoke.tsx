@@ -1,7 +1,7 @@
-/* Teste de fumaça: renderiza cada rota no servidor e falha se alguma quebrar.
+/* Smoke test: renders every route on the server and fails if any breaks.
  *
- * Build e typecheck só provam que o código compila. Isto prova que cada tela
- * renderiza de verdade, nos dois perfis. Rode com `npm run smoke`.
+ * Build and typecheck only prove the code compiles. This proves each screen
+ * actually renders, in both profiles. Run with `npm run smoke`.
  */
 
 import { renderToString } from 'react-dom/server'
@@ -12,27 +12,27 @@ import { AppRoutes } from '@/App'
 
 const ROUTES: Record<Role, string[]> = {
   teacher: [
-    '/painel',
-    '/turmas',
-    '/alunos',
-    '/notas',
-    '/faltas',
-    '/ocorrencias',
-    '/tarefas',
-    '/matriculas',
-    '/avisos',
-    '/configuracoes',
-    '/ajuda',
-    '/contato',
+    '/dashboard',
+    '/classes',
+    '/students',
+    '/grades',
+    '/attendance',
+    '/incidents',
+    '/assignments',
+    '/enrollments',
+    '/announcements',
+    '/settings',
+    '/help',
+    '/contact',
   ],
   student: [
-    '/meu-painel',
-    '/minhas-notas',
-    '/minhas-faltas',
-    '/minhas-tarefas',
-    '/minhas-ocorrencias',
-    '/minha-ficha',
-    '/avisos',
+    '/my-dashboard',
+    '/my-grades',
+    '/my-attendance',
+    '/my-assignments',
+    '/my-incidents',
+    '/my-record',
+    '/announcements',
   ],
 }
 
@@ -50,34 +50,34 @@ function check(label: string, role: Role | null, route: string) {
         </SessionProvider>
       </MemoryRouter>,
     )
-    // Um redirecionamento renderiza quase nada; a tela real traz conteúdo.
+    // A redirect renders almost nothing; the real screen carries content.
     if (html.length < 400) {
-      failures.push(`${label}: renderizou ${html.length} bytes — provavelmente redirecionou`)
-      console.log(`  FALHOU  ${label}`)
+      failures.push(`${label}: rendered ${html.length} bytes — probably redirected`)
+      console.log(`  FAILED  ${label}`)
       return
     }
     passed += 1
     console.log(`  ok      ${label}`)
   } catch (error) {
     failures.push(`${label}: ${(error as Error).message}`)
-    console.log(`  FALHOU  ${label}`)
+    console.log(`  FAILED  ${label}`)
   }
 }
 
-console.log('Sem sessão')
-check('/entrar', null, '/entrar')
+console.log('No session')
+check('/sign-in', null, '/sign-in')
 
 for (const role of ['teacher', 'student'] as Role[]) {
-  console.log(`\nPerfil ${role}`)
+  console.log(`\nProfile ${role}`)
   for (const route of ROUTES[role]) check(`${route}`, role, route)
 }
 
-/* Caso negativo: prova que o guard acima reprova de verdade.
- * Sem sessão, o shell tem de redirecionar em vez de renderizar a tela — se
- * isto passar como "ok", todos os casos positivos acima são vazios. */
+/* Negative case: proves the guard above actually fails.
+ * With no session the shell must redirect instead of rendering the screen — if
+ * this passes as "ok", every positive case above is vacuous. */
 console.log(String.fromCharCode(10) + 'Guard')
 const semSessao = renderToString(
-  <MemoryRouter initialEntries={['/painel']}>
+  <MemoryRouter initialEntries={['/dashboard']}>
     <SessionProvider initialRole={null}>
       <ToastProvider>
         <AppRoutes />
@@ -86,16 +86,16 @@ const semSessao = renderToString(
   </MemoryRouter>,
 )
 if (semSessao.length >= 400) {
-  failures.push('guard: /painel renderizou sem sessão — o teste positivo é vazio')
-  console.log('  FALHOU  /painel sem sessão deveria redirecionar')
+  failures.push('guard: /dashboard rendered with no session - the positive test is vacuous')
+  console.log('  FAILED  /dashboard with no session should redirect')
 } else {
-  console.log('  ok      /painel redireciona sem sessão')
+  console.log('  ok      /dashboard redirects with no session')
 }
 
 const total = 1 + ROUTES.teacher.length + ROUTES.student.length
 if (failures.length > 0) {
-  console.error(`\n${failures.length} de ${total} rotas quebraram:`)
+  console.error(`\n${failures.length} of ${total} routes broke:`)
   for (const failure of failures) console.error(`  - ${failure}`)
   process.exit(1)
 }
-console.log(`\nTodas as ${passed} rotas renderizaram.`)
+console.log(`\nAll ${passed} routes rendered.`)

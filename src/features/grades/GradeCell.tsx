@@ -60,7 +60,7 @@ export function GradeCell({ value, label, onCommit, compact = false }: GradeCell
           ref={inputRef}
           value={draft}
           inputMode="decimal"
-          aria-label={`${label}. Nota de 0 a 10.`}
+          aria-label={`${label}. Grade from 0 to 10.`}
           aria-invalid={invalid}
           onChange={(e) => {
             setDraft(e.target.value)
@@ -76,7 +76,7 @@ export function GradeCell({ value, label, onCommit, compact = false }: GradeCell
             invalid ? 'border-error' : 'border-focus',
           )}
         />
-        {invalid && <span className="text-caption text-error-ink">Use um número de 0 a 10</span>}
+        {invalid && <span className="text-caption text-error-ink">Enter a number from 0 to 10</span>}
       </span>
     )
   }
@@ -90,7 +90,7 @@ export function GradeCell({ value, label, onCommit, compact = false }: GradeCell
       <button
         type="button"
         onClick={open}
-        aria-label={`${label}: ${fmtGrade(value)}, ${style.label.toLowerCase()}. Clique para editar.`}
+        aria-label={`${label}: ${fmtGrade(value)}, ${style.label.toLowerCase()}. Click to edit.`}
         className={cn(
           'w-full rounded-sm py-0.5 text-right text-body font-medium tabular-nums',
           'transition-colors duration-150 ease-expo hover:bg-accent-soft',
@@ -106,7 +106,7 @@ export function GradeCell({ value, label, onCommit, compact = false }: GradeCell
     <button
       type="button"
       onClick={open}
-      aria-label={`${label}: ${fmtGrade(value)}, ${style.label.toLowerCase()}. Clique para editar.`}
+      aria-label={`${label}: ${fmtGrade(value)}, ${style.label.toLowerCase()}. Click to edit.`}
       className={cn(
         'group flex w-full max-w-64 items-center gap-3 rounded-md text-left',
         'transition-colors duration-150 ease-expo',

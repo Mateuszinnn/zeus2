@@ -23,9 +23,9 @@ export function MeuPainel() {
   return (
     <>
       <PageHeader
-        title={`Oi, ${firstName(student.name)}`}
+        title={`Hi, ${firstName(student.name)}`}
         subtitle={`${SCHOOL.course} · ${TERM.label} · ${turmaLabel(turmaOf(student))}`}
-        crumbs={[{ label: 'Meu painel' }]}
+        crumbs={[{ label: 'My dashboard' }]}
       />
 
       {loading ? (

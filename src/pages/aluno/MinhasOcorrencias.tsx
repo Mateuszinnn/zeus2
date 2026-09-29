@@ -7,7 +7,7 @@ import { EmptyState } from '@/components/EmptyState'
 import { shortDate } from '@/lib/format'
 import { DEMO_STUDENT_ID, INCIDENTS, TERM, studentById, type Severity } from '@/mocks/data'
 
-const LABEL: Record<Severity, string> = { light: 'Leve', medium: 'Média', serious: 'Grave' }
+const LABEL: Record<Severity, string> = { light: 'Low', medium: 'Average', serious: 'High' }
 const TONE: Record<Severity, 'neutral' | 'warning' | 'error'> = {
   light: 'neutral',
   medium: 'warning',
@@ -27,25 +27,25 @@ export function MinhasOcorrencias() {
   return (
     <>
       <PageHeader
-        title="Minhas ocorrências"
-        subtitle={`${TERM.label} · registros feitos pela escola`}
-        crumbs={[{ label: 'Meu painel', to: '/meu-painel' }, { label: 'Minhas ocorrências' }]}
+        title="My incidents"
+        subtitle={`${TERM.label} · records kept by the school`}
+        crumbs={[{ label: 'My dashboard', to: '/my-dashboard' }, { label: 'My incidents' }]}
       />
 
       <Card>
         <CardHeader
-          title="Histórico"
+          title="History"
           meta={
             mine.length > 0 ? (
-              <span className="text-caption text-muted">{mine.length} registros</span>
+              <span className="text-caption text-muted">{mine.length} records</span>
             ) : undefined
           }
         />
         {mine.length === 0 ? (
           <EmptyState
             icon={<Sparkles size={40} />}
-            title="Nenhuma ocorrência registrada"
-            description="Nada foi anotado no seu nome neste bimestre. Continue assim."
+            title="No incidents recorded"
+            description="Nothing has been recorded against your name this term. Keep it up."
           />
         ) : (
           <ul className="divide-y divide-default">

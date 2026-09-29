@@ -65,7 +65,10 @@ A inspeção visual continua sendo trabalho de olho.
 - Operação mockada passa por `src/mocks/delay.ts` (300–600ms).
 - A marca é **Zeus**. "Edu.Link" é marca de terceiro do mockup de referência e
   não aparece em lugar nenhum.
-- Os nomes das habilidades ficam **em inglês** (Listening, Speaking, Reading,
-  Writing, Use of English). Todo o resto da interface é em português.
+- **A interface é toda em inglês.** Nomes de pessoas, da instituição e das
+  escolas de origem continuam em português: são nomes próprios de brasileiros,
+  e traduzi-los seria falso.
+- Estes documentos do projeto (CLAUDE.md, PRODUCT.md, DESIGN.md, design system)
+  seguem em português — eles são para quem constrói, não para quem usa.
 
 O §10 do design system é o checklist a rodar antes de dar qualquer tela por pronta.

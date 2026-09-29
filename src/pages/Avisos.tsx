@@ -35,20 +35,20 @@ export function Avisos() {
   return (
     <>
       <PageHeader
-        title="Avisos"
-        subtitle="Comunicados da secretaria e da coordenação de inglês"
+        title="Announcements"
+        subtitle="Notices from the front office and the English coordination"
         crumbs={[
-          { label: 'Painel', to: role === 'student' ? '/meu-painel' : '/painel' },
-          { label: 'Avisos' },
+          { label: 'Dashboard', to: role === 'student' ? '/my-dashboard' : '/dashboard' },
+          { label: 'Announcements' },
         ]}
       />
 
       <Card>
         <CardHeader
-          title="Todos os comunicados"
+          title="All announcements"
           meta={
             <span className="text-caption text-muted">
-              {list.length} avisos · {unread} não lidos
+              {list.length} announcements · {unread} unread
             </span>
           }
           actions={
@@ -69,8 +69,8 @@ export function Avisos() {
         ) : list.length === 0 ? (
           <EmptyState
             icon={<MegaphoneOff size={40} />}
-            title="Nenhum comunicado publicado"
-            description="Quando a secretaria ou a coordenação publicar algo, aparece aqui."
+            title="No announcements posted"
+            description="When the front office or the coordination posts something, it shows up here."
           />
         ) : (
           <ul className="divide-y divide-default">
@@ -80,14 +80,14 @@ export function Avisos() {
                   {announcement.unread && (
                     <span
                       className="mt-2 size-2 shrink-0 rounded-full bg-accent"
-                      aria-label="Não lido"
+                      aria-label="Unread"
                     />
                   )}
                   <div className={cn('min-w-0 flex-1', !announcement.unread && 'pl-4')}>
                     <div className="flex flex-wrap items-center gap-3">
                       <h3 className="text-h3 text-primary">{announcement.title}</h3>
                       {announcement.priority === 'important' && (
-                        <StatusBadge tone="warning">Importante</StatusBadge>
+                        <StatusBadge tone="warning">Important</StatusBadge>
                       )}
                     </div>
                     <p className="mt-2 max-w-[65ch] text-body text-secondary">
@@ -146,7 +146,7 @@ function NewAnnouncement({
 
   async function save() {
     if (title.trim() === '') {
-      setError('O aviso precisa de um título que se entenda na lista.')
+      setError('The announcement needs a title that makes sense in the list.')
       return
     }
     setSaving(true)
@@ -154,14 +154,14 @@ function NewAnnouncement({
     onCreate({
       id: `av-${Date.now()}`,
       title: title.trim(),
-      body: body.trim() || 'Sem detalhes adicionais.',
+      body: body.trim() || 'No further details.',
       author: TEACHER.name,
       date: new Date().toISOString().slice(0, 10),
       priority,
       unread: true,
     })
     setSaving(false)
-    toast('Aviso publicado para as suas turmas.')
+    toast('Announcement posted to your classes.')
     setTitle('')
     setBody('')
     setError(null)
@@ -172,7 +172,7 @@ function NewAnnouncement({
     <Modal
       open={open}
       onClose={onClose}
-      title="Novo aviso"
+      title="New announcement"
       footer={
         <>
           <Button variant="ghost" onClick={onClose}>
@@ -185,7 +185,7 @@ function NewAnnouncement({
       }
     >
       <div className="flex flex-col gap-5">
-        <Field label="Título" required error={error ?? undefined}>
+        <Field label="Title" required error={error ?? undefined}>
           {(props) => (
             <TextInput
               {...props}
@@ -198,7 +198,7 @@ function NewAnnouncement({
             />
           )}
         </Field>
-        <Field label="Mensagem" hint="Escreva como falaria com a turma.">
+        <Field label="Message" hint="Write it the way you would say it to the class.">
           {(props) => (
             <TextArea
               {...props}
@@ -208,7 +208,7 @@ function NewAnnouncement({
             />
           )}
         </Field>
-        <Field label="Prioridade">
+        <Field label="Priority">
           {(props) => (
             <NativeSelect
               {...props}
@@ -216,7 +216,7 @@ function NewAnnouncement({
               onChange={(e) => setPriority(e.target.value as Priority)}
             >
               <option value="normal">Normal</option>
-              <option value="important">Importante</option>
+              <option value="important">Important</option>
             </NativeSelect>
           )}
         </Field>

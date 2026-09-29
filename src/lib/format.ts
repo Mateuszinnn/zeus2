@@ -1,44 +1,44 @@
-/** Formatação em português do Brasil. Nota sempre com uma casa decimal:
- *  "7" e "7,0" na mesma coluna desalinham a leitura. */
+/* Formatting for the interface language (en-US). Grades always carry one
+ * decimal: "7" and "7.0" in the same column break the scan. */
 
 export function grade(value: number): string {
-  return value.toLocaleString('pt-BR', { minimumFractionDigits: 1, maximumFractionDigits: 1 })
+  return value.toLocaleString('en-US', { minimumFractionDigits: 1, maximumFractionDigits: 1 })
 }
 
 export function percent(value: number): string {
   return `${Math.round(value)}%`
 }
 
-const WEEKDAY = ['domingo', 'segunda', 'terça', 'quarta', 'quinta', 'sexta', 'sábado']
-const MONTH = ['jan', 'fev', 'mar', 'abr', 'mai', 'jun', 'jul', 'ago', 'set', 'out', 'nov', 'dez']
+const WEEKDAY = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+const MONTH = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
 
 export function shortDate(iso: string): string {
   const d = new Date(`${iso}T12:00:00`)
-  return `${d.getDate()} ${MONTH[d.getMonth()]}`
+  return `${MONTH[d.getMonth()]} ${d.getDate()}`
 }
 
-/** Data com o ano, para quando ele distingue registros — numa ficha de
- *  matrícula, "5 fev" de 2024 e de 2025 são coisas diferentes. */
+/** Date carrying the year, for when it tells records apart — on an enrollment
+ *  record, "Feb 5" of 2024 and of 2025 are different things. */
 export function dateWithYear(iso: string): string {
   const d = new Date(`${iso}T12:00:00`)
-  return `${d.getDate()} ${MONTH[d.getMonth()]} ${d.getFullYear()}`
+  return `${MONTH[d.getMonth()]} ${d.getDate()}, ${d.getFullYear()}`
 }
 
 export function weekday(iso: string): string {
   return WEEKDAY[new Date(`${iso}T12:00:00`).getDay()]
 }
 
-/** "hoje", "amanhã", "em 3 dias", "há 2 dias" — a linguagem do prazo,
- *  que é como professor e aluno realmente pensam sobre data. */
+/** "today", "tomorrow", "in 3 days", "2 days ago" — deadlines are how both
+ *  teacher and student actually think about dates. */
 export function relativeDay(iso: string, today: string): string {
   const a = new Date(`${iso}T12:00:00`).getTime()
   const b = new Date(`${today}T12:00:00`).getTime()
   const days = Math.round((a - b) / 86_400_000)
-  if (days === 0) return 'hoje'
-  if (days === 1) return 'amanhã'
-  if (days === -1) return 'ontem'
-  if (days > 1) return `em ${days} dias`
-  return `há ${Math.abs(days)} dias`
+  if (days === 0) return 'today'
+  if (days === 1) return 'tomorrow'
+  if (days === -1) return 'yesterday'
+  if (days > 1) return `in ${days} days`
+  return `${Math.abs(days)} days ago`
 }
 
 export function initials(name: string): string {

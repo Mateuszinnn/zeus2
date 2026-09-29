@@ -2,9 +2,9 @@ import { useId } from 'react'
 import type { ReactNode } from 'react'
 import { cn } from '@/lib/cn'
 
-/* Rótulo sempre visível acima do campo, nunca só placeholder.
- * Somente-leitura é VALOR SEM MOLDURA, não input desabilitado: campo
- * desabilitado parece defeito. */
+/* Label always visible above the control, never a placeholder alone.
+ * Read-only is a VALUE WITHOUT A FRAME, never a disabled input: a disabled
+ * field reads as broken. */
 
 const CONTROL = cn(
   'w-full rounded-md border border-default bg-surface px-3 text-body text-primary',
@@ -21,7 +21,7 @@ interface FieldProps {
 
 export function Field({ label, required, hint, error, children }: FieldProps) {
   const id = useId()
-  const helpId = `${id}-ajuda`
+  const helpId = `${id}-help`
   const message = error ?? hint
 
   return (
@@ -29,7 +29,7 @@ export function Field({ label, required, hint, error, children }: FieldProps) {
       <label htmlFor={id} className="block text-label text-primary">
         {label}
         {required && (
-          <span className="text-error" aria-label="obrigatório">
+          <span className="text-error" aria-label="required">
             {' '}
             *
           </span>
@@ -113,7 +113,7 @@ export function NativeSelect({
   )
 }
 
-/** Dado em modo leitura: rótulo acima, valor em destaque, sem moldura. */
+/** Read-only data: label above, value in emphasis, no frame. */
 export function ReadOnlyField({ label, value }: { label: string; value: ReactNode }) {
   return (
     <div>

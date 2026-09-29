@@ -1,20 +1,25 @@
 import { ASSIGNMENTS, TODAY, TURMAS, turmaLabel, type Assignment, type Turma } from '@/mocks/data'
 
-/* O dia do professor, em ordem de relógio.
+/* The teacher's day, in clock order.
  *
- * A ordenação por hora é a espinha da faixa — sem ela, a faixa é um carrossel
- * arbitrário. Doação do quadro de partidas, registrada no direction contract. */
+ * Ordering by time is the spine of the band — without it the band is an
+ * arbitrary carousel. Donated by the departure board, recorded in the
+ * direction contract. */
 
 export type PendingState = 'pending' | 'late' | 'done'
 
 export interface Pending {
   id: string
-  /** "07:30". Ordena a faixa. */
+  /** "7:30 am" — what the card shows. */
   time: string
+  /** "07:30" in 24h. Orders the band.
+   *  Sorting the display label broke this once: "2:00 pm" sorts before
+   *  "7:30 am" alphabetically, which put the afternoon first. */
+  sortAt: string
   title: string
   context: string
   state: PendingState
-  /** Rótulo do estado. A cor nunca viaja sozinha. */
+  /** State label. Colour never travels alone. */
   stateLabel: string
   action: string
   kind: 'rollcall' | 'grading' | 'due'
@@ -34,65 +39,70 @@ export function buildPendings(rollcallDone: Record<string, boolean>): Pending[] 
   const list: Pending[] = [
     {
       id: 'p-chamada-2a',
-      time: '07:30',
-      title: 'Chamada de hoje',
+      time: '7:30 am',
+      sortAt: '07:30',
+      title: 'Roll call for today',
       context: `${turmaLabel(turma('t2a'))} · ${turma('t2a').shift}`,
       state: rollcallDone.t2a ? 'done' : 'pending',
-      stateLabel: rollcallDone.t2a ? 'Feita' : 'Pendente',
-      action: 'Fazer chamada',
+      stateLabel: rollcallDone.t2a ? 'Done' : 'Pending',
+      action: 'Take roll call',
       kind: 'rollcall',
       turma: turma('t2a'),
     },
     {
       id: 'p-corrigir-writing',
-      time: '09:00',
-      title: 'Corrigir o writing da turma',
-      context: `${turma('t2a').name} · ${writing.submitted} entregas aguardando`,
+      time: '9:00 am',
+      sortAt: '09:00',
+      title: 'Mark the class writing task',
+      context: `${turma('t2a').name} · ${writing.submitted} submissions waiting`,
       state: 'late',
-      stateLabel: 'Prazo venceu anteontem',
-      action: 'Lançar notas',
+      stateLabel: 'Due two days ago',
+      action: 'Enter grades',
       kind: 'grading',
       turma: turma('t2a'),
       assignment: writing,
     },
     {
       id: 'p-chamada-4b',
-      time: '14:00',
-      title: 'Chamada de hoje',
+      time: '2:00 pm',
+      sortAt: '14:00',
+      title: 'Roll call for today',
       context: `${turmaLabel(turma('t4b'))} · ${turma('t4b').shift}`,
       state: rollcallDone.t4b ? 'done' : 'pending',
-      stateLabel: rollcallDone.t4b ? 'Feita' : 'Pendente',
-      action: 'Fazer chamada',
+      stateLabel: rollcallDone.t4b ? 'Done' : 'Pending',
+      action: 'Take roll call',
       kind: 'rollcall',
       turma: turma('t4b'),
     },
     {
       id: 'p-listening-vence',
-      time: '15:00',
-      title: 'Listening vence hoje',
-      context: `${turma('t4b').name} · ${listening.submitted} de ${listening.total} entregues`,
+      time: '3:00 pm',
+      sortAt: '15:00',
+      title: 'Listening task is due today',
+      context: `${turma('t4b').name} · ${listening.submitted} of ${listening.total} submitted`,
       state: 'pending',
-      stateLabel: 'Vence hoje',
-      action: 'Ver entregas',
+      stateLabel: 'Due today',
+      action: 'View submissions',
       kind: 'due',
       turma: turma('t4b'),
       assignment: listening,
     },
     {
       id: 'p-use-vence',
-      time: '16:00',
-      title: 'Use of English vence amanhã',
-      context: `${turma('t2a').name} · ${useOfEnglish.submitted} de ${useOfEnglish.total} entregues`,
+      time: '4:00 pm',
+      sortAt: '16:00',
+      title: 'Use of English is due tomorrow',
+      context: `${turma('t2a').name} · ${useOfEnglish.submitted} of ${useOfEnglish.total} submitted`,
       state: 'pending',
-      stateLabel: 'Vence amanhã',
-      action: 'Ver entregas',
+      stateLabel: 'Due tomorrow',
+      action: 'View submissions',
       kind: 'due',
       turma: turma('t2a'),
       assignment: useOfEnglish,
     },
   ]
 
-  return list.sort((a, b) => a.time.localeCompare(b.time))
+  return list.sort((a, b) => a.sortAt.localeCompare(b.sortAt))
 }
 
 export function openCount(pendings: Pending[]): number {

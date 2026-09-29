@@ -46,8 +46,8 @@ export function Button({
       )}
       {...rest}
     >
-      {/* Carregando: o spinner substitui o ícone e o rótulo permanece, para
-          que o botão não mude de largura e a linha não salte. */}
+      {/* Loading: the spinner replaces the icon and the label stays, so the
+          button keeps its width and the row does not jump. */}
       {loading ? <Loader2 size={16} className="animate-spin" aria-hidden="true" /> : icon}
       {children}
     </button>

@@ -21,7 +21,7 @@ const SessionContext = createContext<Session | null>(null)
 
 export function useSession(): Session {
   const ctx = useContext(SessionContext)
-  if (!ctx) throw new Error('useSession precisa estar dentro de <SessionProvider>')
+  if (!ctx) throw new Error('useSession must be used inside <SessionProvider>')
   return ctx
 }
 
@@ -75,7 +75,7 @@ export function SessionProvider({
       return {
         role,
         name: student.name,
-        subtitle: `Aluno · ${turmaOf(student).name}`,
+        subtitle: `Student · ${turmaOf(student).name}`,
         signIn,
         signOut,
       }

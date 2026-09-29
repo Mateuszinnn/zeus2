@@ -20,7 +20,7 @@ export function PageHeader({ title, subtitle, crumbs, actions }: PageHeaderProps
   return (
     <div className="mb-6">
       {crumbs && crumbs.length > 0 && (
-        <nav aria-label="Trilha de navegação" className="mb-2">
+        <nav aria-label="Breadcrumb" className="mb-2">
           <ol className="flex flex-wrap items-center gap-1.5 text-caption text-muted">
             {crumbs.map((crumb, i) => (
               <li key={crumb.label} className="flex items-center gap-1.5">

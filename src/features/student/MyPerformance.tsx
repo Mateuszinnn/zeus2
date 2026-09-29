@@ -18,27 +18,27 @@ export function MyPerformance({ student }: { student: Student }) {
     <div className="grid gap-6 xl:grid-cols-2">
       <Card className="flex flex-col">
         <CardHeader
-          title="Como eu vou"
+          title="How I am doing"
           meta={<span className="text-caption text-muted">{TERM.short} · {turmaOf(student).name}</span>}
         />
         <CardBody className="flex flex-1 flex-col gap-6">
           <div className="flex flex-wrap gap-x-10 gap-y-4">
             <Figure
-              label="Minha média"
+              label="My average"
               value={fmtGrade(student.average)}
               badge={
                 <StatusBadge tone={level === 'critical' ? 'error' : level === 'attention' ? 'warning' : 'success'}>
-                  {student.average >= PASSING_GRADE ? 'Acima da média' : 'Abaixo da média'}
+                  {student.average >= PASSING_GRADE ? 'Above average' : 'Below average'}
                 </StatusBadge>
               }
             />
             <Figure
-              label="Minha frequência"
+              label="My attendance"
               value={fmtPercent(student.attendance)}
               badge={
                 <StatusBadge tone={student.attendance >= MIN_ATTENDANCE ? 'success' : 'error'}>
                   {student.attendance >= MIN_ATTENDANCE
-                    ? 'Dentro do mínimo'
+                    ? 'Within the minimum'
                     : `Abaixo de ${MIN_ATTENDANCE}%`}
                 </StatusBadge>
               }
@@ -70,17 +70,17 @@ export function MyPerformance({ student }: { student: Student }) {
           </ul>
 
           <p className="text-caption text-muted">
-            No CIL a média de aprovação é {fmtGrade(PASSING_GRADE)} e a frequência mínima é{' '}
-            {MIN_ATTENDANCE}%. Sua média sai das cinco habilidades acima.{' '}
+            At the CIL the passing average is {fmtGrade(PASSING_GRADE)} and minimum attendance
+            is {MIN_ATTENDANCE}%. Your average comes from the five skills above.{' '}
             {student.attendance >= MIN_ATTENDANCE
-              ? 'Sua frequência está dentro do mínimo.'
-              : 'Sua frequência está abaixo do mínimo — procure a secretaria.'}
+              ? 'Your attendance is within the minimum.'
+              : 'Your attendance is below the minimum — talk to the front office.'}
           </p>
         </CardBody>
       </Card>
 
       <Card className="flex flex-col">
-        <CardHeader title="Avisos" />
+        <CardHeader title="Announcements" />
         <ul className="divide-y divide-default">
           {ANNOUNCEMENTS.map((announcement) => (
             <li key={announcement.id} className="px-6 py-4">
@@ -88,7 +88,7 @@ export function MyPerformance({ student }: { student: Student }) {
                 {announcement.unread && (
                   <span
                     className="mt-1.5 size-2 shrink-0 rounded-full bg-accent"
-                    aria-label="Não lido"
+                    aria-label="Unread"
                   />
                 )}
                 <div className={cn('min-w-0', !announcement.unread && 'pl-4')}>

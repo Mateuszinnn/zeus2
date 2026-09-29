@@ -67,11 +67,11 @@ export function Alunos() {
   const columns: Column<Student>[] = [
     {
       key: 'name',
-      header: 'Nome',
+      header: 'Name',
       sortable: true,
       cell: (student) => (
         <Link
-          to={`/matriculas?aluno=${student.id}`}
+          to={`/enrollments?aluno=${student.id}`}
           className="flex items-center gap-3 no-underline"
         >
           <Avatar name={student.name} size="md" />
@@ -81,14 +81,14 @@ export function Alunos() {
     },
     {
       key: 'enrollment',
-      header: 'Matrícula',
+      header: 'Student ID',
       sortable: true,
       width: 'w-32',
       cell: (s) => <span className="text-secondary">{s.enrollment}</span>,
     },
     {
       key: 'turma',
-      header: 'Turma',
+      header: 'Class',
       sortable: true,
       width: 'w-40',
       cell: (s) => (
@@ -99,23 +99,23 @@ export function Alunos() {
     },
     {
       key: 'average',
-      header: 'Média',
+      header: 'Average',
       sortable: true,
       width: 'w-52',
-      cell: (s) => <GradeBar value={s.average} label={`Média de ${s.name}`} />,
+      cell: (s) => <GradeBar value={s.average} label={`Average for ${s.name}`} />,
     },
     {
       key: 'attendance',
-      header: 'Frequência',
+      header: 'Attendance',
       sortable: true,
       width: 'w-52',
       cell: (s) => (
-        <GradeBar value={s.attendance} kind="attendance" label={`Frequência de ${s.name}`} />
+        <GradeBar value={s.attendance} kind="attendance" label={`Attendance for ${s.name}`} />
       ),
     },
     {
       key: 'status',
-      header: 'Matrícula',
+      header: 'Student ID',
       width: 'w-32',
       cell: (s) => {
         const enrollmentStatus = enrollmentOf(s.id).status
@@ -140,15 +140,15 @@ export function Alunos() {
   return (
     <>
       <PageHeader
-        title="Alunos"
-        subtitle={`${ENROLLMENTS.length} matrículas · ${TERM.label}`}
-        crumbs={[{ label: 'Painel', to: '/painel' }, { label: 'Alunos' }]}
+        title="Students"
+        subtitle={`${ENROLLMENTS.length} enrollments · ${TERM.label}`}
+        crumbs={[{ label: 'Dashboard', to: '/dashboard' }, { label: 'Students' }]}
       />
 
       <Card>
         <CardHeader
-          title={turma === ALL ? 'Todas as turmas' : turmaById(turma).name}
-          meta={<span className="text-caption text-muted">{rows.length} alunos</span>}
+          title={turma === ALL ? 'All classes' : turmaById(turma).name}
+          meta={<span className="text-caption text-muted">{rows.length} students</span>}
           actions={
             <div className="flex flex-wrap gap-2">
               <span className="relative inline-flex items-center">
@@ -164,35 +164,35 @@ export function Alunos() {
                     setQuery(e.target.value)
                     setPage(1)
                   }}
-                  placeholder="Buscar por nome ou matrícula"
-                  aria-label="Buscar aluno"
+                  placeholder="Search by name or ID"
+                  aria-label="Search student"
                   className="h-10 w-64 rounded-md border border-default bg-surface pr-3 pl-9 text-body text-primary placeholder:text-disabled hover:border-strong"
                 />
               </span>
               <Select
-                label="Filtrar por turma"
+                label="Filter by class"
                 value={turma}
                 onChange={(v) => {
                   setTurma(v)
                   setPage(1)
                 }}
                 options={[
-                  { value: ALL, label: 'Todas as turmas' },
+                  { value: ALL, label: 'All classes' },
                   ...TURMAS.map((t) => ({ value: t.id, label: `${t.name} · ${t.stage}` })),
                 ]}
               />
               <Select
-                label="Filtrar por situação da matrícula"
+                label="Filter by enrollment status"
                 value={status}
                 onChange={(v) => {
                   setStatus(v)
                   setPage(1)
                 }}
                 options={[
-                  { value: ALL, label: 'Todas as situações' },
-                  { value: 'active', label: 'Ativa' },
-                  { value: 'locked', label: 'Trancada' },
-                  { value: 'transferred', label: 'Transferida' },
+                  { value: ALL, label: 'All statuses' },
+                  { value: 'active', label: 'Active' },
+                  { value: 'locked', label: 'On hold' },
+                  { value: 'transferred', label: 'Transferred' },
                 ]}
               />
             </div>
@@ -203,7 +203,7 @@ export function Alunos() {
           columns={columns}
           rows={visible}
           rowKey={(s) => s.id}
-          caption="Alunos matriculados, com média, frequência e situação"
+          caption="Enrolled students, with average, attendance and status"
           state={loading ? 'loading' : 'ready'}
           sortKey={sortKey}
           sortDirection={sortDirection}
@@ -211,11 +211,11 @@ export function Alunos() {
           empty={
             <EmptyState
               icon={<SearchX size={40} />}
-              title="Nenhum aluno encontrado"
+              title="No student found"
               description={
                 query
                   ? `Nada corresponde a "${query}". Confira a grafia ou limpe a busca.`
-                  : 'Nenhum aluno corresponde aos filtros escolhidos. Volte para todas as turmas e situações.'
+                  : 'No student matches the chosen filters. Go back to all classes and all statuses.'
               }
             />
           }

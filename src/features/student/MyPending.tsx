@@ -39,7 +39,7 @@ function buildTasks(student: Student): MyTask[] {
           skill: skillById(a.skillId).name,
           due: a.due,
           status: 'submitted',
-          statusLabel: 'Avaliada',
+          statusLabel: 'Graded',
           score: student.bySkill[a.skillId],
         }
       }
@@ -49,7 +49,7 @@ function buildTasks(student: Student): MyTask[] {
         skill: skillById(a.skillId).name,
         due: a.due,
         status: overdue ? 'late' : 'due',
-        statusLabel: overdue ? `Atrasada ${relativeDay(a.due, TODAY)}` : `Vence ${relativeDay(a.due, TODAY)}`,
+        statusLabel: overdue ? `Due ${relativeDay(a.due, TODAY)}` : `Due ${relativeDay(a.due, TODAY)}`,
       }
     })
     .sort((a, b) => a.due.localeCompare(b.due))
@@ -80,22 +80,22 @@ export function MyPending({ student }: { student: Student }) {
     setSending(null)
     setTasks((list) =>
       list.map((t) =>
-        t.id === task.id ? { ...t, status: 'submitted', statusLabel: 'Entregue', score: undefined } : t,
+        t.id === task.id ? { ...t, status: 'submitted', statusLabel: 'Submitted', score: undefined } : t,
       ),
     )
-    toast(`"${task.title}" entregue.`)
+    toast(`"${task.title}" turned in.`)
   }
 
   return (
-    <section aria-labelledby="minhas-pendencias">
+    <section aria-labelledby="my-pending">
       <header className="mb-3 flex flex-wrap items-baseline justify-between gap-2">
-        <h2 id="minhas-pendencias" className="text-h3 text-primary">
-          Hoje, {weekday(TODAY)} {shortDate(TODAY)}
+        <h2 id="my-pending" className="text-h3 text-primary">
+          Today, {weekday(TODAY)}, {shortDate(TODAY)}
         </h2>
         <span className="text-caption text-muted">
           {open.length > 0
-            ? `${plural(open.length, 'tarefa em aberto', 'tarefas em aberto')}`
-            : 'Nenhuma tarefa em aberto'}
+            ? `${plural(open.length, 'assignment open', 'assignments open')}`
+            : 'No open assignments'}
         </span>
       </header>
 
@@ -103,10 +103,10 @@ export function MyPending({ student }: { student: Student }) {
         <div className="flex items-center gap-4 rounded-xl border border-success bg-success-soft px-6 py-5">
           <CircleCheck size={24} className="shrink-0 text-success" aria-hidden="true" />
           <div>
-            <p className="text-body font-medium text-primary">Tudo entregue.</p>
+            <p className="text-body font-medium text-primary">Everything is turned in.</p>
             <p className="mt-0.5 text-caption text-secondary">
-              Nenhuma tarefa aguardando você. A próxima entrega aparece aqui assim que o professor
-              publicar.
+              No assignment is waiting for you. The next one shows up here as soon as your
+              teacher posts it.
             </p>
           </div>
         </div>
@@ -175,7 +175,7 @@ export function MyPending({ student }: { student: Student }) {
                       loading={sending === task.id}
                       onClick={() => submit(task)}
                     >
-                      Entregar
+                      Turn in
                     </Button>
                   )}
                 </div>

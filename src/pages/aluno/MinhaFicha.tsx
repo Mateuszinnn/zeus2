@@ -24,9 +24,9 @@ export function MinhaFicha() {
   return (
     <>
       <PageHeader
-        title="Minha ficha"
-        subtitle={`${TERM.label} · dados da minha matrícula no CIL`}
-        crumbs={[{ label: 'Meu painel', to: '/meu-painel' }, { label: 'Minha ficha' }]}
+        title="My record"
+        subtitle={`${TERM.label} · my enrollment details at the CIL`}
+        crumbs={[{ label: 'My dashboard', to: '/my-dashboard' }, { label: 'My record' }]}
       />
 
       <div className="flex flex-col gap-6">
@@ -36,7 +36,7 @@ export function MinhaFicha() {
             <div className="min-w-0 flex-1">
               <p className="text-h2 text-primary">{student.name}</p>
               <p className="mt-0.5 text-body text-secondary">
-                Matrícula {student.enrollment} · {turma.name} · {turma.stage}
+                ID {student.enrollment} · {turma.name} · {turma.stage}
               </p>
             </div>
             <StatusBadge tone={TONE[enrollment.status]}>
@@ -46,38 +46,38 @@ export function MinhaFicha() {
         </Card>
 
         <Card>
-          <CardHeader title="Dados pessoais" />
+          <CardHeader title="Personal details" />
           <CardBody className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
-            <ReadOnlyField label="Nome completo" value={student.name} />
-            <ReadOnlyField label="Data de nascimento" value={shortDate(enrollment.birthDate)} />
+            <ReadOnlyField label="Full name" value={student.name} />
+            <ReadOnlyField label="Date of birth" value={shortDate(enrollment.birthDate)} />
             <ReadOnlyField label="E-mail" value={enrollment.email} />
-            <ReadOnlyField label="Cidade" value={enrollment.neighborhood} />
+            <ReadOnlyField label="City" value={enrollment.neighborhood} />
           </CardBody>
         </Card>
 
         <Card>
-          <CardHeader title="Responsável" />
+          <CardHeader title="Guardian" />
           <CardBody className="grid gap-6 sm:grid-cols-2">
-            <ReadOnlyField label="Nome" value={enrollment.guardian} />
-            <ReadOnlyField label="Telefone" value={enrollment.guardianPhone} />
+            <ReadOnlyField label="Name" value={enrollment.guardian} />
+            <ReadOnlyField label="Phone" value={enrollment.guardianPhone} />
           </CardBody>
         </Card>
 
         <Card>
-          <CardHeader title="Curso e escola de origem" />
+          <CardHeader title="Course and home school" />
           <CardBody className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
-            <ReadOnlyField label="Curso" value="Inglês" />
-            <ReadOnlyField label="Estágio" value={`${turma.name} · ${turma.stage}`} />
-            <ReadOnlyField label="Horário" value={turma.schedule} />
-            <ReadOnlyField label="Escola de origem" value={enrollment.originSchool} />
-            <ReadOnlyField label="Turno na origem" value={enrollment.shiftAtOrigin} />
-            <ReadOnlyField label="No CIL desde" value={shortDate(enrollment.since)} />
+            <ReadOnlyField label="Course" value="English" />
+            <ReadOnlyField label="Stage" value={`${turma.name} · ${turma.stage}`} />
+            <ReadOnlyField label="Schedule" value={turma.schedule} />
+            <ReadOnlyField label="Home school" value={enrollment.originSchool} />
+            <ReadOnlyField label="Shift at home" value={enrollment.shiftAtOrigin} />
+            <ReadOnlyField label="At the CIL since" value={shortDate(enrollment.since)} />
           </CardBody>
         </Card>
 
         <p className="text-caption text-muted">
-          Para corrigir qualquer dado desta ficha, procure a secretaria do CIL no horário da sua
-          aula.
+          To correct anything on this record, talk to the CIL front office during your class
+          time.
         </p>
       </div>
     </>

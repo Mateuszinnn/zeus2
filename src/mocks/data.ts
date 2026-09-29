@@ -1,11 +1,14 @@
-/* Dados mock do Zeus — CIL, curso de inglês.
+/* Mock data — CIL, English course.
  *
- * Uma professora de inglês, duas turmas, 60 alunos. A distribuição de notas e
- * frequência é AUTORADA, não aleatória, e calibrada para o corte institucional
- * do CIL: média de aprovação 5,0 e frequência mínima 75%.
+ * One English teacher, two classes, 60 students. The grade and attendance
+ * distribution is AUTHORED, not random, and calibrated to the CIL rule:
+ * passing average 5.0 and minimum attendance 75%.
  *
- * Nada aqui é dado real. Nenhum nome corresponde a pessoa existente, e nenhum
- * número descreve um CIL existente.
+ * None of this is real. No name matches an existing person and no figure
+ * describes an existing CIL.
+ *
+ * Student, guardian and school names stay Brazilian on purpose: the interface
+ * speaks English, the people in it do not stop being Brazilian.
  */
 
 import { gradeLevel, attendanceLevel, type GradeLevel } from '@/lib/grade'
@@ -14,22 +17,22 @@ import { gradeLevel, attendanceLevel, type GradeLevel } from '@/lib/grade'
  * Calendário da demo
  * ------------------------------------------------------------------ */
 
-/** A demo roda numa quinta-feira. Data fixa: um sistema que muda de conteúdo
- *  conforme o dia da apresentação é impossível de ensaiar. */
+/** The demo runs on a Thursday. Fixed date: a system whose content shifts with
+ *  the day of the presentation is impossible to rehearse. */
 export const TODAY = '2026-04-09'
 export const TERM = {
   current: 1,
   total: 2,
-  label: 'Bimestre 1 de 2 · 1º semestre de 2026',
-  short: 'Bimestre 1',
+  label: 'Term 1 of 2 · First semester 2026',
+  short: 'Term 1',
 }
 
 /* ------------------------------------------------------------------ *
- * Habilidades
+ * Skills
  *
- * A nota de inglês é composta das quatro habilidades mais o uso da língua.
- * Esta lista é a ordem canônica em toda tela — trocar a ordem em um lugar só
- * quebra a comparação entre telas.
+ * The English grade is made of the four skills plus use of English. This list
+ * is the canonical order on every screen — reordering it in one place breaks
+ * comparison across screens.
  * ------------------------------------------------------------------ */
 
 export interface Skill {
@@ -51,46 +54,46 @@ export function skillById(id: string): Skill {
 }
 
 /* ------------------------------------------------------------------ *
- * Turmas
+ * Classes
  *
- * Estágios de 1A a 6B: o número é o estágio e a letra é o semestre dentro
- * dele. 1–2 Básico, 3–4 Intermediário, 5–6 Avançado.
+ * Stages from 1A to 6B: the number is the stage and the letter is the semester
+ * within it. 1–2 Basic, 3–4 Intermediate, 5–6 Advanced.
  * ------------------------------------------------------------------ */
 
 export interface Turma {
   id: string
   /** "2A" */
   name: string
-  /** "Básico" */
+  /** "Basic" */
   stage: string
   shift: string
-  /** Dias e horário do encontro. */
+  /** Days and time the class meets. */
   schedule: string
 }
 
 export const TURMAS: Turma[] = [
-  { id: 't2a', name: '2A', stage: 'Básico', shift: 'Manhã', schedule: 'Ter e Qui · 07:30' },
-  { id: 't4b', name: '4B', stage: 'Intermediário', shift: 'Tarde', schedule: 'Ter e Qui · 14:00' },
+  { id: 't2a', name: '2A', stage: 'Basic', shift: 'Morning', schedule: 'Tue & Thu · 7:30 am' },
+  { id: 't4b', name: '4B', stage: 'Intermediate', shift: 'Afternoon', schedule: 'Tue & Thu · 2:00 pm' },
 ]
 
 export const TEACHER = {
   id: 'prof-1',
   name: 'Helena Vasconcelos',
-  role: 'Professora de Inglês',
+  role: 'English Teacher',
 }
 
 export const SCHOOL = {
+  /* Proper noun: the institution keeps its Brazilian name. */
   name: 'Centro Interescolar de Línguas',
   short: 'CIL',
-  course: 'Inglês',
+  course: 'English',
 }
 
 /* ------------------------------------------------------------------ *
- * Alunos
+ * Students
  *
- * [nome, média geral, % de frequência]. A curva é deliberada, com o corte de
- * aprovação em 5,0: ~20% excelente, ~57% aprovado, ~13% recuperável,
- * ~10% crítico.
+ * [name, overall average, attendance %]. The curve is deliberate, against the
+ * 5.0 passing cut: 16 excellent, 34 passing, 5 at risk, 5 critical.
  * ------------------------------------------------------------------ */
 
 type Row = [string, number, number]
@@ -166,16 +169,16 @@ export interface Student {
   name: string
   enrollment: string
   turmaId: string
-  /** Média do bimestre, 0–10, composta das cinco habilidades. */
+  /** Term average, 0–10, composed from the five skills. */
   average: number
-  /** Percentual de presença no bimestre. */
+  /** Attendance percentage for the term. */
   attendance: number
-  /** Nota por habilidade. */
+  /** Grade per skill. */
   bySkill: Record<string, number>
 }
 
-/** Variação determinística por aluno e habilidade: a mesma semente sempre
- *  devolve a mesma nota, então a demo é ensaiável. */
+/** Deterministic variation per student and skill: the same seed always returns
+ *  the same grade, so the demo can be rehearsed. */
 function jitter(seed: string): number {
   let h = 0
   for (let i = 0; i < seed.length; i += 1) h = (h * 31 + seed.charCodeAt(i)) % 1009
@@ -222,13 +225,13 @@ export function turmaById(id: string): Turma {
   return TURMAS.find((t) => t.id === id) ?? TURMAS[0]
 }
 
-/** "2A · Básico" — o rótulo canônico da turma fora da tabela. */
+/** "2A · Basic" — the canonical class label outside the table. */
 export function turmaLabel(turma: Turma): string {
   return `${turma.name} · ${turma.stage}`
 }
 
 /* ------------------------------------------------------------------ *
- * Distribuição e atenção
+ * Distribution and attention
  * ------------------------------------------------------------------ */
 
 export interface DistributionSlice {
@@ -251,8 +254,8 @@ export interface AttentionEntry {
   reason: AttentionReason
 }
 
-/** Entra na lista quem está abaixo da média de aprovação OU abaixo da
- *  frequência mínima. Pior caso primeiro. */
+/** A student enters the list when below the passing average OR below minimum
+ *  attendance. Worst case first. */
 export function attentionList(students: Student[]): AttentionEntry[] {
   return students
     .map((student) => {
@@ -268,7 +271,7 @@ export function attentionList(students: Student[]): AttentionEntry[] {
 }
 
 /* ------------------------------------------------------------------ *
- * Avisos
+ * Announcements
  * ------------------------------------------------------------------ */
 
 export type Priority = 'normal' | 'important'
@@ -286,27 +289,27 @@ export interface Announcement {
 export const ANNOUNCEMENTS: Announcement[] = [
   {
     id: 'av-1',
-    title: 'Rematrícula do 2º semestre entre 4 e 15 de maio',
-    body: 'A rematrícula é feita pelo próprio aluno na secretaria, no horário da aula. Quem perder o prazo concorre a vaga remanescente na chamada pública.',
-    author: 'Secretaria do CIL',
+    title: 'Re-enrollment for the second semester runs May 4 to 15',
+    body: 'Students re-enroll in person at the front office, during their own class time. Anyone who misses the window competes for leftover seats in the open call.',
+    author: 'CIL front office',
     date: '2026-04-08',
     priority: 'important',
     unread: true,
   },
   {
     id: 'av-2',
-    title: 'Speaking test dos estágios 4 a 6 na semana de 20 de abril',
-    body: 'As provas orais acontecem em duplas, no horário regular da turma. A banca é composta pelo professor da turma e mais um professor do estágio.',
-    author: 'Coordenação de Inglês',
+    title: 'Speaking tests for stages 4 to 6 in the week of April 20',
+    body: 'Oral exams are taken in pairs, during the regular class slot. The panel is the class teacher plus one other teacher from the same stage.',
+    author: 'English coordination',
     date: '2026-04-06',
     priority: 'normal',
     unread: true,
   },
   {
     id: 'av-3',
-    title: 'Clube de conversação abre inscrições',
-    body: 'Encontros às sextas, das 16h às 17h, abertos a alunos do estágio 3 em diante. São 20 vagas por semestre.',
-    author: 'Coordenação de Inglês',
+    title: 'Conversation club is open for sign-ups',
+    body: 'Fridays, 4 to 5 pm, open to students from stage 3 onwards. Twenty seats per semester.',
+    author: 'English coordination',
     date: '2026-04-02',
     priority: 'normal',
     unread: false,
@@ -314,7 +317,7 @@ export const ANNOUNCEMENTS: Announcement[] = [
 ]
 
 /* ------------------------------------------------------------------ *
- * Tarefas
+ * Assignments
  * ------------------------------------------------------------------ */
 
 export interface Assignment {
@@ -329,15 +332,15 @@ export interface Assignment {
 }
 
 export const ASSIGNMENTS: Assignment[] = [
-  { id: 'tf-1', title: 'Writing: e-mail informal para um amigo', skillId: 'writing', turmaId: 't2a', due: '2026-04-07', submitted: 27, total: 30, graded: 0 },
-  { id: 'tf-2', title: 'Use of English: past simple e past continuous', skillId: 'use', turmaId: 't2a', due: '2026-04-10', submitted: 18, total: 30, graded: 0 },
-  { id: 'tf-3', title: 'Listening: entrevista sobre rotina de trabalho', skillId: 'listening', turmaId: 't4b', due: '2026-04-09', submitted: 24, total: 30, graded: 0 },
-  { id: 'tf-4', title: 'Reading: artigo sobre mudanças climáticas', skillId: 'reading', turmaId: 't4b', due: '2026-04-14', submitted: 6, total: 30, graded: 0 },
-  { id: 'tf-5', title: 'Speaking: apresentação sobre a própria cidade', skillId: 'speaking', turmaId: 't2a', due: '2026-04-03', submitted: 30, total: 30, graded: 30 },
+  { id: 'tf-1', title: 'Writing: an informal email to a friend', skillId: 'writing', turmaId: 't2a', due: '2026-04-07', submitted: 27, total: 30, graded: 0 },
+  { id: 'tf-2', title: 'Use of English: past simple and past continuous', skillId: 'use', turmaId: 't2a', due: '2026-04-10', submitted: 18, total: 30, graded: 0 },
+  { id: 'tf-3', title: 'Listening: interview about a work routine', skillId: 'listening', turmaId: 't4b', due: '2026-04-09', submitted: 24, total: 30, graded: 0 },
+  { id: 'tf-4', title: 'Reading: article on climate change', skillId: 'reading', turmaId: 't4b', due: '2026-04-14', submitted: 6, total: 30, graded: 0 },
+  { id: 'tf-5', title: 'Speaking: a talk about your own city', skillId: 'speaking', turmaId: 't2a', due: '2026-04-03', submitted: 30, total: 30, graded: 30 },
 ]
 
 /* ------------------------------------------------------------------ *
- * Ocorrências
+ * Incidents
  * ------------------------------------------------------------------ */
 
 export type Severity = 'light' | 'medium' | 'serious'
@@ -349,27 +352,27 @@ export interface Incident {
   kind: string
   severity: Severity
   note: string
-  /** Providência tomada e registrada. */
+  /** Follow-up taken and recorded. */
   handled: boolean
 }
 
 export const INCIDENTS: Incident[] = [
-  { id: 'oc-1', studentId: 't2a-17', date: '2026-04-07', kind: 'Faltas seguidas', severity: 'serious', note: 'Quarta ausência consecutiva sem justificativa. Risco de perder a vaga no semestre.', handled: false },
-  { id: 'oc-2', studentId: 't4b-18', date: '2026-04-06', kind: 'Tarefas não entregues', severity: 'medium', note: 'Três tarefas de Use of English em aberto no bimestre.', handled: false },
-  { id: 'oc-3', studentId: 't2a-25', date: '2026-04-01', kind: 'Saída antecipada', severity: 'light', note: 'Saiu às 08:40 com autorização do responsável.', handled: true },
-  { id: 'oc-4', studentId: 't4b-25', date: '2026-03-31', kind: 'Faltas seguidas', severity: 'serious', note: 'Ausente em cinco das últimas oito aulas. Secretaria acionou a escola de origem.', handled: false },
-  { id: 'oc-5', studentId: 't2a-8', date: '2026-03-26', kind: 'Desempenho em queda', severity: 'medium', note: 'Média caiu de 5,4 para 3,6 entre as duas avaliações de Use of English.', handled: false },
-  { id: 'oc-6', studentId: 't4b-4', date: '2026-03-24', kind: 'Uso de celular em prova', severity: 'medium', note: 'Consultou tradutor durante o reading test. Avaliação refeita na aula seguinte.', handled: true },
-  { id: 'oc-7', studentId: 't2a-21', date: '2026-03-19', kind: 'Atrasos recorrentes', severity: 'light', note: 'Sexto atraso acima de quinze minutos no bimestre.', handled: true },
-  { id: 'oc-8', studentId: 't4b-18', date: '2026-03-17', kind: 'Conversa em sala', severity: 'light', note: 'Conversa paralela durante o listening. Combinado feito com a turma.', handled: true },
-  { id: 'oc-9', studentId: 't2a-13', date: '2026-03-12', kind: 'Speaking não realizado', severity: 'medium', note: 'Faltou à prova oral sem justificativa. Reagendada para 24 de março.', handled: true },
-  { id: 'oc-10', studentId: 't4b-8', date: '2026-03-05', kind: 'Atrasos recorrentes', severity: 'light', note: 'Chega junto com o fim do warm-up desde o início do bimestre.', handled: false },
-  { id: 'oc-11', studentId: 't2a-11', date: '2026-02-26', kind: 'Elogio em ata', severity: 'light', note: 'Assumiu a monitoria do grupo de conversação sem ser solicitada.', handled: true },
-  { id: 'oc-12', studentId: 't4b-22', date: '2026-02-19', kind: 'Material incompleto', severity: 'light', note: 'Sem o workbook há três aulas. Responsável avisado pela secretaria.', handled: true },
+  { id: 'oc-1', studentId: 't2a-17', date: '2026-04-07', kind: 'Consecutive absences', severity: 'serious', note: 'Fourth absence in a row with no excuse. At risk of losing the seat this semester.', handled: false },
+  { id: 'oc-2', studentId: 't4b-18', date: '2026-04-06', kind: 'Missing assignments', severity: 'medium', note: 'Three Use of English assignments still open this term.', handled: false },
+  { id: 'oc-3', studentId: 't2a-25', date: '2026-04-01', kind: 'Early dismissal', severity: 'light', note: 'Left at 8:40 am with guardian authorisation.', handled: true },
+  { id: 'oc-4', studentId: 't4b-25', date: '2026-03-31', kind: 'Consecutive absences', severity: 'serious', note: 'Absent from five of the last eight classes. The front office contacted the home school.', handled: false },
+  { id: 'oc-5', studentId: 't2a-8', date: '2026-03-26', kind: 'Falling performance', severity: 'medium', note: 'Average dropped from 5.4 to 3.6 between the two Use of English assessments.', handled: false },
+  { id: 'oc-6', studentId: 't4b-4', date: '2026-03-24', kind: 'Phone use during a test', severity: 'medium', note: 'Used a translator during the reading test. Assessment retaken in the next class.', handled: true },
+  { id: 'oc-7', studentId: 't2a-21', date: '2026-03-19', kind: 'Repeated lateness', severity: 'light', note: 'Sixth arrival more than fifteen minutes late this term.', handled: true },
+  { id: 'oc-8', studentId: 't4b-18', date: '2026-03-17', kind: 'Talking in class', severity: 'light', note: 'Side conversation during the listening task. Agreement made with the class.', handled: true },
+  { id: 'oc-9', studentId: 't2a-13', date: '2026-03-12', kind: 'Missed speaking test', severity: 'medium', note: 'Missed the oral exam with no excuse. Rescheduled for March 24.', handled: true },
+  { id: 'oc-10', studentId: 't4b-8', date: '2026-03-05', kind: 'Repeated lateness', severity: 'light', note: 'Has been arriving as the warm-up ends since the term started.', handled: false },
+  { id: 'oc-11', studentId: 't2a-11', date: '2026-02-26', kind: 'Commendation', severity: 'light', note: 'Took over as mentor for the conversation group without being asked.', handled: true },
+  { id: 'oc-12', studentId: 't4b-22', date: '2026-02-19', kind: 'Incomplete materials', severity: 'light', note: 'Without the workbook for three classes. Guardian notified by the front office.', handled: true },
 ]
 
 /* ------------------------------------------------------------------ *
- * Chamada
+ * Roll call
  * ------------------------------------------------------------------ */
 
 export interface RollCallState {
@@ -380,12 +383,12 @@ export interface RollCallState {
 }
 
 /* ------------------------------------------------------------------ *
- * O aluno que a demo mostra quando o perfil é "student"
+ * The student the demo shows when the profile is "student"
  * ------------------------------------------------------------------ */
 
-/** Escolhido de propósito logo acima do corte de aprovação, com uma
- *  habilidade em recuperação e uma tarefa vencendo: um painel de aluno
- *  perfeito não demonstra nada. */
+/** Chosen deliberately just above the passing cut, with one skill at risk and
+ *  one assignment coming due: a flawless student dashboard demonstrates
+ *  nothing. */
 export const DEMO_STUDENT_ID = 't2a-19' // Lucas Almeida Tavares
 
 export function studentById(id: string): Student {

@@ -15,9 +15,9 @@ export function Turmas() {
   return (
     <>
       <PageHeader
-        title="Turmas"
-        subtitle={`${SCHOOL.course} · ${TERM.label} · ${SESSIONS.length} aulas dadas`}
-        crumbs={[{ label: 'Painel', to: '/painel' }, { label: 'Turmas' }]}
+        title="Classes"
+        subtitle={`${SCHOOL.course} · ${TERM.label} · ${SESSIONS.length} classes held`}
+        crumbs={[{ label: 'Dashboard', to: '/dashboard' }, { label: 'Classes' }]}
       />
       <div className="grid gap-6 xl:grid-cols-2">
         {TURMAS.map((turma) => (
@@ -45,7 +45,7 @@ function TurmaCard({ turma }: { turma: Turma }) {
         <div className="flex flex-wrap gap-x-8 gap-y-3 text-body text-secondary">
           <span className="flex items-center gap-2">
             <Users size={16} className="text-muted" aria-hidden="true" />
-            {plural(students.length, 'aluno', 'alunos')}
+            {plural(students.length, 'student', 'students')}
           </span>
           <span className="flex items-center gap-2">
             <CalendarClock size={16} className="text-muted" aria-hidden="true" />
@@ -54,11 +54,11 @@ function TurmaCard({ turma }: { turma: Turma }) {
         </div>
 
         <div className="flex flex-col gap-3">
-          <GradeBar value={average} label={`Média da turma ${turma.name}`} className="w-full" />
+          <GradeBar value={average} label={`Average for class ${turma.name}`} className="w-full" />
           <GradeBar
             value={attendance}
             kind="attendance"
-            label={`Frequência da turma ${turma.name}`}
+            label={`Attendance for class ${turma.name}`}
             className="w-full"
           />
         </div>
@@ -87,7 +87,7 @@ function TurmaCard({ turma }: { turma: Turma }) {
         </div>
 
         <div className="mt-auto">
-          <p className="text-label text-muted">Maiores médias</p>
+          <p className="text-label text-muted">Top averages</p>
           <ul className="mt-2 flex flex-wrap gap-2">
             {top.map((student) => (
               <li
@@ -105,16 +105,16 @@ function TurmaCard({ turma }: { turma: Turma }) {
 
         <div className="flex flex-wrap gap-2">
           <Link
-            to={`/notas?turma=${turma.id}`}
+            to={`/grades?class=${turma.id}`}
             className="inline-flex h-10 items-center rounded-md border border-default px-4 text-body font-medium text-primary no-underline hover:border-strong"
           >
-            Lançar notas
+            Enter grades
           </Link>
           <Link
-            to={`/faltas?turma=${turma.id}`}
+            to={`/attendance?class=${turma.id}`}
             className="inline-flex h-10 items-center rounded-md border border-default px-4 text-body font-medium text-primary no-underline hover:border-strong"
           >
-            Ver frequência
+            View attendance
           </Link>
         </div>
       </CardBody>

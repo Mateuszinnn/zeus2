@@ -9,10 +9,10 @@ import { plural } from '@/lib/format'
 import { delay } from '@/mocks/delay'
 import { studentsOf, type Turma } from '@/mocks/data'
 
-/* A interação assinatura.
+/* The signature interaction.
  *
- * O cartão de pendência se desdobra AQUI MESMO em toda a turma. Nada de modal,
- * nada de outra rota: ler e agir são dois modos do mesmo objeto. */
+ * The pending card unfolds RIGHT HERE into the whole class. No modal, no other
+ * route: reading and acting are two modes of the same object. */
 
 interface RollCallPanelProps {
   turma: Turma
@@ -45,8 +45,8 @@ export function RollCallPanel({ turma, onClose, onSaved }: RollCallPanelProps) {
     setSaving(false)
     toast(
       absent === 0
-        ? `Chamada do ${turma.name} salva. Turma completa.`
-        : `Chamada do ${turma.name} salva. ${plural(absent, 'ausente', 'ausentes')}.`,
+        ? `Roll call for ${turma.name} saved. Full attendance.`
+        : `Roll call for ${turma.name} saved. ${plural(absent, 'student absent', 'students absent')}.`,
     )
     onSaved()
   }
@@ -55,16 +55,16 @@ export function RollCallPanel({ turma, onClose, onSaved }: RollCallPanelProps) {
     <div className="rounded-xl border border-accent bg-surface shadow-sm">
       <header className="flex flex-wrap items-center justify-between gap-3 border-b border-default px-6 py-5">
         <div className="flex items-baseline gap-3">
-          <h3 className="text-h3 text-primary">Chamada · {turma.name}</h3>
+          <h3 className="text-h3 text-primary">Roll call · {turma.name}</h3>
           <span className="text-caption text-muted">
             {remaining > 0
-              ? `${plural(remaining, 'aluno sem marcar', 'alunos sem marcar')}`
-              : `${present} presentes · ${absent} ausentes`}
+              ? `${plural(remaining, 'student not marked', 'students not marked')}`
+              : `${present} present · ${absent} absent`}
           </span>
         </div>
         <div className="flex items-center gap-2">
           <Button size="sm" variant="ghost" onClick={markAllPresent}>
-            Marcar todos presentes
+            Mark all present
           </Button>
           <Button
             size="sm"
@@ -73,12 +73,12 @@ export function RollCallPanel({ turma, onClose, onSaved }: RollCallPanelProps) {
             disabled={marked === 0}
             onClick={save}
           >
-            Salvar chamada
+            Save roll call
           </Button>
           <button
             type="button"
             onClick={onClose}
-            aria-label="Fechar chamada"
+            aria-label="Close roll call"
             className="rounded-md p-2 text-muted transition-colors hover:bg-gray-20 hover:text-primary"
           >
             <X size={16} />
@@ -108,13 +108,13 @@ export function RollCallPanel({ turma, onClose, onSaved }: RollCallPanelProps) {
                   unmarked ? 'text-disabled' : state ? 'text-success-ink' : 'text-error-ink',
                 )}
               >
-                {unmarked ? 'sem marcar' : state ? 'presente' : 'ausente'}
+                {unmarked ? 'not marked' : state ? 'present' : 'absent'}
               </span>
               <Toggle
                 checked={state === true}
                 indeterminate={unmarked}
                 onChange={(next) => set(student.id, next)}
-                label={`${student.name}: marcar presença`}
+                label={`${student.name}: mark present`}
               />
             </li>
           )
@@ -123,7 +123,7 @@ export function RollCallPanel({ turma, onClose, onSaved }: RollCallPanelProps) {
 
       <footer className="flex items-center gap-2 border-t border-default px-6 py-4 text-caption text-muted">
         <Check size={14} className="text-success" aria-hidden="true" />
-        {present} presentes · {absent} ausentes · {remaining} sem marcar
+        {present} present · {absent} absent · {remaining} not marked
       </footer>
     </div>
   )

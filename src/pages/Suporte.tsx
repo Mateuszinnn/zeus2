@@ -10,8 +10,8 @@ import { delay } from '@/mocks/delay'
 import { SCHOOL, TEACHER } from '@/mocks/data'
 import { useSession } from '@/mocks/session'
 
-/* As três telas do rodapé da faixa de navegação. Existem porque o menu as
- * oferece, e um item de menu que não leva a lugar nenhum quebra a demo. */
+/* The three screens in the navigation footer. They exist because the menu
+ * offers them, and a menu item that leads nowhere breaks the demo. */
 
 export function Configuracoes() {
   const { name, subtitle } = useSession()
@@ -25,52 +25,52 @@ export function Configuracoes() {
     setSaving(true)
     await delay()
     setSaving(false)
-    toast('Preferências salvas.')
+    toast('Preferences saved.')
   }
 
   return (
     <>
       <PageHeader
-        title="Configurações"
-        subtitle="Preferências da sua conta no Zeus"
-        crumbs={[{ label: 'Configurações' }]}
+        title="Settings"
+        subtitle="Preferences for your Zeus account"
+        crumbs={[{ label: 'Settings' }]}
       />
 
       <div className="flex flex-col gap-6">
         <Card>
-          <CardHeader title="Conta" />
+          <CardHeader title="Account" />
           <CardBody className="grid gap-6 sm:grid-cols-2">
-            <ReadOnlyField label="Nome" value={name} />
-            <ReadOnlyField label="Perfil" value={subtitle} />
-            <ReadOnlyField label="Unidade" value={`${SCHOOL.name} · ${SCHOOL.course}`} />
+            <ReadOnlyField label="Name" value={name} />
+            <ReadOnlyField label="Profile" value={subtitle} />
+            <ReadOnlyField label="Unit" value={`${SCHOOL.name} · ${SCHOOL.course}`} />
           </CardBody>
         </Card>
 
         <Card>
-          <CardHeader title="Notificações" />
+          <CardHeader title="Notifications" />
           <ul className="divide-y divide-default">
             <SettingRow
-              title="Avisar por e-mail"
-              description="Receber um e-mail quando a coordenação publicar um aviso importante."
+              title="Email me"
+              description="Get an email when the coordination posts an important announcement."
               checked={emailAlerts}
               onChange={setEmailAlerts}
             />
             <SettingRow
-              title="Resumo semanal"
-              description="Um resumo às sextas com as pendências da semana seguinte."
+              title="Weekly digest"
+              description="A Friday digest of what is pending for the week ahead."
               checked={weeklyDigest}
               onChange={setWeeklyDigest}
             />
             <SettingRow
-              title="Modo econômico"
-              description="Carregar menos elementos visuais em conexões lentas."
+              title="Data saver"
+              description="Load fewer visual elements on slow connections."
               checked={reducedData}
               onChange={setReducedData}
             />
           </ul>
           <CardBody className="border-t border-default">
             <Button variant="primary" loading={saving} onClick={save}>
-              Salvar preferências
+              Save preferences
             </Button>
           </CardBody>
         </Card>
@@ -103,20 +103,20 @@ function SettingRow({
 
 const FAQ = [
   {
-    q: 'Como a média de inglês é calculada?',
-    a: 'A média sai das cinco habilidades — Listening, Speaking, Reading, Writing e Use of English — com o mesmo peso para cada uma. Ela nunca é digitada diretamente: mude uma habilidade e a média se refaz.',
+    q: 'How is the English average calculated?',
+    a: 'The average comes from the five skills — Listening, Speaking, Reading, Writing and Use of English — each weighted the same. It is never typed directly: change one skill and the average is recomputed.',
   },
   {
-    q: 'Qual é a média de aprovação?',
-    a: 'A média de aprovação é 5,0 e a frequência mínima é 75% das aulas do bimestre. Abaixo de 4,0 o aluno aparece como crítico na lista de atenção do painel.',
+    q: 'What is the passing average?',
+    a: 'The passing average is 5.0 and minimum attendance is 75% of the classes in the term. Below 4.0 a student shows up as critical in the attention list on the dashboard.',
   },
   {
-    q: 'Posso lançar nota direto na tabela?',
-    a: 'Sim. Na tela de Notas, clique sobre a nota e edite ali mesmo. Aceita vírgula ou ponto, Enter confirma e Esc cancela.',
+    q: 'Can I enter grades straight into the table?',
+    a: 'Yes. On the Grades screen, click the grade and edit it in place. It accepts a comma or a dot, Enter confirms and Esc cancels.',
   },
   {
-    q: 'O que acontece se eu errar a chamada?',
-    a: 'Refaça a chamada do dia pela tela de Faltas. O histórico do bimestre é recalculado na hora.',
+    q: 'What if I get the roll call wrong?',
+    a: 'Take the roll call again from the Attendance screen. The term history is recomputed immediately.',
   },
 ]
 
@@ -124,12 +124,12 @@ export function Ajuda() {
   return (
     <>
       <PageHeader
-        title="Ajuda"
-        subtitle="As dúvidas que mais aparecem no dia a dia"
-        crumbs={[{ label: 'Ajuda' }]}
+        title="Help"
+        subtitle="The questions that come up most day to day"
+        crumbs={[{ label: 'Help' }]}
       />
       <Card>
-        <CardHeader title="Perguntas frequentes" />
+        <CardHeader title="Frequently asked questions" />
         <ul className="divide-y divide-default">
           {FAQ.map((item) => (
             <li key={item.q} className="px-6 py-5">
@@ -144,7 +144,7 @@ export function Ajuda() {
 }
 
 export function Contato() {
-  const [subject, setSubject] = useState('duvida')
+  const [subject, setSubject] = useState('question')
   const [message, setMessage] = useState('')
   const [error, setError] = useState<string | null>(null)
   const [sending, setSending] = useState(false)
@@ -152,13 +152,13 @@ export function Contato() {
 
   async function send() {
     if (message.trim().length < 10) {
-      setError('Escreva um pouco mais para a secretaria entender o pedido.')
+      setError('Write a little more so the front office can understand the request.')
       return
     }
     setSending(true)
     await delay()
     setSending(false)
-    toast('Mensagem enviada para a secretaria.')
+    toast('Message sent to the front office.')
     setMessage('')
     setError(null)
   }
@@ -166,30 +166,30 @@ export function Contato() {
   return (
     <>
       <PageHeader
-        title="Contato"
-        subtitle="Falar com a secretaria do CIL"
-        crumbs={[{ label: 'Contato' }]}
+        title="Accountct"
+        subtitle="Get in touch with the CIL front office"
+        crumbs={[{ label: 'Accountct' }]}
       />
 
       <div className="grid gap-6 xl:grid-cols-2">
         <Card>
-          <CardHeader title="Enviar uma mensagem" />
+          <CardHeader title="Send a message" />
           <CardBody className="flex flex-col gap-5">
-            <Field label="Assunto" required>
+            <Field label="Subject" required>
               {(props) => (
                 <NativeSelect
                   {...props}
                   value={subject}
                   onChange={(e) => setSubject(e.target.value)}
                 >
-                  <option value="duvida">Dúvida sobre o sistema</option>
-                  <option value="matricula">Matrícula e rematrícula</option>
-                  <option value="nota">Correção de nota ou frequência</option>
-                  <option value="outro">Outro assunto</option>
+                  <option value="question">Question about the system</option>
+                  <option value="enrollment">Enrollment and re-enrollment</option>
+                  <option value="grade">Grade or attendance correction</option>
+                  <option value="other">Other</option>
                 </NativeSelect>
               )}
             </Field>
-            <Field label="Mensagem" required error={error ?? undefined}>
+            <Field label="Message" required error={error ?? undefined}>
               {(props) => (
                 <TextArea
                   {...props}
@@ -202,9 +202,9 @@ export function Contato() {
                 />
               )}
             </Field>
-            <Field label="Responder para">
+            <Field label="Reply to">
               {(props) => (
-                <TextInput {...props} defaultValue="helena.vasconcelos@cil.exemplo.br" />
+                <TextInput {...props} defaultValue="helena.vasconcelos@cil.example.br" />
               )}
             </Field>
             <div>
@@ -216,18 +216,18 @@ export function Contato() {
         </Card>
 
         <Card className="h-fit">
-          <CardHeader title="Secretaria" />
+          <CardHeader title="Front office" />
           <CardBody className="flex flex-col gap-4">
-            <Line icon={<MapPin size={16} />} label="Endereço" value={`${SCHOOL.name} — unidade de demonstração`} />
-            <Line icon={<Phone size={16} />} label="Telefone" value="(61) 3000-0000" />
-            <Line icon={<Mail size={16} />} label="E-mail" value="secretaria@cil.exemplo.br" />
+            <Line icon={<MapPin size={16} />} label="Address" value={`${SCHOOL.name} — demonstration unit`} />
+            <Line icon={<Phone size={16} />} label="Phone" value="(61) 3000-0000" />
+            <Line icon={<Mail size={16} />} label="E-mail" value="frontoffice@cil.example.br" />
             <Line
               icon={<Mail size={16} />}
-              label="Coordenação de inglês"
-              value={`${TEACHER.name} responde pela coordenação neste semestre`}
+              label="English coordination"
+              value={`${TEACHER.name} is acting coordinator this semester`}
             />
             <p className="mt-2 text-caption text-muted">
-              Dados de contato fictícios, usados apenas nesta demonstração.
+              Fictional contact details, used for this demonstration only.
             </p>
           </CardBody>
         </Card>

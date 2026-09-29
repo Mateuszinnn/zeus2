@@ -17,42 +17,43 @@ export function MinhasNotas() {
   return (
     <>
       <PageHeader
-        title="Minhas notas"
+        title="My grades"
         subtitle={`${TERM.label} · ${turmaLabel(turmaOf(student))}`}
-        crumbs={[{ label: 'Meu painel', to: '/meu-painel' }, { label: 'Minhas notas' }]}
+        crumbs={[{ label: 'My dashboard', to: '/my-dashboard' }, { label: 'My grades' }]}
       />
 
       <div className="flex flex-col gap-6">
         <Card>
           <CardHeader
-            title="Minha média"
+            title="My average"
             meta={
               <StatusBadge tone={average >= PASSING_GRADE ? 'success' : 'error'}>
-                {average >= PASSING_GRADE ? 'Acima da média de aprovação' : 'Abaixo da média'}
+                {average >= PASSING_GRADE ? 'Above the passing average' : 'Below average'}
               </StatusBadge>
             }
           />
           <CardBody className="flex flex-col gap-5">
             <div className="flex flex-wrap items-end gap-x-10 gap-y-4">
               <div>
-                <p className="text-caption text-muted">Média do bimestre</p>
+                <p className="text-caption text-muted">Term average</p>
                 <p className="mt-0.5 text-display text-primary">{fmtGrade(average)}</p>
               </div>
               <div>
-                <p className="text-caption text-muted">Média de aprovação</p>
+                <p className="text-caption text-muted">Passing average</p>
                 <p className="mt-0.5 text-h2 text-secondary">{fmtGrade(PASSING_GRADE)}</p>
               </div>
             </div>
             <p className="max-w-[65ch] text-body text-secondary">
-              Sua média sai das cinco habilidades abaixo, com o mesmo peso para cada uma. Hoje a
-              que mais puxa para baixo é <strong className="text-primary">{weakest.name}</strong>,
-              com {fmtGrade(student.bySkill[weakest.id])}.
+              Your average comes from the five skills below, each weighted the same. The one
+              pulling it down the most right now is{' '}
+              <strong className="text-primary">{weakest.name}</strong>, at{' '}
+              {fmtGrade(student.bySkill[weakest.id])}.
             </p>
           </CardBody>
         </Card>
 
         <Card>
-          <CardHeader title="Por habilidade" meta={<span className="text-caption text-muted">{TERM.short}</span>} />
+          <CardHeader title="By skill" meta={<span className="text-caption text-muted">{TERM.short}</span>} />
           <ul className="divide-y divide-default">
             {SKILLS.map((skill) => {
               const score = student.bySkill[skill.id]

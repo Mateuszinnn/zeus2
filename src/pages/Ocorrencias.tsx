@@ -27,9 +27,9 @@ import {
 const ALL = 'all'
 
 const SEVERITY_LABEL: Record<Severity, string> = {
-  light: 'Leve',
-  medium: 'Média',
-  serious: 'Grave',
+  light: 'Low',
+  medium: 'Average',
+  serious: 'High',
 }
 
 const SEVERITY_TONE: Record<Severity, 'neutral' | 'warning' | 'error'> = {
@@ -71,43 +71,43 @@ export function Ocorrencias() {
   return (
     <>
       <PageHeader
-        title="Ocorrências"
+        title="Incidents"
         subtitle={`${TERM.label} · registro do que precisa de acompanhamento`}
-        crumbs={[{ label: 'Painel', to: '/painel' }, { label: 'Ocorrências' }]}
+        crumbs={[{ label: 'Dashboard', to: '/dashboard' }, { label: 'Incidents' }]}
       />
 
       <Card>
         <CardHeader
-          title={turma === ALL ? 'Todas as turmas' : turmaById(turma).name}
+          title={turma === ALL ? 'All classes' : turmaById(turma).name}
           meta={
             <span className="text-caption text-muted">
-              {rows.length} registros · {pending} sem providência
+              {rows.length} records · {pending} without follow-up
             </span>
           }
           actions={
             <div className="flex flex-wrap gap-2">
               <Select
-                label="Filtrar por turma"
+                label="Filter by class"
                 value={turma}
                 onChange={setTurma}
                 options={[
-                  { value: ALL, label: 'Todas as turmas' },
+                  { value: ALL, label: 'All classes' },
                   ...TURMAS.map((t) => ({ value: t.id, label: `${t.name} · ${t.stage}` })),
                 ]}
               />
               <Select
-                label="Filtrar por gravidade"
+                label="Filter by severity"
                 value={severity}
                 onChange={setSeverity}
                 options={[
-                  { value: ALL, label: 'Todas as gravidades' },
-                  { value: 'serious', label: 'Grave' },
-                  { value: 'medium', label: 'Média' },
-                  { value: 'light', label: 'Leve' },
+                  { value: ALL, label: 'All severities' },
+                  { value: 'serious', label: 'High' },
+                  { value: 'medium', label: 'Average' },
+                  { value: 'light', label: 'Low' },
                 ]}
               />
               <Button variant="primary" icon={<Plus size={16} />} onClick={() => setComposing(true)}>
-                Nova ocorrência
+                New incident
               </Button>
             </div>
           }
@@ -122,8 +122,8 @@ export function Ocorrencias() {
         ) : rows.length === 0 ? (
           <EmptyState
             icon={<ShieldCheck size={40} />}
-            title="Nenhuma ocorrência nestes filtros"
-            description="Nada foi registrado para a turma e a gravidade escolhidas neste bimestre."
+            title="No incidents under these filters"
+            description="Nothing was recorded for the chosen class and severity this term."
           />
         ) : (
           <ul className="divide-y divide-default">
@@ -154,7 +154,7 @@ export function Ocorrencias() {
                       {SEVERITY_LABEL[incident.severity]}
                     </StatusBadge>
                     <StatusBadge tone={incident.handled ? 'success' : 'warning'}>
-                      {incident.handled ? 'Providência tomada' : 'Sem providência'}
+                      {incident.handled ? 'Followed up' : 'No follow-up'}
                     </StatusBadge>
                     <ChevronDown
                       size={16}
@@ -181,7 +181,7 @@ export function Ocorrencias() {
                             )
                           }
                         >
-                          Marcar providência tomada
+                          Mark as followed up
                         </Button>
                       )}
                     </div>
@@ -221,7 +221,7 @@ function NewIncident({
 
   async function save() {
     if (kind.trim() === '') {
-      setError('Descreva o tipo da ocorrência em poucas palavras.')
+      setError('Describe the type of incident in a few words.')
       return
     }
     setSaving(true)
@@ -232,11 +232,11 @@ function NewIncident({
       date: new Date().toISOString().slice(0, 10),
       kind: kind.trim(),
       severity,
-      note: note.trim() || 'Sem descrição adicional.',
+      note: note.trim() || 'No further description.',
       handled: false,
     })
     setSaving(false)
-    toast(`Ocorrência registrada para ${studentById(studentId).name}.`)
+    toast(`Incident recorded for ${studentById(studentId).name}.`)
     setKind('')
     setNote('')
     setError(null)
@@ -247,7 +247,7 @@ function NewIncident({
     <Modal
       open={open}
       onClose={onClose}
-      title="Nova ocorrência"
+      title="New incident"
       footer={
         <>
           <Button variant="ghost" onClick={onClose}>
@@ -260,7 +260,7 @@ function NewIncident({
       }
     >
       <div className="flex flex-col gap-5">
-        <Field label="Aluno" required>
+        <Field label="Student" required>
           {(props) => (
             <NativeSelect
               {...props}
@@ -276,7 +276,7 @@ function NewIncident({
           )}
         </Field>
 
-        <Field label="Tipo" required error={error ?? undefined} hint="Ex.: atrasos recorrentes">
+        <Field label="Type" required error={error ?? undefined} hint="Ex.: atrasos recorrentes">
           {(props) => (
             <TextInput
               {...props}
@@ -290,21 +290,21 @@ function NewIncident({
           )}
         </Field>
 
-        <Field label="Gravidade" required>
+        <Field label="Severity" required>
           {(props) => (
             <NativeSelect
               {...props}
               value={severity}
               onChange={(e) => setSeverity(e.target.value as Severity)}
             >
-              <option value="light">Leve</option>
-              <option value="medium">Média</option>
-              <option value="serious">Grave</option>
+              <option value="light">Low</option>
+              <option value="medium">Average</option>
+              <option value="serious">High</option>
             </NativeSelect>
           )}
         </Field>
 
-        <Field label="Descrição e providências">
+        <Field label="Description and follow-up">
           {(props) => (
             <TextArea {...props} value={note} onChange={(e) => setNote(e.target.value)} />
           )}

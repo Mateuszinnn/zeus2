@@ -177,6 +177,7 @@ const ORIGIN_SCHOOLS = [
   'CEF Polivalente',
 ]
 
+/* Proper nouns: districts and schools keep their Brazilian names. */
 const NEIGHBORHOODS = ['Asa Norte', 'Asa Sul', 'Cruzeiro', 'Guará', 'Sudoeste', 'Lago Norte']
 
 function buildEnrollments(): Enrollment[] {
@@ -201,7 +202,8 @@ function buildEnrollments(): Enrollment[] {
       email: `${first}.${last}@aluno.exemplo.br`,
       originSchool: ORIGIN_SCHOOLS[h % ORIGIN_SCHOOLS.length],
       neighborhood: NEIGHBORHOODS[h % NEIGHBORHOODS.length],
-      shiftAtOrigin: TURMAS.find((t) => t.id === student.turmaId)?.shift === 'Manhã' ? 'Tarde' : 'Manhã',
+      shiftAtOrigin:
+        TURMAS.find((t) => t.id === student.turmaId)?.shift === 'Morning' ? 'Afternoon' : 'Morning',
     }
   })
 }
@@ -224,7 +226,7 @@ export function enrollmentOf(studentId: string): Enrollment {
 }
 
 export const STATUS_LABEL: Record<EnrollmentStatus, string> = {
-  active: 'Ativa',
-  locked: 'Trancada',
-  transferred: 'Transferida',
+  active: 'Active',
+  locked: 'On hold',
+  transferred: 'Transferred',
 }

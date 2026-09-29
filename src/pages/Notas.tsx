@@ -42,7 +42,7 @@ type SortKey = 'name' | 'enrollment' | 'turma' | 'average' | string
 export function Notas() {
   const [params, setParams] = useSearchParams()
   const [loading, setLoading] = useState(true)
-  const [turma, setTurma] = useState(params.get('turma') ?? ALL)
+  const [turma, setTurma] = useState(params.get('class') ?? ALL)
   const [skill, setSkill] = useState(ALL)
   const [sortKey, setSortKey] = useState<SortKey>('name')
   const [sortDirection, setSortDirection] = useState<SortDirection>('asc')
@@ -65,8 +65,8 @@ export function Notas() {
   // turma que ele estava olhando.
   useEffect(() => {
     const next = new URLSearchParams(params)
-    if (turma === ALL) next.delete('turma')
-    else next.set('turma', turma)
+    if (turma === ALL) next.delete('class')
+    else next.set('class', turma)
     setParams(next, { replace: true })
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [turma])
@@ -120,7 +120,7 @@ export function Notas() {
   const identityColumns: Column<Student>[] = [
     {
       key: 'name',
-      header: 'Nome',
+      header: 'Name',
       sortable: true,
       cell: (student) => (
         <span className="flex items-center gap-3">
@@ -131,14 +131,14 @@ export function Notas() {
     },
     {
       key: 'enrollment',
-      header: 'Matrícula',
+      header: 'Student ID',
       sortable: true,
       width: 'w-28',
       cell: (student) => <span className="text-secondary">{student.enrollment}</span>,
     },
     {
       key: 'turma',
-      header: 'Turma',
+      header: 'Class',
       sortable: true,
       width: 'w-24',
       cell: (student) => <span className="text-secondary">{turmaById(student.turmaId).name}</span>,
@@ -169,7 +169,7 @@ export function Notas() {
              * média não cabia e era cortada na borda do cartão. Número mais
              * pílula da faixa entregam a mesma leitura no espaço que existe. */
             key: 'average',
-            header: 'Média',
+            header: 'Average',
             sortable: true,
             align: 'right',
             width: 'w-36',
@@ -192,7 +192,7 @@ export function Notas() {
           },
           {
             key: 'average',
-            header: 'Média',
+            header: 'Average',
             sortable: true,
             width: 'w-28',
             align: 'right',
@@ -205,45 +205,45 @@ export function Notas() {
   return (
     <>
       <PageHeader
-        title="Notas"
+        title="Grades"
         subtitle={`${SCHOOL.course} · ${TERM.label}`}
-        crumbs={[{ label: 'Painel', to: '/painel' }, { label: 'Notas' }]}
+        crumbs={[{ label: 'Dashboard', to: '/dashboard' }, { label: 'Grades' }]}
       />
 
       <Card>
         <CardHeader
-          title={turma === ALL ? 'Todas as turmas' : turmaLabel(turmaById(turma))}
+          title={turma === ALL ? 'All classes' : turmaLabel(turmaById(turma))}
           meta={
             <span className="text-caption text-muted">
-              {rows.length} alunos · {TERM.short}
+              {rows.length} students · {TERM.short}
             </span>
           }
           actions={
             <div className="flex flex-wrap gap-2">
               <Select
-                label="Filtrar por turma"
+                label="Filter by class"
                 value={turma}
                 onChange={(next) => {
                   setTurma(next)
                   setPage(1)
                 }}
                 options={[
-                  { value: ALL, label: 'Todas as turmas' },
+                  { value: ALL, label: 'All classes' },
                   ...TURMAS.map((t) => ({ value: t.id, label: `${t.name} · ${t.stage}` })),
                 ]}
               />
               <Select
-                label="Filtrar por habilidade"
+                label="Filter by skill"
                 value={skill}
                 onChange={(next) => setSkill(next)}
                 options={[
-                  { value: ALL, label: 'Todas as habilidades' },
+                  { value: ALL, label: 'All skills' },
                   ...SKILLS.map((s) => ({ value: s.id, label: s.name })),
                 ]}
               />
               <Select
-                label="Ordenar a lista"
-                prefix="Ordenar:"
+                label="Sort the list"
+                prefix="Sort:"
                 value={`${sortKey}:${sortDirection}`}
                 onChange={(next) => {
                   const [key, direction] = next.split(':')
@@ -251,10 +251,10 @@ export function Notas() {
                   setSortDirection(direction as SortDirection)
                 }}
                 options={[
-                  { value: 'name:asc', label: 'A a Z' },
-                  { value: 'name:desc', label: 'Z a A' },
-                  { value: 'average:desc', label: 'Maior média' },
-                  { value: 'average:asc', label: 'Menor média' },
+                  { value: 'name:asc', label: 'A to Z' },
+                  { value: 'name:desc', label: 'Z to A' },
+                  { value: 'average:desc', label: 'Highest average' },
+                  { value: 'average:asc', label: 'Lowest average' },
                 ]}
               />
             </div>
@@ -273,8 +273,8 @@ export function Notas() {
           empty={
             <EmptyState
               icon={<SearchX size={40} />}
-              title="Nenhum aluno nesta turma"
-              description="Nenhum aluno matriculado corresponde ao filtro. Troque a turma para ver o restante do bimestre."
+              title="No student in this class"
+              description="No enrolled student matches the filter. Switch class to see the rest of the term."
             />
           }
         />
@@ -286,7 +286,7 @@ export function Notas() {
             total={rows.length}
             perPage={
               <Select
-                label="Resultados por página"
+                label="Results per page"
                 className="w-20"
                 value={String(perPage)}
                 onChange={(next) => {
@@ -310,7 +310,7 @@ function AverageBadge({ value, name }: { value: number; name: string }) {
   return (
     <span
       className="inline-flex items-center gap-2"
-      title={`Média de ${name}: ${fmtGrade(value)}, ${style.label.toLowerCase()}`}
+      title={`Average for ${name}: ${fmtGrade(value)}, ${style.label.toLowerCase()}`}
     >
       <span className="font-medium text-primary tabular-nums">{fmtGrade(value)}</span>
       <span className={cn('size-2.5 rounded-full', style.fill)} aria-hidden="true" />

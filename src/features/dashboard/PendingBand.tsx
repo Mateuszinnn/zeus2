@@ -4,14 +4,14 @@ import { cn } from '@/lib/cn'
 import { plural, weekday, shortDate } from '@/lib/format'
 import type { Pending, PendingState } from './pendings'
 
-/* A faixa de cima.
+/* The top band.
  *
- * Acromática: a cor entra só como fio fino na borda, marcando estado. Cor plena
- * fica reservada à faixa de baixo, onde significa desempenho.
+ * Achromatic: colour appears only as a hairline on the border, marking state.
+ * Full colour is reserved for the bottom band, where it means performance.
  *
- * A faixa rola, mas a CABEÇA nunca: as pendências vêm ordenadas por hora, a
- * mais urgente encosta na borda esquerda, e o contador do cabeçalho diz o total
- * — nada fora da tela é surpresa. */
+ * The band scrolls, but the HEAD never does: items are ordered by time, the
+ * most urgent sits against the left edge, and the header counter states the
+ * total — nothing off-screen is a surprise. */
 
 const STATE_RING: Record<PendingState, string> = {
   pending: 'border-accent',
@@ -41,15 +41,15 @@ export function PendingBand({ date, pendings, onAct }: PendingBandProps) {
   const open = pendings.filter((p) => p.state !== 'done')
 
   return (
-    <section aria-labelledby="faixa-hoje">
+    <section aria-labelledby="today-band">
       <header className="mb-3 flex flex-wrap items-baseline justify-between gap-2">
-        <h2 id="faixa-hoje" className="text-h3 text-primary">
-          Hoje, {weekday(date)} {shortDate(date)}
+        <h2 id="today-band" className="text-h3 text-primary">
+          Today, {weekday(date)}, {shortDate(date)}
         </h2>
         <span className="text-caption text-muted">
           {open.length > 0
-            ? `${plural(open.length, 'pendência', 'pendências')} de ${pendings.length} compromissos`
-            : `${pendings.length} compromissos, todos resolvidos`}
+            ? `${plural(open.length, 'item open', 'items open')} of ${pendings.length}`
+            : `${pendings.length} items, all clear`}
         </span>
       </header>
 
@@ -63,7 +63,7 @@ function Rail({ pendings, onAct }: { pendings: Pending[]; onAct: (p: Pending) =>
     <ul
       className={cn(
         'flex gap-4 overflow-x-auto pb-2',
-        // A cauda rola; a cabeça está sempre visível.
+        // The tail scrolls; the head is always visible.
         '[scrollbar-width:thin]',
       )}
     >
@@ -100,7 +100,7 @@ function Rail({ pendings, onAct }: { pendings: Pending[]; onAct: (p: Pending) =>
                 {done ? (
                   <span className="inline-flex items-center gap-1.5 text-caption text-success-ink">
                     <CircleCheck size={14} aria-hidden="true" />
-                    Nada a fazer
+                    Nothing to do
                   </span>
                 ) : (
                   <Button
@@ -120,17 +120,17 @@ function Rail({ pendings, onAct }: { pendings: Pending[]; onAct: (p: Pending) =>
   )
 }
 
-/* Tudo em dia NÃO some: colapsa num bloco único e largo. Numa demo, um estado
- * limpo precisa parecer intencional, não quebrado. */
+/* All clear does NOT disappear: it collapses into a single wide block. In a
+ * demo, a clean state has to look intentional, not broken. */
 function AllClear() {
   return (
     <div className="flex items-center gap-4 rounded-xl border border-success bg-success-soft px-6 py-5">
       <CircleCheck size={24} className="shrink-0 text-success" aria-hidden="true" />
       <div>
-        <p className="text-body font-medium text-primary">O dia está em dia.</p>
+        <p className="text-body font-medium text-primary">The day is clear.</p>
         <p className="mt-0.5 text-caption text-secondary">
-          Chamadas feitas, prazos em ordem e nenhuma correção aguardando. A próxima entrega vence
-          na terça.
+          Roll calls taken, deadlines in order and nothing waiting to be marked. The next
+          submission is due on Tuesday.
         </p>
       </div>
     </div>

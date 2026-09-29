@@ -25,7 +25,7 @@ export function AppShell() {
     return () => window.removeEventListener('keydown', onKey)
   }, [drawerOpen])
 
-  if (!role) return <Navigate to="/entrar" replace />
+  if (!role) return <Navigate to="/sign-in" replace />
 
   return (
     <div className="flex h-dvh overflow-hidden bg-app">
@@ -37,7 +37,7 @@ export function AppShell() {
         <>
           <button
             type="button"
-            aria-label="Fechar navegação"
+            aria-label="Close navigation"
             onClick={() => setDrawerOpen(false)}
             className="fixed inset-0 z-40 bg-gray-90/50 lg:hidden"
           />
@@ -52,7 +52,7 @@ export function AppShell() {
           <button
             type="button"
             onClick={() => setDrawerOpen(true)}
-            aria-label="Abrir navegação"
+            aria-label="Open navigation"
             aria-expanded={drawerOpen}
             className="rounded-md p-2 text-secondary transition-colors hover:bg-gray-20 hover:text-primary"
           >

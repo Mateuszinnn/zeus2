@@ -24,41 +24,41 @@ import { MinhaFicha } from "@/pages/aluno/MinhaFicha";
 
 function Home() {
   const { role } = useSession();
-  if (!role) return <Navigate to="/entrar" replace />;
+  if (!role) return <Navigate to="/sign-in" replace />;
   return (
-    <Navigate to={role === "student" ? "/meu-painel" : "/painel"} replace />
+    <Navigate to={role === "student" ? "/my-dashboard" : "/dashboard"} replace />
   );
 }
 
 export function AppRoutes() {
   return (
     <Routes>
-      <Route path="/entrar" element={<Login />} />
+      <Route path="/sign-in" element={<Login />} />
 
       <Route element={<AppShell />}>
         {/* Professor */}
-        <Route path="/painel" element={<Dashboard />} />
-        <Route path="/turmas" element={<Turmas />} />
-        <Route path="/alunos" element={<Alunos />} />
-        <Route path="/notas" element={<Notas />} />
-        <Route path="/faltas" element={<Faltas />} />
-        <Route path="/ocorrencias" element={<Ocorrencias />} />
-        <Route path="/tarefas" element={<Tarefas />} />
-        <Route path="/matriculas" element={<Matriculas />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/classes" element={<Turmas />} />
+        <Route path="/students" element={<Alunos />} />
+        <Route path="/grades" element={<Notas />} />
+        <Route path="/attendance" element={<Faltas />} />
+        <Route path="/incidents" element={<Ocorrencias />} />
+        <Route path="/assignments" element={<Tarefas />} />
+        <Route path="/enrollments" element={<Matriculas />} />
 
         {/* Aluno */}
-        <Route path="/meu-painel" element={<MeuPainel />} />
-        <Route path="/minhas-notas" element={<MinhasNotas />} />
-        <Route path="/minhas-faltas" element={<MinhasFaltas />} />
-        <Route path="/minhas-tarefas" element={<MinhasTarefas />} />
-        <Route path="/minhas-ocorrencias" element={<MinhasOcorrencias />} />
-        <Route path="/minha-ficha" element={<MinhaFicha />} />
+        <Route path="/my-dashboard" element={<MeuPainel />} />
+        <Route path="/my-grades" element={<MinhasNotas />} />
+        <Route path="/my-attendance" element={<MinhasFaltas />} />
+        <Route path="/my-assignments" element={<MinhasTarefas />} />
+        <Route path="/my-incidents" element={<MinhasOcorrencias />} />
+        <Route path="/my-record" element={<MinhaFicha />} />
 
         {/* Compartilhadas */}
-        <Route path="/avisos" element={<Avisos />} />
-        <Route path="/configuracoes" element={<Configuracoes />} />
-        <Route path="/ajuda" element={<Ajuda />} />
-        <Route path="/contato" element={<Contato />} />
+        <Route path="/announcements" element={<Avisos />} />
+        <Route path="/settings" element={<Configuracoes />} />
+        <Route path="/help" element={<Ajuda />} />
+        <Route path="/contact" element={<Contato />} />
       </Route>
 
       <Route path="*" element={<Home />} />

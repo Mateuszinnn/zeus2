@@ -8,17 +8,17 @@ import { plural } from '@/lib/format'
 import { MIN_ATTENDANCE, PASSING_GRADE } from '@/lib/grade'
 import { STUDENTS, attentionList, turmaOf, type AttentionReason } from '@/mocks/data'
 
-/* O "quem", que é o que a métrica agregada não entrega.
+/* The "who", which the aggregate metric never delivers.
  *
- * Entra na lista quem está em faixa crítica de nota OU abaixo da frequência
- * mínima. Pior caso primeiro, nomeado, com o motivo escrito. */
+ * A student enters the list on a critical grade OR below minimum attendance.
+ * Worst case first, named, with the reason spelled out. */
 
-const CUT = PASSING_GRADE.toLocaleString('pt-BR', { minimumFractionDigits: 1 })
+const CUT = PASSING_GRADE.toLocaleString('en-US', { minimumFractionDigits: 1 })
 
 const REASON_TEXT: Record<AttentionReason, string> = {
-  grade: `Média abaixo de ${CUT}`,
-  attendance: `Frequência abaixo de ${MIN_ATTENDANCE}%`,
-  both: `Média abaixo de ${CUT} e frequência abaixo de ${MIN_ATTENDANCE}%`,
+  grade: `Average below ${CUT}`,
+  attendance: `Attendance below ${MIN_ATTENDANCE}%`,
+  both: `Average below ${CUT} and attendance below ${MIN_ATTENDANCE}%`,
 }
 
 export function AttentionList() {
@@ -27,11 +27,11 @@ export function AttentionList() {
   return (
     <Card className="flex flex-col">
       <CardHeader
-        title="Precisam de atenção"
+        title="Need attention"
         meta={
           entries.length > 0 ? (
             <span className="text-caption text-muted">
-              {plural(entries.length, 'aluno', 'alunos')}
+              {plural(entries.length, 'student', 'students')}
             </span>
           ) : undefined
         }
@@ -40,8 +40,8 @@ export function AttentionList() {
       {entries.length === 0 ? (
         <EmptyState
           icon={<PartyPopper size={40} />}
-          title="Ninguém fora da faixa"
-          description="Todos os 60 alunos estão acima da média de aprovação e da frequência mínima neste bimestre."
+          title="Nobody out of range"
+          description="All 60 students are above the passing average and the minimum attendance this term."
         />
       ) : (
         <ul className="divide-y divide-default">
@@ -61,16 +61,16 @@ export function AttentionList() {
 
               <div className="mt-3 grid gap-2 pl-11">
                 <LabelledBar
-                  caption="Média"
+                  caption="Average"
                   value={student.average}
                   kind="grade"
-                  label={`Média de ${student.name}`}
+                  label={`Average for ${student.name}`}
                 />
                 <LabelledBar
-                  caption="Frequência"
+                  caption="Attendance"
                   value={student.attendance}
                   kind="attendance"
-                  label={`Frequência de ${student.name}`}
+                  label={`Attendance for ${student.name}`}
                 />
               </div>
             </li>

@@ -38,7 +38,7 @@ export function Matriculas() {
   const [status, setStatus] = useState(ALL)
   const [page, setPage] = useState(1)
   const perPage = 12
-  const selected = params.get('aluno')
+  const selected = params.get('student')
 
   useEffect(() => {
     let alive = true
@@ -64,7 +64,7 @@ export function Matriculas() {
         student={studentById(selected)}
         onBack={() => {
           const next = new URLSearchParams(params)
-          next.delete('aluno')
+          next.delete('student')
           setParams(next)
         }}
       />
@@ -79,13 +79,13 @@ export function Matriculas() {
   const columns: Column<Student>[] = [
     {
       key: 'enrollment',
-      header: 'Matrícula',
+      header: 'Student ID',
       width: 'w-32',
       cell: (s) => <span className="font-medium text-primary">{s.enrollment}</span>,
     },
     {
       key: 'name',
-      header: 'Nome',
+      header: 'Name',
       cell: (s) => (
         <span className="flex items-center gap-3">
           <Avatar name={s.name} size="md" />
@@ -95,7 +95,7 @@ export function Matriculas() {
     },
     {
       key: 'turma',
-      header: 'Turma',
+      header: 'Class',
       width: 'w-40',
       cell: (s) => (
         <span className="whitespace-nowrap text-secondary">
@@ -105,19 +105,19 @@ export function Matriculas() {
     },
     {
       key: 'guardian',
-      header: 'Responsável',
+      header: 'Guardian',
       cell: (s) => <span className="truncate text-secondary">{enrollmentOf(s.id).guardian}</span>,
     },
     {
       key: 'origin',
-      header: 'Escola de origem',
+      header: 'Home school',
       cell: (s) => (
         <span className="truncate text-secondary">{enrollmentOf(s.id).originSchool}</span>
       ),
     },
     {
       key: 'since',
-      header: 'Desde',
+      header: 'Since',
       width: 'w-36',
       cell: (s) => (
         <span className="whitespace-nowrap text-secondary">
@@ -127,7 +127,7 @@ export function Matriculas() {
     },
     {
       key: 'status',
-      header: 'Situação',
+      header: 'Status',
       width: 'w-32',
       cell: (s) => {
         const value = enrollmentOf(s.id).status
@@ -139,41 +139,41 @@ export function Matriculas() {
   return (
     <>
       <PageHeader
-        title="Matrículas"
-        subtitle={`${ENROLLMENTS.length} fichas · ${TERM.label}`}
-        crumbs={[{ label: 'Painel', to: '/painel' }, { label: 'Matrículas' }]}
+        title="Enrollments"
+        subtitle={`${ENROLLMENTS.length} records · ${TERM.label}`}
+        crumbs={[{ label: 'Dashboard', to: '/dashboard' }, { label: 'Enrollments' }]}
       />
 
       <Card>
         <CardHeader
-          title={turma === ALL ? 'Todas as turmas' : turmaById(turma).name}
-          meta={<span className="text-caption text-muted">{rows.length} fichas</span>}
+          title={turma === ALL ? 'All classes' : turmaById(turma).name}
+          meta={<span className="text-caption text-muted">{rows.length} records</span>}
           actions={
             <div className="flex flex-wrap gap-2">
               <Select
-                label="Filtrar por turma"
+                label="Filter by class"
                 value={turma}
                 onChange={(v) => {
                   setTurma(v)
                   setPage(1)
                 }}
                 options={[
-                  { value: ALL, label: 'Todas as turmas' },
+                  { value: ALL, label: 'All classes' },
                   ...TURMAS.map((t) => ({ value: t.id, label: `${t.name} · ${t.stage}` })),
                 ]}
               />
               <Select
-                label="Filtrar por situação"
+                label="Filter by status"
                 value={status}
                 onChange={(v) => {
                   setStatus(v)
                   setPage(1)
                 }}
                 options={[
-                  { value: ALL, label: 'Todas as situações' },
-                  { value: 'active', label: 'Ativa' },
-                  { value: 'locked', label: 'Trancada' },
-                  { value: 'transferred', label: 'Transferida' },
+                  { value: ALL, label: 'All statuses' },
+                  { value: 'active', label: 'Active' },
+                  { value: 'locked', label: 'On hold' },
+                  { value: 'transferred', label: 'Transferred' },
                 ]}
               />
             </div>
@@ -184,13 +184,13 @@ export function Matriculas() {
           columns={columns}
           rows={visible}
           rowKey={(s) => s.id}
-          caption="Fichas de matrícula do semestre"
+          caption="Enrollment records for the semester"
           state={loading ? 'loading' : 'ready'}
           empty={
             <EmptyState
               icon={<SearchX size={40} />}
-              title="Nenhuma ficha nestes filtros"
-              description="Nenhuma matrícula corresponde à turma e à situação escolhidas."
+              title="No records under these filters"
+              description="No enrollment matches the chosen class and status."
             />
           }
         />
@@ -210,7 +210,7 @@ export function Matriculas() {
   )
 }
 
-/* A ficha em si. Seções curtas, rótulo sempre acima do campo. */
+/* The record itself. Short sections, label always above the control. */
 function Ficha({ student, onBack }: { student: Student; onBack: () => void }) {
   const base = enrollmentOf(student.id)
   const [draft, setDraft] = useState<Enrollment>(base)
@@ -233,10 +233,10 @@ function Ficha({ student, onBack }: { student: Student; onBack: () => void }) {
     <>
       <PageHeader
         title={student.name}
-        subtitle={`Matrícula ${student.enrollment} · ${turmaById(student.turmaId).name} · ${turmaById(student.turmaId).stage}`}
+        subtitle={`ID ${student.enrollment} · ${turmaById(student.turmaId).name} · ${turmaById(student.turmaId).stage}`}
         crumbs={[
-          { label: 'Painel', to: '/painel' },
-          { label: 'Matrículas', to: '/matriculas' },
+          { label: 'Dashboard', to: '/dashboard' },
+          { label: 'Enrollments', to: '/enrollments' },
           { label: student.name },
         ]}
         actions={
@@ -254,19 +254,19 @@ function Ficha({ student, onBack }: { student: Student; onBack: () => void }) {
       <div className="flex flex-col gap-6">
         <Card>
           <CardHeader
-            title="Dados do aluno"
+            title="Student details"
             meta={
               <StatusBadge tone={TONE[draft.status]}>{STATUS_LABEL[draft.status]}</StatusBadge>
             }
           />
           <CardBody className="grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
-            <Field label="Nome completo" required>
+            <Field label="Full name" required>
               {(props) => <TextInput {...props} defaultValue={student.name} />}
             </Field>
-            <Field label="Matrícula">
+            <Field label="Student ID">
               {(props) => <TextInput {...props} defaultValue={student.enrollment} readOnly />}
             </Field>
-            <Field label="Data de nascimento" required>
+            <Field label="Date of birth" required>
               {(props) => (
                 <TextInput
                   {...props}
@@ -286,7 +286,7 @@ function Ficha({ student, onBack }: { student: Student; onBack: () => void }) {
                 />
               )}
             </Field>
-            <Field label="Cidade" hint="Região administrativa de residência">
+            <Field label="City" hint="District of residence">
               {(props) => (
                 <TextInput
                   {...props}
@@ -295,16 +295,16 @@ function Ficha({ student, onBack }: { student: Student; onBack: () => void }) {
                 />
               )}
             </Field>
-            <Field label="Situação da matrícula" required>
+            <Field label="Enrollment status" required>
               {(props) => (
                 <NativeSelect
                   {...props}
                   value={draft.status}
                   onChange={(e) => set('status', e.target.value as EnrollmentStatus)}
                 >
-                  <option value="active">Ativa</option>
-                  <option value="locked">Trancada</option>
-                  <option value="transferred">Transferida</option>
+                  <option value="active">Active</option>
+                  <option value="locked">On hold</option>
+                  <option value="transferred">Transferred</option>
                 </NativeSelect>
               )}
             </Field>
@@ -312,9 +312,9 @@ function Ficha({ student, onBack }: { student: Student; onBack: () => void }) {
         </Card>
 
         <Card>
-          <CardHeader title="Responsável" />
+          <CardHeader title="Guardian" />
           <CardBody className="grid gap-5 sm:grid-cols-2">
-            <Field label="Nome do responsável" required>
+            <Field label="Guardian name" required>
               {(props) => (
                 <TextInput
                   {...props}
@@ -323,7 +323,7 @@ function Ficha({ student, onBack }: { student: Student; onBack: () => void }) {
                 />
               )}
             </Field>
-            <Field label="Telefone" required>
+            <Field label="Phone" required>
               {(props) => (
                 <TextInput
                   {...props}
@@ -337,10 +337,10 @@ function Ficha({ student, onBack }: { student: Student; onBack: () => void }) {
 
         <Card>
           <CardHeader
-            title="Escola de origem"
+            title="Home school"
             meta={
               <span className="text-caption text-muted">
-                o CIL é contraturno, então a origem é obrigatória
+                the CIL runs opposite the regular school, so this is required
               </span>
             }
           />
@@ -354,20 +354,20 @@ function Ficha({ student, onBack }: { student: Student; onBack: () => void }) {
                 />
               )}
             </Field>
-            <Field label="Turno na escola de origem" required>
+            <Field label="Shift at home school" required>
               {(props) => (
                 <NativeSelect
                   {...props}
                   value={draft.shiftAtOrigin}
                   onChange={(e) => set('shiftAtOrigin', e.target.value)}
                 >
-                  <option value="Manhã">Manhã</option>
-                  <option value="Tarde">Tarde</option>
-                  <option value="Noite">Noite</option>
+                  <option value="Morning">Morning</option>
+                  <option value="Afternoon">Afternoon</option>
+                  <option value="Evening">Evening</option>
                 </NativeSelect>
               )}
             </Field>
-            <Field label="Matriculado no CIL desde">
+            <Field label="At the CIL since">
               {(props) => (
                 <TextInput
                   {...props}
