@@ -4,7 +4,7 @@ import { MyPending } from '@/features/student/MyPending'
 import { MyPerformance } from '@/features/student/MyPerformance'
 import { delay } from '@/mocks/delay'
 import { firstName } from '@/lib/format'
-import { DEMO_STUDENT_ID, TERM, studentById, turmaOf } from '@/mocks/data'
+import { DEMO_STUDENT_ID, SCHOOL, TERM, studentById, turmaLabel, turmaOf } from '@/mocks/data'
 
 export function MeuPainel() {
   const [loading, setLoading] = useState(true)
@@ -24,7 +24,7 @@ export function MeuPainel() {
     <>
       <PageHeader
         title={`Oi, ${firstName(student.name)}`}
-        subtitle={`${TERM.label} · ${turmaOf(student).name}`}
+        subtitle={`${SCHOOL.course} · ${TERM.label} · ${turmaLabel(turmaOf(student))}`}
         crumbs={[{ label: 'Meu painel' }]}
       />
 

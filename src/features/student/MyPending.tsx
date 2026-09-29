@@ -5,7 +5,7 @@ import { useToast } from '@/components/Toast'
 import { cn } from '@/lib/cn'
 import { plural, relativeDay, shortDate, weekday } from '@/lib/format'
 import { delay } from '@/mocks/delay'
-import { ASSIGNMENTS, TODAY, subjectOf, type Student } from '@/mocks/data'
+import { ASSIGNMENTS, TODAY, skillById, type Student } from '@/mocks/data'
 
 /* A faixa de cima do aluno. Mesma gramática da do professor: ordenada por
  * prazo, acromática, com a cor só no fio da borda. A entrega se resolve dentro
@@ -16,7 +16,7 @@ type Status = 'late' | 'due' | 'submitted'
 interface MyTask {
   id: string
   title: string
-  subject: string
+  skill: string
   due: string
   status: Status
   statusLabel: string
@@ -34,17 +34,17 @@ function buildTasks(student: Student): MyTask[] {
         return {
           id: a.id,
           title: a.title,
-          subject: subjectOf(a.subjectId).name,
+          skill: skillById(a.skillId).name,
           due: a.due,
           status: 'submitted',
           statusLabel: 'Avaliada',
-          score: student.bySubject[a.subjectId],
+          score: student.bySkill[a.skillId],
         }
       }
       return {
         id: a.id,
         title: a.title,
-        subject: subjectOf(a.subjectId).name,
+        skill: skillById(a.skillId).name,
         due: a.due,
         status: overdue ? 'late' : 'due',
         statusLabel: overdue ? `Atrasada ${relativeDay(a.due, TODAY)}` : `Vence ${relativeDay(a.due, TODAY)}`,
@@ -138,7 +138,7 @@ export function MyPending({ student }: { student: Student }) {
                   </h3>
                 </div>
 
-                <p className="mt-1.5 pl-[30px] text-caption text-muted">{task.subject}</p>
+                <p className="mt-1.5 pl-[30px] text-caption text-muted">{task.skill}</p>
 
                 <div className="mt-4 pl-[30px]">
                   {task.status === 'submitted' ? (

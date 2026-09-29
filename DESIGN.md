@@ -1,7 +1,7 @@
 <!-- SEED: established with the user before implementation; re-run /impeccable document once there's code to capture the actual tokens and components. -->
 ---
 name: Zeus
-description: Sistema de gestão escolar — clareza operacional em roxo e laranja sobre superfícies lilás-claras.
+description: Gestão de centro de línguas — clareza operacional em roxo e laranja sobre superfícies lilás-claras.
 ---
 
 ## Overview
@@ -64,10 +64,14 @@ marca — foram estabelecidas aqui porque o produto codifica desempenho por cor 
 a paleta original não cobria os extremos.
 
 **A regra de faixa.** Nota, frequência e gravidade escolhem a cor por limiar, e
-o limiar é único para todo o sistema. Nota 0–10: ≥8,5 sucesso · 6,0–8,4 roxo ·
-5,0–5,9 atenção · <5,0 erro. Frequência: ≥90% sucesso · 75–89% roxo · 60–74%
-atenção · <60% erro. Os cortes são os do domínio escolar brasileiro — 6,0 é média
-de aprovação, 75% é frequência mínima.
+o limiar é único para todo o sistema. Nota 0–10: ≥8,5 sucesso · 5,0–8,4 roxo ·
+4,0–4,9 atenção · <4,0 erro. Frequência: ≥90% sucesso · 75–89% roxo · 60–74%
+atenção · <60% erro.
+
+Os cortes saem da regra institucional do CIL, não do gosto: **5,0 é a média de
+aprovação**, **4,0** marca quem está abaixo mas ao alcance de recuperar, e
+**75%** é a frequência mínima. Mudar a regra do CIL muda estes números, e eles
+vivem num lugar só, `src/lib/grade.ts`.
 
 ## Typography
 

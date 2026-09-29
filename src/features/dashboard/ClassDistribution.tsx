@@ -38,7 +38,7 @@ export function ClassDistribution() {
   return (
     <Card className="flex flex-col">
       <CardHeader
-        title="Como a turma está"
+        title="Como as turmas estão"
         meta={<span className="text-caption text-muted">{plural(total, 'aluno', 'alunos')}</span>}
         actions={
           <div
@@ -130,7 +130,7 @@ function LegendRow({ level, count, total }: { level: GradeLevel; count: number; 
 
 const RANGE: Record<GradeLevel, string> = {
   excellent: '8,5 a 10',
-  adequate: '6,0 a 8,4',
-  attention: '5,0 a 5,9',
-  critical: 'abaixo de 5,0',
+  adequate: '5,0 a 8,4',
+  attention: '4,0 a 4,9',
+  critical: 'abaixo de 4,0',
 }

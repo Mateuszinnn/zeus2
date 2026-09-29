@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { PageHeader } from '@/components/PageHeader'
 import { PendingBand } from '@/features/dashboard/PendingBand'
 import { RollCallPanel } from '@/features/dashboard/RollCallPanel'
@@ -7,7 +8,7 @@ import { AttentionList } from '@/features/dashboard/AttentionList'
 import { buildPendings, DEMO_DATE, type Pending } from '@/features/dashboard/pendings'
 import { useToast } from '@/components/Toast'
 import { delay } from '@/mocks/delay'
-import { TERM, TEACHER, type Turma } from '@/mocks/data'
+import { SCHOOL, TERM, TEACHER, TURMAS, turmaLabel, type Turma } from '@/mocks/data'
 import { firstName } from '@/lib/format'
 
 /* Duas faixas: pendências em cima, desempenho embaixo.
@@ -15,9 +16,10 @@ import { firstName } from '@/lib/format'
 
 export function Dashboard() {
   const [loading, setLoading] = useState(true)
-  const [rollcallDone, setRollcallDone] = useState<Record<string, boolean>>({ t5b: true })
+  const [rollcallDone, setRollcallDone] = useState<Record<string, boolean>>({ t4b: true })
   const [openRollCall, setOpenRollCall] = useState<Turma | null>(null)
   const toast = useToast()
+  const navigate = useNavigate()
 
   useEffect(() => {
     let alive = true
@@ -36,14 +38,18 @@ export function Dashboard() {
       setOpenRollCall(pending.turma)
       return
     }
-    toast(`"${pending.title}" entra na tela de ${pending.kind === 'grading' ? 'notas' : 'tarefas'}.`)
+    if (pending.kind === 'grading' && pending.turma) {
+      navigate(`/notas?turma=${pending.turma.id}`)
+      return
+    }
+    toast(`"${pending.title}" entra na tela de tarefas.`)
   }
 
   return (
     <>
       <PageHeader
         title={`Bom dia, ${firstName(TEACHER.name)}`}
-        subtitle={`${TERM.label} · 5º A e 5º B · 60 alunos`}
+        subtitle={`${SCHOOL.course} · ${TERM.label} · ${TURMAS.map(turmaLabel).join(' e ')}`}
         crumbs={[{ label: 'Painel' }]}
       />
 

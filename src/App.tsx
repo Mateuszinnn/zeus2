@@ -5,6 +5,7 @@ import { SessionProvider, useSession } from '@/mocks/session'
 import { Login } from '@/pages/Login'
 import { Dashboard } from '@/pages/Dashboard'
 import { MeuPainel } from '@/pages/MeuPainel'
+import { Notas } from '@/pages/Notas'
 import { EmBreve } from '@/pages/EmBreve'
 
 /* Rotas ainda não construídas caem em EmBreve, para que o menu nunca termine
@@ -12,7 +13,6 @@ import { EmBreve } from '@/pages/EmBreve'
 const PLACEHOLDER = [
   '/turmas',
   '/alunos',
-  '/notas',
   '/faltas',
   '/ocorrencias',
   '/tarefas',
@@ -43,6 +43,7 @@ export function App() {
           <Route element={<AppShell />}>
             <Route path="/painel" element={<Dashboard />} />
             <Route path="/meu-painel" element={<MeuPainel />} />
+            <Route path="/notas" element={<Notas />} />
             {PLACEHOLDER.map((path) => (
               <Route key={path} path={path} element={<EmBreve />} />
             ))}

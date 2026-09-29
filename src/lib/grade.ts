@@ -8,8 +8,8 @@
 
 export type GradeLevel = 'excellent' | 'adequate' | 'attention' | 'critical'
 
-/** Média de aprovação no contexto escolar brasileiro. */
-export const PASSING_GRADE = 6
+/** Média de aprovação no CIL. */
+export const PASSING_GRADE = 5
 /** Frequência mínima legal. */
 export const MIN_ATTENDANCE = 75
 
@@ -26,16 +26,20 @@ interface LevelStyle {
 
 const STYLES: Record<GradeLevel, LevelStyle> = {
   excellent: { fill: 'bg-success', soft: 'bg-success-soft', ink: 'text-success-ink', label: 'Excelente' },
-  adequate: { fill: 'bg-accent', soft: 'bg-accent-soft', ink: 'text-purple-700', label: 'Adequado' },
-  attention: { fill: 'bg-warning', soft: 'bg-warning-soft', ink: 'text-warning-ink', label: 'Atenção' },
+  adequate: { fill: 'bg-accent', soft: 'bg-accent-soft', ink: 'text-purple-700', label: 'Aprovado' },
+  attention: { fill: 'bg-warning', soft: 'bg-warning-soft', ink: 'text-warning-ink', label: 'Recuperável' },
   critical: { fill: 'bg-error', soft: 'bg-error-soft', ink: 'text-error-ink', label: 'Crítico' },
 }
 
-/** Nota de 0 a 10. Cortes em 8,5 · 6,0 · 5,0. */
+/** Nota de 0 a 10. Cortes em 8,5 · 5,0 · 4,0.
+ *
+ *  Os cortes saem da regra institucional, não do gosto: 5,0 é a média de
+ *  aprovação do CIL, e 4,0 marca quem está abaixo mas ao alcance de
+ *  recuperar. Abaixo disso o problema deixou de ser de nota. */
 export function gradeLevel(score: number): GradeLevel {
   if (score >= 8.5) return 'excellent'
   if (score >= PASSING_GRADE) return 'adequate'
-  if (score >= 5) return 'attention'
+  if (score >= 4) return 'attention'
   return 'critical'
 }
 

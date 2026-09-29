@@ -14,11 +14,11 @@ refresh. Escolha confirmada pelo usuário.
 
 ## Users
 
-**Professor / secretaria (`teacher`)** — o usuário principal. Trabalha em
-desktop, durante ou logo após a aula, com pouco tempo e muitos registros para
-lançar: notas de uma turma inteira, chamada do dia, uma ocorrência disciplinar,
-o prazo de uma tarefa. O trabalho é repetitivo e em lote; o custo de errar é
-refazer.
+**Professor / secretaria (`teacher`)** — o usuário principal. Professor de
+inglês de um Centro Interescolar de Línguas. Trabalha em desktop, durante ou
+logo após a aula, com pouco tempo e muitos registros para lançar: notas das
+cinco habilidades de uma turma inteira, chamada do dia, uma ocorrência, o prazo
+de uma tarefa. O trabalho é repetitivo e em lote; o custo de errar é refazer.
 
 **Aluno (`student`)** — usuário secundário, somente leitura exceto pela entrega
 de tarefa. Entra para responder uma pergunta pontual: quanto tirei, quantas
@@ -28,9 +28,16 @@ Não existe perfil de responsável nem de administrador. O corte é deliberado.
 
 ## Product Purpose
 
-Zeus é um sistema de gestão escolar que reúne notas, frequência, ocorrências,
-tarefas, avisos e matrícula em um lugar só, com a visão do professor e a do
-aluno sobre os mesmos dados.
+Zeus é um sistema de gestão para **Centro Interescolar de Línguas (CIL)**,
+no **curso de inglês**. Reúne notas, frequência, ocorrências, tarefas, avisos e
+matrícula em um lugar só, com a visão do professor e a do aluno sobre os mesmos
+dados.
+
+O que distingue o contexto de uma escola regular e molda a interface inteira:
+o aluno do CIL cursa a língua **em contraturno**, em **estágios semestrais**, e
+a nota não é de uma disciplina — é composta das **quatro habilidades mais o uso
+da língua**. Um aluno pode ir bem em Reading e travar em Speaking, e é esse
+perfil, não a média, que diz ao professor o que fazer.
 
 **O artefato deste repositório é uma demonstração comercial**, não o produto em
 produção. Ele existe para ser apresentado a uma escola cliente. Sucesso é a
@@ -40,10 +47,13 @@ fluxo pode terminar em beco sem saída, e nenhum dado pode parecer preenchimento
 
 ## Positioning
 
-**Decisão em aberto.** O mecanismo ou a vantagem que distingue o Zeus de outros
-sistemas de gestão escolar ainda não foi definido pelo usuário. Trabalho futuro
-não deve inventar um diferencial, e a demo não deve afirmar superioridade sobre
-concorrentes.
+**Parcialmente decidido.** O sistema é feito para centro de línguas, não
+adaptado de escola regular: a nota por habilidade, o estágio semestral e a
+rematrícula são de primeira classe, não campos extras. Esse é o recorte.
+
+**Em aberto:** o usuário ainda não definiu o diferencial frente a outros
+sistemas para CIL. Trabalho futuro não deve inventar um, e a demo não deve
+afirmar superioridade sobre concorrentes.
 
 ## Operating Context
 
@@ -59,8 +69,14 @@ faz da apresentação um contexto de uso de primeira classe:
   usuário. É a primeira impressão e a que recebe maior profundidade; as demais
   ficam funcionais, porém mais simples.
 
-Rotina retratada: bimestres (quatro por ano), turmas por série e turno, notas de
-0 a 10 com média de aprovação 6,0, frequência com mínimo de 75%.
+Rotina retratada: **semestres com dois bimestres**, turmas nomeadas por
+**estágio de 1A a 6B** (o número é o estágio, a letra é o semestre dentro dele;
+1–2 Básico, 3–4 Intermediário, 5–6 Avançado), notas de 0 a 10 com **média de
+aprovação 5,0** e frequência com mínimo de 75%.
+
+**Composição da nota, confirmada pelo usuário:** Listening, Speaking, Reading,
+Writing e Use of English. A média é sempre derivada dessas cinco e nunca
+digitada diretamente.
 
 ## Capabilities and Constraints
 
@@ -76,9 +92,13 @@ Ocorrências · Tarefas · Avisos · Matrículas/Minha ficha.
 **Fora de escopo:** persistência, autenticação real, controle de acesso real,
 internacionalização, impressão, perfil de responsável, perfil de administrador.
 
-**Terminologia:** usar o vocabulário escolar brasileiro — turma, bimestre,
-matrícula, frequência, ocorrência, boletim, média. Nunca traduzir do inglês do
-mockup de referência ("check-in period", "gradebook").
+**Terminologia:** vocabulário escolar brasileiro para a estrutura — turma,
+estágio, bimestre, matrícula, frequência, ocorrência, média. Nunca traduzir do
+inglês do mockup de referência ("check-in period", "gradebook").
+
+Exceção deliberada: os **nomes das habilidades permanecem em inglês**
+(Listening, Speaking, Reading, Writing, Use of English), porque é assim que
+professor e aluno de CIL as chamam. Traduzi-las soaria falso.
 
 ## Brand Commitments
 
@@ -121,19 +141,21 @@ interface não deve exibir afirmação comercial que ninguém confirmou.
 
 ## Product Principles
 
-1. **A demo é o produto.** Enquanto este repositório existir para apresentação,
+1. **Habilidade antes de média.** A média esconde o aluno que passa raspando em
+   Speaking. Onde couber uma das duas, mostre a decomposição por habilidade.
+2. **A demo é o produto.** Enquanto este repositório existir para apresentação,
    um fluxo incompleto é defeito de produto, não pendência. Tela sem conteúdo,
    botão que não responde e estado vazio genérico quebram a venda.
-2. **Lançar em lote antes de lançar um.** O professor lida com a turma inteira.
+3. **Lançar em lote antes de lançar um.** O professor lida com a turma inteira.
    Ação em massa, edição inline e navegação por teclado valem mais que o
    formulário individual bem-acabado.
-3. **O aluno pergunta, não administra.** A visão do aluno responde uma dúvida
+4. **O aluno pergunta, não administra.** A visão do aluno responde uma dúvida
    pontual na primeira tela. Se ele precisa navegar para saber como vai, a
    tela errou.
-4. **Dado mock é conteúdo, não preenchimento.** Nomes brasileiros, notas com
+5. **Dado mock é conteúdo, não preenchimento.** Nomes brasileiros, notas com
    distribuição crível, datas coerentes e volume suficiente para a paginação
    existir. Dado repetido ou aleatório derruba a credibilidade na hora.
-5. **Não afirmar o que ninguém confirmou.** Sem diferencial inventado, sem
+6. **Não afirmar o que ninguém confirmou.** Sem diferencial inventado, sem
    cliente fictício, sem número de resultado. A demo mostra o sistema
    funcionando; ela não promete.
 

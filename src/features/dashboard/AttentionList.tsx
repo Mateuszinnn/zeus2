@@ -5,7 +5,7 @@ import { Avatar } from '@/components/Avatar'
 import { GradeBar } from '@/components/GradeBar'
 import { EmptyState } from '@/components/EmptyState'
 import { plural } from '@/lib/format'
-import { MIN_ATTENDANCE } from '@/lib/grade'
+import { MIN_ATTENDANCE, PASSING_GRADE } from '@/lib/grade'
 import { STUDENTS, attentionList, turmaOf, type AttentionReason } from '@/mocks/data'
 
 /* O "quem", que é o que a métrica agregada não entrega.
@@ -13,10 +13,12 @@ import { STUDENTS, attentionList, turmaOf, type AttentionReason } from '@/mocks/
  * Entra na lista quem está em faixa crítica de nota OU abaixo da frequência
  * mínima. Pior caso primeiro, nomeado, com o motivo escrito. */
 
+const CUT = PASSING_GRADE.toLocaleString('pt-BR', { minimumFractionDigits: 1 })
+
 const REASON_TEXT: Record<AttentionReason, string> = {
-  grade: 'Média abaixo de 5,0',
+  grade: `Média abaixo de ${CUT}`,
   attendance: `Frequência abaixo de ${MIN_ATTENDANCE}%`,
-  both: `Média abaixo de 5,0 e frequência abaixo de ${MIN_ATTENDANCE}%`,
+  both: `Média abaixo de ${CUT} e frequência abaixo de ${MIN_ATTENDANCE}%`,
 }
 
 export function AttentionList() {

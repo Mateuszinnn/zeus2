@@ -238,18 +238,24 @@ Uso em componente: `className="bg-surface text-primary border-default"`.
 O mockup codifica nota por cor na barra de progresso. Isso vira **uma regra
 única**, aplicada a barras, badges, gráficos e qualquer indicador de nota.
 
-Notas no sistema são **0–10** (padrão brasileiro). A tabela abaixo traz a
-equivalência percentual porque a barra de progresso é percentual.
+Notas no sistema são **0–10**. A tabela abaixo traz a equivalência percentual
+porque a barra de progresso é percentual.
 
 | Faixa (0–10) | Percentual | Cor | Rótulo |
 |---|---|---|---|
 | 8,5 – 10,0 | ≥ 85% | Sucesso `#12B76A` | Excelente |
-| 6,0 – 8,4 | 60–84% | Roxo `#7A5AF8` | Adequado |
-| 5,0 – 5,9 | 50–59% | Atenção `#F79009` | Atenção |
-| 0,0 – 4,9 | < 50% | Erro `#F04438` | Crítico |
+| 5,0 – 8,4 | 50–84% | Roxo `#7A5AF8` | Aprovado |
+| 4,0 – 4,9 | 40–49% | Atenção `#F79009` | Recuperável |
+| 0,0 – 3,9 | < 40% | Erro `#F04438` | Crítico |
 
-O corte em 6,0 é a média de aprovação; o corte em 5,0 separa recuperação de
-reprovação. Os limites foram conferidos contra todos os valores do mockup.
+Os cortes saem da **regra institucional do CIL**, não do gosto: 5,0 é a média
+de aprovação, e 4,0 marca quem está abaixo mas ao alcance de recuperar. Abaixo
+disso o problema deixou de ser de nota.
+
+> Esses números já mudaram uma vez, quando o produto passou de escola regular
+> (aprovação 6,0) para CIL (aprovação 5,0). Eles vivem em `PASSING_GRADE` e
+> `gradeLevel()`, num arquivo só. Se a regra do CIL for outra, é lá que se
+> muda — e em lugar nenhum mais.
 
 **Regra obrigatória:** a cor nunca aparece sozinha. Toda barra vem acompanhada
 do número, e toda legenda de cor traz o rótulo textual.
@@ -258,10 +264,18 @@ A função vive em `src/lib/grade.ts` e é a única fonte dessa lógica:
 
 ```ts
 export type GradeLevel = 'excellent' | 'adequate' | 'attention' | 'critical'
+export const PASSING_GRADE = 5
+export const MIN_ATTENDANCE = 75
 export function gradeLevel(score: number): GradeLevel
-export function gradeColorToken(level: GradeLevel): string
+export function attendanceLevel(percent: number): GradeLevel
+export function levelStyle(level: GradeLevel): LevelStyle
 export function gradeLabel(level: GradeLevel): string
 ```
+
+**A nota de inglês é composta.** A média de um aluno é sempre derivada das cinco
+habilidades — Listening, Speaking, Reading, Writing e Use of English — e nunca
+digitada diretamente. Onde couber mostrar uma das duas, mostre a decomposição:
+a média esconde o aluno que passa raspando em Speaking.
 
 Frequência usa a mesma ideia sobre % de presença, com corte de aprovação em
 75%: ≥90% sucesso · 75–89% roxo · 60–74% atenção · <60% erro.
@@ -364,7 +378,7 @@ O componente central do sistema. Anatomia conforme o mockup:
 Estados obrigatórios: normal, carregando (skeleton de 8 linhas), vazio
 (EmptyState), erro. Nenhuma tabela entra sem os quatro.
 
-### FilterBar / FilterSelect
+### Select (FilterBar)
 
 Fica no header do card, alinhada à direita. Select de altura 40px,
 `radius-md`, `border-default`, `body`, chevron 16px em `text-muted`.
@@ -382,6 +396,18 @@ cor da faixa (§3), transição de largura 200ms. Sempre precedida ou seguida do
 valor numérico em `body-strong`, largura fixa para não desalinhar a coluna.
 `role="progressbar"` com `aria-valuenow`, `aria-valuemin`, `aria-valuemax` e
 `aria-label` descrevendo aluno e avaliação.
+
+### GradeCell
+
+A célula de nota da tela de Notas. Em repouso: o valor em `body-strong` mais a
+barra da faixa, tudo dentro de um botão que cobre a célula. Ao clicar, vira um
+campo de 64px com borda `border-focus`, texto selecionado, que aceita vírgula ou
+ponto e valida de 0 a 10. `Enter` confirma, `Esc` cancela, sair do campo
+confirma. Valor inválido marca a borda em erro e mantém o foco, com a mensagem
+abaixo. O salvamento é otimista e confirma por toast.
+
+Variante `compact`: só o número, sem barra, para quando as cinco habilidades
+aparecem lado a lado.
 
 ### StatusBadge
 
@@ -573,11 +599,18 @@ alunos, média com `GradeBar`. Clique abre o detalhe da turma em `Tabs`
 situação. Filtros por turma e situação; busca por nome. Clique abre a ficha.
 · `PageHeader`, `Card`, `FilterBar`, `DataTable`, `Avatar`, `GradeBar`, `StatusBadge`, `Pagination`
 
-**Notas** — a tela do mockup, traduzida. Header do card com contexto
-("Bimestre 1 de 4 · Matemática 6º ano") e três filtros: turma, avaliação,
-ordenação. Colunas: Nome (avatar+nome) · Matrícula · Turma · Nota (valor +
-`GradeBar`). Célula de nota editável inline, com salvamento otimista e toast.
-· `Breadcrumb`, `PageHeader`, `Card`, `FilterBar`, `DataTable`, `Avatar`, `GradeBar`, `Pagination`, `PerPageSelect`
+**Notas** — a tela do mockup, traduzida para o CIL. Header do card com o nome da
+turma e três filtros: turma, habilidade, ordenação. **Dois modos, resolvidos
+pelo filtro de habilidade:**
+
+- *Uma habilidade* → Nome (avatar+nome) · Matrícula · Turma · Nota editável com
+  barra · Média. É o mockup de referência, praticamente 1:1.
+- *Todas as habilidades* → as cinco em colunas compactas, mais a média com
+  barra. Densa de propósito: é onde o perfil do aluno aparece.
+
+A célula de nota edita no lugar, aceita vírgula ou ponto, valida de 0 a 10,
+salva de forma otimista e confirma por toast. A média nunca é editável.
+· `Breadcrumb`, `PageHeader`, `Card`, `Select`, `DataTable`, `Avatar`, `GradeCell`, `Pagination`, `EmptyState`
 
 **Faltas** — duas modalidades em `Tabs`. *Chamada*: lista da turma no dia, com
 `Toggle` presente/ausente por aluno e ação em massa "Marcar todos presentes".

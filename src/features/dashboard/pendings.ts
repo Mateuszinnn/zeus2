@@ -1,4 +1,4 @@
-import { ASSIGNMENTS, TODAY, TURMAS, type Assignment, type Turma } from '@/mocks/data'
+import { ASSIGNMENTS, TODAY, TURMAS, turmaLabel, type Assignment, type Turma } from '@/mocks/data'
 
 /* O dia do professor, em ordem de relógio.
  *
@@ -27,68 +27,68 @@ function turma(id: string): Turma {
 }
 
 export function buildPendings(rollcallDone: Record<string, boolean>): Pending[] {
-  const resenha = ASSIGNMENTS.find((a) => a.id === 'tf-1')!
-  const cartaz = ASSIGNMENTS.find((a) => a.id === 'tf-3')!
-  const fracoes = ASSIGNMENTS.find((a) => a.id === 'tf-2')!
+  const writing = ASSIGNMENTS.find((a) => a.id === 'tf-1')!
+  const listening = ASSIGNMENTS.find((a) => a.id === 'tf-3')!
+  const useOfEnglish = ASSIGNMENTS.find((a) => a.id === 'tf-2')!
 
   const list: Pending[] = [
     {
-      id: 'p-chamada-5a',
+      id: 'p-chamada-2a',
       time: '07:30',
       title: 'Chamada de hoje',
-      context: `${turma('t5a').name} · ${turma('t5a').shift}`,
-      state: rollcallDone.t5a ? 'done' : 'pending',
-      stateLabel: rollcallDone.t5a ? 'Feita' : 'Pendente',
+      context: `${turmaLabel(turma('t2a'))} · ${turma('t2a').shift}`,
+      state: rollcallDone.t2a ? 'done' : 'pending',
+      stateLabel: rollcallDone.t2a ? 'Feita' : 'Pendente',
       action: 'Fazer chamada',
       kind: 'rollcall',
-      turma: turma('t5a'),
+      turma: turma('t2a'),
     },
     {
-      id: 'p-corrigir-resenha',
+      id: 'p-corrigir-writing',
       time: '09:00',
-      title: 'Corrigir a resenha do livro',
-      context: `${turma('t5a').name} · ${resenha.submitted} entregas aguardando`,
+      title: 'Corrigir o writing da turma',
+      context: `${turma('t2a').name} · ${writing.submitted} entregas aguardando`,
       state: 'late',
       stateLabel: 'Prazo venceu anteontem',
-      action: 'Corrigir',
+      action: 'Lançar notas',
       kind: 'grading',
-      turma: turma('t5a'),
-      assignment: resenha,
+      turma: turma('t2a'),
+      assignment: writing,
     },
     {
-      id: 'p-chamada-5b',
-      time: '13:00',
+      id: 'p-chamada-4b',
+      time: '14:00',
       title: 'Chamada de hoje',
-      context: `${turma('t5b').name} · ${turma('t5b').shift}`,
-      state: rollcallDone.t5b ? 'done' : 'pending',
-      stateLabel: rollcallDone.t5b ? 'Feita' : 'Pendente',
+      context: `${turmaLabel(turma('t4b'))} · ${turma('t4b').shift}`,
+      state: rollcallDone.t4b ? 'done' : 'pending',
+      stateLabel: rollcallDone.t4b ? 'Feita' : 'Pendente',
       action: 'Fazer chamada',
       kind: 'rollcall',
-      turma: turma('t5b'),
+      turma: turma('t4b'),
     },
     {
-      id: 'p-cartaz-vence',
-      time: '14:00',
-      title: 'Cartaz do ciclo da água vence hoje',
-      context: `${turma('t5b').name} · ${cartaz.submitted} de ${cartaz.total} entregues`,
+      id: 'p-listening-vence',
+      time: '15:00',
+      title: 'Listening vence hoje',
+      context: `${turma('t4b').name} · ${listening.submitted} de ${listening.total} entregues`,
       state: 'pending',
       stateLabel: 'Vence hoje',
       action: 'Ver entregas',
       kind: 'due',
-      turma: turma('t5b'),
-      assignment: cartaz,
+      turma: turma('t4b'),
+      assignment: listening,
     },
     {
-      id: 'p-fracoes',
+      id: 'p-use-vence',
       time: '16:00',
-      title: 'Lista de frações vence amanhã',
-      context: `${turma('t5a').name} · ${fracoes.submitted} de ${fracoes.total} entregues`,
+      title: 'Use of English vence amanhã',
+      context: `${turma('t2a').name} · ${useOfEnglish.submitted} de ${useOfEnglish.total} entregues`,
       state: 'pending',
       stateLabel: 'Vence amanhã',
       action: 'Ver entregas',
       kind: 'due',
-      turma: turma('t5a'),
-      assignment: fracoes,
+      turma: turma('t2a'),
+      assignment: useOfEnglish,
     },
   ]
 

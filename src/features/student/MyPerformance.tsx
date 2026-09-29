@@ -5,7 +5,7 @@ import { StatusBadge } from '@/components/StatusBadge'
 import { cn } from '@/lib/cn'
 import { grade as fmtGrade, percent as fmtPercent, shortDate } from '@/lib/format'
 import { attendanceLevel, gradeLevel, levelStyle, MIN_ATTENDANCE, PASSING_GRADE } from '@/lib/grade'
-import { ANNOUNCEMENTS, SUBJECTS, TERM, type Student } from '@/mocks/data'
+import { ANNOUNCEMENTS, SKILLS, TERM, turmaOf, type Student } from '@/mocks/data'
 
 /* A faixa de baixo do aluno. A inversão que faz as duas telas valerem uma
  * decisão só: embaixo, o professor vê QUEM precisa de atenção; o aluno vê
@@ -20,7 +20,7 @@ export function MyPerformance({ student }: { student: Student }) {
       <Card className="flex flex-col">
         <CardHeader
           title="Como eu vou"
-          meta={<span className="text-caption text-muted">{TERM.label}</span>}
+          meta={<span className="text-caption text-muted">{TERM.short} · {turmaOf(student).name}</span>}
         />
         <CardBody className="flex flex-1 flex-col gap-6">
           <div className="flex flex-wrap gap-x-10 gap-y-4">
@@ -47,14 +47,14 @@ export function MyPerformance({ student }: { student: Student }) {
           </div>
 
           <ul className="flex flex-col gap-3">
-            {SUBJECTS.map((subject) => {
-              const score = student.bySubject[subject.id]
+            {SKILLS.map((skill) => {
+              const score = student.bySkill[skill.id]
               return (
-                <li key={subject.id} className="flex items-center gap-4">
-                  <span className="w-24 shrink-0 text-label text-secondary">{subject.name}</span>
+                <li key={skill.id} className="flex items-center gap-4">
+                  <span className="w-28 shrink-0 text-label text-secondary">{skill.name}</span>
                   <GradeBar
                     value={score}
-                    label={`Minha média em ${subject.name}`}
+                    label={`Minha nota em ${skill.name}`}
                     className="flex-1"
                   />
                   <span
@@ -71,8 +71,9 @@ export function MyPerformance({ student }: { student: Student }) {
           </ul>
 
           <p className="text-caption text-muted">
-            A média de aprovação é {fmtGrade(PASSING_GRADE)} e a frequência mínima é{' '}
-            {MIN_ATTENDANCE}%. Sua frequência está {levelStyle(attLevel).label.toLowerCase()}.
+            No CIL a média de aprovação é {fmtGrade(PASSING_GRADE)} e a frequência mínima é{' '}
+            {MIN_ATTENDANCE}%. Sua média sai das cinco habilidades acima, e sua frequência está{' '}
+            {levelStyle(attLevel).label.toLowerCase()}.
           </p>
         </CardBody>
       </Card>

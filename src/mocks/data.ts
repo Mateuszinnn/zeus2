@@ -1,11 +1,11 @@
-/* Dados mock do Zeus.
+/* Dados mock do Zeus — CIL, curso de inglês.
  *
- * Um professor polivalente, duas turmas, 60 alunos. A distribuição de notas e
- * frequência é AUTORADA, não aleatória: ~20% excelente, ~55% adequado,
- * ~15% atenção, ~10% crítico, com uma minoria real abaixo dos 75% de
- * frequência — senão a lista de atenção nasce vazia e a tela não prova nada.
+ * Uma professora de inglês, duas turmas, 60 alunos. A distribuição de notas e
+ * frequência é AUTORADA, não aleatória, e calibrada para o corte institucional
+ * do CIL: média de aprovação 5,0 e frequência mínima 75%.
  *
- * Nada aqui é dado real. Nenhum nome corresponde a pessoa existente.
+ * Nada aqui é dado real. Nenhum nome corresponde a pessoa existente, e nenhum
+ * número descreve um CIL existente.
  */
 
 import { gradeLevel, attendanceLevel, type GradeLevel } from '@/lib/grade'
@@ -14,90 +14,121 @@ import { gradeLevel, attendanceLevel, type GradeLevel } from '@/lib/grade'
  * Calendário da demo
  * ------------------------------------------------------------------ */
 
-/** A demo roda numa quinta-feira do bimestre 1. Data fixa: um sistema que
- *  muda de conteúdo conforme o dia da apresentação é impossível de ensaiar. */
+/** A demo roda numa quinta-feira. Data fixa: um sistema que muda de conteúdo
+ *  conforme o dia da apresentação é impossível de ensaiar. */
 export const TODAY = '2026-04-09'
-export const TERM = { current: 1, total: 4, label: 'Bimestre 1 de 4' }
+export const TERM = {
+  current: 1,
+  total: 2,
+  label: 'Bimestre 1 de 2 · 1º semestre de 2026',
+  short: 'Bimestre 1',
+}
 
 /* ------------------------------------------------------------------ *
- * Disciplinas e turmas
+ * Habilidades
+ *
+ * A nota de inglês é composta das quatro habilidades mais o uso da língua.
+ * Esta lista é a ordem canônica em toda tela — trocar a ordem em um lugar só
+ * quebra a comparação entre telas.
  * ------------------------------------------------------------------ */
 
-export interface Subject {
+export interface Skill {
   id: string
   name: string
   short: string
 }
 
-export const SUBJECTS: Subject[] = [
-  { id: 'port', name: 'Português', short: 'Port' },
-  { id: 'mat', name: 'Matemática', short: 'Mat' },
-  { id: 'cie', name: 'Ciências', short: 'Cie' },
-  { id: 'hist', name: 'História', short: 'Hist' },
-  { id: 'geo', name: 'Geografia', short: 'Geo' },
-  { id: 'arte', name: 'Arte', short: 'Arte' },
+export const SKILLS: Skill[] = [
+  { id: 'listening', name: 'Listening', short: 'List' },
+  { id: 'speaking', name: 'Speaking', short: 'Speak' },
+  { id: 'reading', name: 'Reading', short: 'Read' },
+  { id: 'writing', name: 'Writing', short: 'Write' },
+  { id: 'use', name: 'Use of English', short: 'Use' },
 ]
+
+export function skillById(id: string): Skill {
+  return SKILLS.find((s) => s.id === id) ?? SKILLS[0]
+}
+
+/* ------------------------------------------------------------------ *
+ * Turmas
+ *
+ * Estágios de 1A a 6B: o número é o estágio e a letra é o semestre dentro
+ * dele. 1–2 Básico, 3–4 Intermediário, 5–6 Avançado.
+ * ------------------------------------------------------------------ */
 
 export interface Turma {
   id: string
+  /** "2A" */
   name: string
-  grade: string
+  /** "Básico" */
+  stage: string
   shift: string
+  /** Dias e horário do encontro. */
+  schedule: string
 }
 
 export const TURMAS: Turma[] = [
-  { id: 't5a', name: '5º A', grade: '5º ano', shift: 'Manhã' },
-  { id: 't5b', name: '5º B', grade: '5º ano', shift: 'Tarde' },
+  { id: 't2a', name: '2A', stage: 'Básico', shift: 'Manhã', schedule: 'Ter e Qui · 07:30' },
+  { id: 't4b', name: '4B', stage: 'Intermediário', shift: 'Tarde', schedule: 'Ter e Qui · 14:00' },
 ]
 
 export const TEACHER = {
   id: 'prof-1',
   name: 'Helena Vasconcelos',
-  role: 'Professora · 5º ano',
+  role: 'Professora de Inglês',
+}
+
+export const SCHOOL = {
+  name: 'Centro Interescolar de Línguas',
+  short: 'CIL',
+  course: 'Inglês',
 }
 
 /* ------------------------------------------------------------------ *
  * Alunos
  *
- * [nome, média geral, % de frequência]. A curva é deliberada.
+ * [nome, média geral, % de frequência]. A curva é deliberada, com o corte de
+ * aprovação em 5,0: ~20% excelente, ~57% aprovado, ~13% recuperável,
+ * ~10% crítico.
  * ------------------------------------------------------------------ */
 
 type Row = [string, number, number]
 
-const ROSTER_5A: Row[] = [
+const ROSTER_2A: Row[] = [
   ['Ana Beatriz Lima', 9.4, 98],
   ['Arthur Nogueira Pinto', 7.2, 94],
   ['Bruna Carvalho Dias', 8.8, 96],
   ['Caio Fernandes Rocha', 6.4, 88],
   ['Camila Souza Moreira', 7.9, 92],
-  ['Davi Luiz Andrade', 5.3, 79],
+  ['Davi Luiz Andrade', 4.3, 79],
   ['Eduarda Ramos Teixeira', 9.1, 100],
-  ['Enzo Gabriel Martins', 4.6, 71],
+  ['Enzo Gabriel Martins', 3.6, 71],
   ['Fernanda Alves Correia', 7.5, 90],
   ['Gabriel Moreira Braga', 6.8, 85],
   ['Giovanna Pires Azevedo', 8.6, 97],
-  ['Gustavo Henrique Salles', 6.1, 83],
-  ['Heitor Campos Vieira', 5.7, 76],
+  ['Gustavo Henrique Salles', 5.1, 83],
+  ['Heitor Campos Vieira', 4.7, 76],
   ['Isabela Cunha Monteiro', 9.7, 99],
   ['João Pedro Barbosa', 7.0, 91],
   ['Júlia Mendes Farias', 8.2, 95],
-  ['Kauã Ribeiro Santana', 3.9, 64],
+  ['Kauã Ribeiro Santana', 3.1, 64],
   ['Larissa Duarte Peixoto', 7.7, 93],
-  ['Lucas Almeida Tavares', 6.6, 87],
+  ['Lucas Almeida Tavares', 5.6, 87],
   ['Manuela Freitas Lopes', 8.9, 98],
-  ['Matheus Siqueira Braz', 5.1, 74],
+  ['Matheus Siqueira Braz', 4.1, 74],
   ['Miguel Antunes Rezende', 7.3, 89],
   ['Nicolas Batista Furtado', 6.3, 82],
   ['Olívia Cardoso Menezes', 9.2, 97],
-  ['Pedro Henrique Aguiar', 4.2, 68],
+  ['Pedro Henrique Aguiar', 3.4, 68],
   ['Rafaela Gomes Bastos', 7.8, 94],
   ['Samuel Coelho Ventura', 6.9, 86],
   ['Sophia Marques Resende', 8.4, 96],
-  ['Thiago Nunes Caldeira', 5.5, 77],
+  ['Thiago Nunes Caldeira', 5.0, 77],
   ['Valentina Brito Sampaio', 8.7, 99],
 ]
 
-const ROSTER_5B: Row[] = [
+const ROSTER_4B: Row[] = [
   ['Alice Moraes Guimarães', 9.0, 97],
   ['Benício Leal Fontoura', 6.7, 88],
   ['Bianca Teles Paiva', 8.3, 95],
@@ -105,28 +136,28 @@ const ROSTER_5B: Row[] = [
   ['Cecília Lacerda Prado', 9.5, 100],
   ['Daniel Rocha Espíndola', 6.2, 84],
   ['Elisa Amaral Bandeira', 7.6, 92],
-  ['Felipe Cordeiro Vilela', 4.8, 72],
+  ['Felipe Cordeiro Vilela', 4.0, 72],
   ['Gael Figueiredo Serra', 7.1, 90],
   ['Helena Brandão Xavier', 8.5, 96],
   ['Henrique Padilha Solano', 6.5, 86],
   ['Ísis Carvalho Bittencourt', 9.3, 98],
-  ['Joaquim Neves Tavares', 5.4, 78],
+  ['Joaquim Neves Tavares', 4.6, 78],
   ['Lara Pacheco Simões', 7.9, 93],
   ['Laura Bezerra Vasques', 8.1, 94],
   ['Leonardo Fraga Dantas', 6.0, 80],
   ['Lívia Sales Camargo', 8.8, 97],
-  ['Lorenzo Vargas Beltrão', 3.4, 58],
+  ['Lorenzo Vargas Beltrão', 2.8, 58],
   ['Luana Pontes Rabelo', 7.4, 91],
   ['Maitê Oliveira Galvão', 9.6, 99],
-  ['Marcelo Assis Trindade', 5.6, 79],
+  ['Marcelo Assis Trindade', 5.3, 79],
   ['Mariana Godoy Sobral', 8.0, 95],
   ['Murilo Barros Linhares', 6.8, 87],
   ['Nina Rodrigues Aragão', 8.9, 98],
-  ['Otávio Seixas Maciel', 4.4, 69],
+  ['Otávio Seixas Maciel', 3.8, 69],
   ['Rebeca Antunes Vidal', 7.3, 89],
   ['Rodrigo Piva Meireles', 6.4, 85],
   ['Sarah Lemos Cavalcanti', 9.1, 96],
-  ['Vicente Duarte Rios', 5.8, 82],
+  ['Vicente Duarte Rios', 5.5, 82],
   ['Yasmin Ferraz Bonfim', 7.7, 92],
 ]
 
@@ -135,20 +166,20 @@ export interface Student {
   name: string
   enrollment: string
   turmaId: string
-  /** Média geral do bimestre, 0–10. */
+  /** Média do bimestre, 0–10, composta das cinco habilidades. */
   average: number
   /** Percentual de presença no bimestre. */
   attendance: number
-  /** Média por disciplina, derivada da geral com variação determinística. */
-  bySubject: Record<string, number>
+  /** Nota por habilidade. */
+  bySkill: Record<string, number>
 }
 
-/** Variação determinística por aluno e disciplina: a mesma semente sempre
+/** Variação determinística por aluno e habilidade: a mesma semente sempre
  *  devolve a mesma nota, então a demo é ensaiável. */
 function jitter(seed: string): number {
   let h = 0
   for (let i = 0; i < seed.length; i += 1) h = (h * 31 + seed.charCodeAt(i)) % 1009
-  return (h % 21) / 10 - 1 // -1.0 .. +1.0
+  return (h % 25) / 10 - 1.2 // -1.2 .. +1.2
 }
 
 function clampGrade(value: number): number {
@@ -158,9 +189,9 @@ function clampGrade(value: number): number {
 function buildStudents(rows: Row[], turmaId: string, offset: number): Student[] {
   return rows.map(([name, average, attendance], i) => {
     const id = `${turmaId}-${i + 1}`
-    const bySubject: Record<string, number> = {}
-    for (const subject of SUBJECTS) {
-      bySubject[subject.id] = clampGrade(average + jitter(`${id}:${subject.id}`))
+    const bySkill: Record<string, number> = {}
+    for (const skill of SKILLS) {
+      bySkill[skill.id] = clampGrade(average + jitter(`${id}:${skill.id}`))
     }
     return {
       id,
@@ -169,14 +200,14 @@ function buildStudents(rows: Row[], turmaId: string, offset: number): Student[] 
       turmaId,
       average,
       attendance,
-      bySubject,
+      bySkill,
     }
   })
 }
 
 export const STUDENTS: Student[] = [
-  ...buildStudents(ROSTER_5A, 't5a', 100),
-  ...buildStudents(ROSTER_5B, 't5b', 200),
+  ...buildStudents(ROSTER_2A, 't2a', 100),
+  ...buildStudents(ROSTER_4B, 't4b', 200),
 ]
 
 export function studentsOf(turmaId: string): Student[] {
@@ -185,6 +216,15 @@ export function studentsOf(turmaId: string): Student[] {
 
 export function turmaOf(student: Student): Turma {
   return TURMAS.find((t) => t.id === student.turmaId) ?? TURMAS[0]
+}
+
+export function turmaById(id: string): Turma {
+  return TURMAS.find((t) => t.id === id) ?? TURMAS[0]
+}
+
+/** "2A · Básico" — o rótulo canônico da turma fora da tabela. */
+export function turmaLabel(turma: Turma): string {
+  return `${turma.name} · ${turma.stage}`
 }
 
 /* ------------------------------------------------------------------ *
@@ -211,7 +251,7 @@ export interface AttentionEntry {
   reason: AttentionReason
 }
 
-/** Entra na lista quem está em faixa crítica de nota OU abaixo da
+/** Entra na lista quem está abaixo da média de aprovação OU abaixo da
  *  frequência mínima. Pior caso primeiro. */
 export function attentionList(students: Student[]): AttentionEntry[] {
   return students
@@ -246,27 +286,27 @@ export interface Announcement {
 export const ANNOUNCEMENTS: Announcement[] = [
   {
     id: 'av-1',
-    title: 'Reunião de pais do 5º ano — 18 de abril',
-    body: 'As reuniões acontecem no sábado, das 9h às 12h, na sala de cada turma. Os boletins do bimestre 1 serão entregues no fim do encontro.',
-    author: 'Coordenação pedagógica',
+    title: 'Rematrícula do 2º semestre entre 4 e 15 de maio',
+    body: 'A rematrícula é feita pelo próprio aluno na secretaria, no horário da aula. Quem perder o prazo concorre a vaga remanescente na chamada pública.',
+    author: 'Secretaria do CIL',
     date: '2026-04-08',
     priority: 'important',
     unread: true,
   },
   {
     id: 'av-2',
-    title: 'Feira de ciências: inscrição dos projetos até 24 de abril',
-    body: 'Cada turma pode inscrever até seis projetos. O formulário fica disponível na secretaria e os grupos podem ter de dois a quatro alunos.',
-    author: 'Coordenação pedagógica',
+    title: 'Speaking test dos estágios 4 a 6 na semana de 20 de abril',
+    body: 'As provas orais acontecem em duplas, no horário regular da turma. A banca é composta pelo professor da turma e mais um professor do estágio.',
+    author: 'Coordenação de Inglês',
     date: '2026-04-06',
     priority: 'normal',
     unread: true,
   },
   {
     id: 'av-3',
-    title: 'Manutenção da quadra entre 13 e 17 de abril',
-    body: 'As aulas de Educação Física acontecem no pátio coberto durante a semana de manutenção.',
-    author: 'Secretaria',
+    title: 'Clube de conversação abre inscrições',
+    body: 'Encontros às sextas, das 16h às 17h, abertos a alunos do estágio 3 em diante. São 20 vagas por semestre.',
+    author: 'Coordenação de Inglês',
     date: '2026-04-02',
     priority: 'normal',
     unread: false,
@@ -280,7 +320,7 @@ export const ANNOUNCEMENTS: Announcement[] = [
 export interface Assignment {
   id: string
   title: string
-  subjectId: string
+  skillId: string
   turmaId: string
   due: string
   submitted: number
@@ -289,20 +329,12 @@ export interface Assignment {
 }
 
 export const ASSIGNMENTS: Assignment[] = [
-  { id: 'tf-1', title: 'Resenha do livro "O menino do dedo verde"', subjectId: 'port', turmaId: 't5a', due: '2026-04-07', submitted: 27, total: 30, graded: 0 },
-  { id: 'tf-2', title: 'Lista de frações equivalentes', subjectId: 'mat', turmaId: 't5a', due: '2026-04-10', submitted: 18, total: 30, graded: 0 },
-  { id: 'tf-3', title: 'Cartaz do ciclo da água', subjectId: 'cie', turmaId: 't5b', due: '2026-04-09', submitted: 24, total: 30, graded: 0 },
-  { id: 'tf-4', title: 'Linha do tempo do Brasil Colônia', subjectId: 'hist', turmaId: 't5b', due: '2026-04-14', submitted: 6, total: 30, graded: 0 },
-  { id: 'tf-5', title: 'Mapa das regiões brasileiras', subjectId: 'geo', turmaId: 't5a', due: '2026-04-03', submitted: 30, total: 30, graded: 30 },
+  { id: 'tf-1', title: 'Writing: e-mail informal para um amigo', skillId: 'writing', turmaId: 't2a', due: '2026-04-07', submitted: 27, total: 30, graded: 0 },
+  { id: 'tf-2', title: 'Use of English: past simple e past continuous', skillId: 'use', turmaId: 't2a', due: '2026-04-10', submitted: 18, total: 30, graded: 0 },
+  { id: 'tf-3', title: 'Listening: entrevista sobre rotina de trabalho', skillId: 'listening', turmaId: 't4b', due: '2026-04-09', submitted: 24, total: 30, graded: 0 },
+  { id: 'tf-4', title: 'Reading: artigo sobre mudanças climáticas', skillId: 'reading', turmaId: 't4b', due: '2026-04-14', submitted: 6, total: 30, graded: 0 },
+  { id: 'tf-5', title: 'Speaking: apresentação sobre a própria cidade', skillId: 'speaking', turmaId: 't2a', due: '2026-04-03', submitted: 30, total: 30, graded: 30 },
 ]
-
-export function subjectOf(id: string): Subject {
-  return SUBJECTS.find((s) => s.id === id) ?? SUBJECTS[0]
-}
-
-export function turmaById(id: string): Turma {
-  return TURMAS.find((t) => t.id === id) ?? TURMAS[0]
-}
 
 /* ------------------------------------------------------------------ *
  * Ocorrências
@@ -320,35 +352,30 @@ export interface Incident {
 }
 
 export const INCIDENTS: Incident[] = [
-  { id: 'oc-1', studentId: 't5a-17', date: '2026-04-07', kind: 'Faltas seguidas', severity: 'serious', note: 'Quarta ausência consecutiva sem justificativa. Família contatada pela secretaria.' },
-  { id: 'oc-2', studentId: 't5b-18', date: '2026-04-06', kind: 'Tarefas não entregues', severity: 'medium', note: 'Três tarefas de Matemática em aberto no bimestre.' },
-  { id: 'oc-3', studentId: 't5a-25', date: '2026-04-01', kind: 'Saída antecipada', severity: 'light', note: 'Saiu às 10h com autorização do responsável.' },
+  { id: 'oc-1', studentId: 't2a-17', date: '2026-04-07', kind: 'Faltas seguidas', severity: 'serious', note: 'Quarta ausência consecutiva sem justificativa. Risco de perder a vaga no semestre.' },
+  { id: 'oc-2', studentId: 't4b-18', date: '2026-04-06', kind: 'Tarefas não entregues', severity: 'medium', note: 'Três tarefas de Use of English em aberto no bimestre.' },
+  { id: 'oc-3', studentId: 't2a-25', date: '2026-04-01', kind: 'Saída antecipada', severity: 'light', note: 'Saiu às 08:40 com autorização do responsável.' },
 ]
 
 /* ------------------------------------------------------------------ *
- * Chamada — o estado que a interação assinatura manipula
+ * Chamada
  * ------------------------------------------------------------------ */
 
 export interface RollCallState {
   turmaId: string
   date: string
-  /** id do aluno -> presente. Ausente do mapa = ainda não marcado. */
   marks: Record<string, boolean>
   done: boolean
 }
-
-export const INITIAL_ROLLCALL: RollCallState[] = [
-  { turmaId: 't5a', date: TODAY, marks: {}, done: false },
-  { turmaId: 't5b', date: TODAY, marks: {}, done: true },
-]
 
 /* ------------------------------------------------------------------ *
  * O aluno que a demo mostra quando o perfil é "student"
  * ------------------------------------------------------------------ */
 
-/** Escolhido de propósito na faixa adequada, com uma disciplina em atenção
- *  e uma tarefa vencendo: um painel de aluno perfeito não demonstra nada. */
-export const DEMO_STUDENT_ID = 't5a-19' // Lucas Almeida Tavares
+/** Escolhido de propósito logo acima do corte de aprovação, com uma
+ *  habilidade em recuperação e uma tarefa vencendo: um painel de aluno
+ *  perfeito não demonstra nada. */
+export const DEMO_STUDENT_ID = 't2a-19' // Lucas Almeida Tavares
 
 export function studentById(id: string): Student {
   return STUDENTS.find((s) => s.id === id) ?? STUDENTS[0]
