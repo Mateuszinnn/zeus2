@@ -90,9 +90,9 @@ export function Alunos() {
       key: 'turma',
       header: 'Turma',
       sortable: true,
-      width: 'w-36',
+      width: 'w-40',
       cell: (s) => (
-        <span className="text-secondary">
+        <span className="whitespace-nowrap text-secondary">
           {turmaById(s.turmaId).name} · {turmaById(s.turmaId).stage}
         </span>
       ),

@@ -48,7 +48,36 @@ export function DataTable<T>({
   if (state === 'ready' && rows.length === 0) return <>{empty}</>
 
   return (
-    <div className="overflow-x-auto">
+    <>
+      {/* Em largura de telefone a tabela deixa de ser tabela: cada registro
+          vira um cartão com o rótulo acima do valor. Rolagem horizontal dentro
+          de um contêiner esconde as colunas que importam — numa tela de notas,
+          esconde justamente as notas. */}
+      <ul className="flex flex-col gap-3 p-4 md:hidden">
+        {state === 'loading'
+          ? Array.from({ length: 5 }, (_, i) => (
+              <li key={i} className="skeleton h-28 rounded-lg" />
+            ))
+          : rows.map((row) => (
+              <li key={rowKey(row)} className="rounded-lg border border-default bg-surface p-4">
+                <div className="border-b border-default pb-3">{columns[0].cell(row)}</div>
+                <dl className="mt-3 grid grid-cols-2 gap-x-4 gap-y-3">
+                  {columns.slice(1).map((column) => (
+                    <div key={column.key} className="min-w-0">
+                      <dt className="text-caption text-muted">{column.header}</dt>
+                      {/* No cartão o valor encosta no rótulo: o alinhamento à
+                          direita só faz sentido dentro da coluna da tabela. */}
+                      <dd className="mt-0.5 [&>button]:w-auto [&>button]:text-left">
+                        {column.cell(row)}
+                      </dd>
+                    </div>
+                  ))}
+                </dl>
+              </li>
+            ))}
+      </ul>
+
+      <div className="hidden overflow-x-auto md:block">
       <table className="w-full border-collapse text-body" data-scan>
         <caption className="sr-only">{caption}</caption>
         <thead>
@@ -128,7 +157,8 @@ export function DataTable<T>({
               ))}
         </tbody>
       </table>
-    </div>
+      </div>
+    </>
   )
 }
 

@@ -70,7 +70,7 @@ export function Dashboard() {
             <PendingBand date={DEMO_DATE} pendings={pendings} onAct={act} />
           )}
 
-          <div className="grid gap-6 xl:grid-cols-2">
+          <div className="grid items-start gap-6 xl:grid-cols-2">
             <ClassDistribution />
             <AttentionList />
           </div>
@@ -91,7 +91,7 @@ function DashboardSkeleton() {
           ))}
         </div>
       </div>
-      <div className="grid gap-6 xl:grid-cols-2">
+      <div className="grid items-start gap-6 xl:grid-cols-2">
         <div className="skeleton h-72 rounded-xl" />
         <div className="skeleton h-72 rounded-xl" />
       </div>

@@ -3,6 +3,8 @@ import { CircleCheck, FileClock, Send } from 'lucide-react'
 import { Button } from '@/components/Button'
 import { useToast } from '@/components/Toast'
 import { cn } from '@/lib/cn'
+import { grade as fmtGrade } from '@/lib/format'
+import { gradeLevel, levelStyle } from '@/lib/grade'
 import { plural, relativeDay, shortDate, weekday } from '@/lib/format'
 import { delay } from '@/mocks/delay'
 import { ASSIGNMENTS, TODAY, skillById, type Student } from '@/mocks/data'
@@ -142,10 +144,29 @@ export function MyPending({ student }: { student: Student }) {
 
                 <div className="mt-4 pl-[30px]">
                   {task.status === 'submitted' ? (
-                    <span className="inline-flex items-center gap-1.5 text-caption text-success-ink">
-                      <CircleCheck size={14} aria-hidden="true" />
-                      {task.score !== undefined ? 'Avaliada' : 'Entregue'}
-                    </span>
+                    task.score !== undefined ? (
+                      /* A pergunta que o aluno veio fazer é "quanto tirei".
+                       * Repetir "Avaliada", que já está no topo do cartão, não
+                       * responde nada. */
+                      <span className="inline-flex items-baseline gap-2">
+                        <span
+                          className={cn(
+                            'text-h2 font-medium',
+                            levelStyle(gradeLevel(task.score)).ink,
+                          )}
+                        >
+                          {fmtGrade(task.score)}
+                        </span>
+                        <span className="text-caption text-muted">
+                          {levelStyle(gradeLevel(task.score)).label.toLowerCase()}
+                        </span>
+                      </span>
+                    ) : (
+                      <span className="inline-flex items-center gap-1.5 text-caption text-success-ink">
+                        <CircleCheck size={14} aria-hidden="true" />
+                        Entregue
+                      </span>
+                    )
                   ) : (
                     <Button
                       size="sm"

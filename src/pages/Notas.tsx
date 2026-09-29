@@ -133,14 +133,14 @@ export function Notas() {
       key: 'enrollment',
       header: 'Matrícula',
       sortable: true,
-      width: 'w-32',
+      width: 'w-28',
       cell: (student) => <span className="text-secondary">{student.enrollment}</span>,
     },
     {
       key: 'turma',
       header: 'Turma',
       sortable: true,
-      width: 'w-32',
+      width: 'w-24',
       cell: (student) => <span className="text-secondary">{turmaById(student.turmaId).name}</span>,
     },
   ]
@@ -154,7 +154,7 @@ export function Notas() {
             header: s.short,
             sortable: true,
             align: 'right',
-            width: 'w-20',
+            width: 'w-[4.5rem]',
             cell: (student) => (
               <GradeCell
                 compact
@@ -165,11 +165,15 @@ export function Notas() {
             ),
           })),
           {
+            /* Sem barra aqui: com as cinco habilidades na frente, a barra da
+             * média não cabia e era cortada na borda do cartão. Número mais
+             * pílula da faixa entregam a mesma leitura no espaço que existe. */
             key: 'average',
             header: 'Média',
             sortable: true,
-            width: 'w-56',
-            cell: (student) => <AverageCell student={student} value={averageOf(student)} />,
+            align: 'right',
+            width: 'w-36',
+            cell: (student) => <AverageBadge value={averageOf(student)} name={student.name} />,
           },
         ]
       : [
@@ -301,24 +305,16 @@ export function Notas() {
   )
 }
 
-function AverageCell({ student, value }: { student: Student; value: number }) {
+function AverageBadge({ value, name }: { value: number; name: string }) {
   const style = levelStyle(gradeLevel(value))
   return (
-    <span className="flex items-center gap-3">
-      <span className="w-9 shrink-0 font-medium text-primary">{fmtGrade(value)}</span>
-      <span
-        role="progressbar"
-        aria-valuenow={Math.round(value * 10)}
-        aria-valuemin={0}
-        aria-valuemax={100}
-        aria-label={`Média de ${student.name}: ${fmtGrade(value)}, ${style.label.toLowerCase()}`}
-        className="h-2 min-w-16 flex-1 overflow-hidden rounded-full bg-gray-30"
-      >
-        <span
-          className={cn('block h-full rounded-full', style.fill)}
-          style={{ width: `${Math.max(2, (value / 10) * 100)}%` }}
-        />
-      </span>
+    <span
+      className="inline-flex items-center gap-2"
+      title={`Média de ${name}: ${fmtGrade(value)}, ${style.label.toLowerCase()}`}
+    >
+      <span className="font-medium text-primary tabular-nums">{fmtGrade(value)}</span>
+      <span className={cn('size-2.5 rounded-full', style.fill)} aria-hidden="true" />
+      <span className="sr-only">{style.label}</span>
     </span>
   )
 }

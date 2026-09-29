@@ -4,7 +4,7 @@ import { GradeBar } from '@/components/GradeBar'
 import { StatusBadge } from '@/components/StatusBadge'
 import { cn } from '@/lib/cn'
 import { grade as fmtGrade, percent as fmtPercent, shortDate } from '@/lib/format'
-import { attendanceLevel, gradeLevel, levelStyle, MIN_ATTENDANCE, PASSING_GRADE } from '@/lib/grade'
+import { gradeLevel, levelStyle, MIN_ATTENDANCE, PASSING_GRADE } from '@/lib/grade'
 import { ANNOUNCEMENTS, SKILLS, TERM, turmaOf, type Student } from '@/mocks/data'
 
 /* A faixa de baixo do aluno. A inversão que faz as duas telas valerem uma
@@ -13,7 +13,6 @@ import { ANNOUNCEMENTS, SKILLS, TERM, turmaOf, type Student } from '@/mocks/data
 
 export function MyPerformance({ student }: { student: Student }) {
   const level = gradeLevel(student.average)
-  const attLevel = attendanceLevel(student.attendance)
 
   return (
     <div className="grid gap-6 xl:grid-cols-2">
@@ -72,8 +71,10 @@ export function MyPerformance({ student }: { student: Student }) {
 
           <p className="text-caption text-muted">
             No CIL a média de aprovação é {fmtGrade(PASSING_GRADE)} e a frequência mínima é{' '}
-            {MIN_ATTENDANCE}%. Sua média sai das cinco habilidades acima, e sua frequência está{' '}
-            {levelStyle(attLevel).label.toLowerCase()}.
+            {MIN_ATTENDANCE}%. Sua média sai das cinco habilidades acima.{' '}
+            {student.attendance >= MIN_ATTENDANCE
+              ? 'Sua frequência está dentro do mínimo.'
+              : 'Sua frequência está abaixo do mínimo — procure a secretaria.'}
           </p>
         </CardBody>
       </Card>

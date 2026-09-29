@@ -92,7 +92,7 @@ export function ClassDistribution() {
             ))}
           </div>
 
-          <ul className="mt-4 grid grid-cols-2 gap-x-6 gap-y-3 sm:grid-cols-4">
+          <ul className="mt-4 grid grid-cols-2 gap-x-6 gap-y-3">
             {slices.map((slice) => (
               <LegendRow key={slice.level} level={slice.level} count={slice.count} total={total} />
             ))}

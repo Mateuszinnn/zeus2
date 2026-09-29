@@ -5,6 +5,14 @@ import { Button } from '@/components/Button'
 import { ZeusMark } from '@/components/ZeusMark'
 import { cn } from '@/lib/cn'
 import { useSession, type Role } from '@/mocks/session'
+import {
+  DEMO_STUDENT_ID,
+  SCHOOL,
+  TEACHER,
+  studentById,
+  turmaLabel,
+  turmaOf,
+} from '@/mocks/data'
 
 /* A única tela sem o shell.
  *
@@ -12,13 +20,21 @@ import { useSession, type Role } from '@/mocks/session'
  * formulário é o que permite alternar entre professor e aluno ao vivo, durante
  * a apresentação, sem tela de administração. */
 
+/* Os textos saem dos dados, não de literais: quando o produto mudou de escola
+ * regular para CIL, os literais aqui ficaram dizendo "5º ano" por semanas. */
+const DEMO_STUDENT = studentById(DEMO_STUDENT_ID)
+
 const ROLES: { id: Role; label: string; hint: string }[] = [
-  { id: 'teacher', label: 'Professora', hint: 'Helena Vasconcelos · 5º ano' },
-  { id: 'student', label: 'Aluno', hint: 'Lucas Almeida Tavares · 5º A' },
+  { id: 'teacher', label: 'Professora', hint: `${TEACHER.name} · ${TEACHER.role}` },
+  {
+    id: 'student',
+    label: 'Aluno',
+    hint: `${DEMO_STUDENT.name} · ${turmaLabel(turmaOf(DEMO_STUDENT))}`,
+  },
 ]
 
 export function Login() {
-  const [email, setEmail] = useState('helena.vasconcelos@escola.edu.br')
+  const [email, setEmail] = useState('helena.vasconcelos@cil.exemplo.br')
   const [password, setPassword] = useState('demonstracao')
   const [role, setRole] = useState<Role>('teacher')
   const [busy, setBusy] = useState(false)
@@ -44,7 +60,8 @@ export function Login() {
 
           <h1 className="mt-8 text-display text-primary">Entrar</h1>
           <p className="mt-1 text-body text-secondary">
-            Gestão escolar do 5º ano: notas, frequência, tarefas e matrícula.
+            {SCHOOL.name} · {SCHOOL.course}. Notas por habilidade, frequência, tarefas e
+            matrícula.
           </p>
 
           <div className="mt-8 flex flex-col gap-5">
@@ -122,7 +139,8 @@ export function Login() {
         </div>
         <div className="absolute right-12 bottom-12 left-12">
           <p className="text-h2 text-on-dark text-balance">
-            O dia inteiro da turma em uma tela — chamada, notas, tarefas e avisos.
+            O dia inteiro da turma em uma tela — chamada, notas por habilidade, tarefas e
+            avisos.
           </p>
         </div>
       </div>

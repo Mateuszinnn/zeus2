@@ -17,6 +17,13 @@ export function shortDate(iso: string): string {
   return `${d.getDate()} ${MONTH[d.getMonth()]}`
 }
 
+/** Data com o ano, para quando ele distingue registros — numa ficha de
+ *  matrícula, "5 fev" de 2024 e de 2025 são coisas diferentes. */
+export function dateWithYear(iso: string): string {
+  const d = new Date(`${iso}T12:00:00`)
+  return `${d.getDate()} ${MONTH[d.getMonth()]} ${d.getFullYear()}`
+}
+
 export function weekday(iso: string): string {
   return WEEKDAY[new Date(`${iso}T12:00:00`).getDay()]
 }

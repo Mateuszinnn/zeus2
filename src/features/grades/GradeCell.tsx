@@ -81,15 +81,35 @@ export function GradeCell({ value, label, onCommit, compact = false }: GradeCell
     )
   }
 
+  /* No modo compacto não há barra, então a cor da faixa tem de viajar no
+   * próprio número — senão as cinco habilidades viram uma parede de números
+   * pretos indistintos, que é o oposto do que esta tela existe para fazer.
+   * O rótulo textual segue no aria-label, para quem não distingue a cor. */
+  if (compact) {
+    return (
+      <button
+        type="button"
+        onClick={open}
+        aria-label={`${label}: ${fmtGrade(value)}, ${style.label.toLowerCase()}. Clique para editar.`}
+        className={cn(
+          'w-full rounded-sm py-0.5 text-right text-body font-medium tabular-nums',
+          'transition-colors duration-150 ease-expo hover:bg-accent-soft',
+          style.ink,
+        )}
+      >
+        {fmtGrade(value)}
+      </button>
+    )
+  }
+
   return (
     <button
       type="button"
       onClick={open}
       aria-label={`${label}: ${fmtGrade(value)}, ${style.label.toLowerCase()}. Clique para editar.`}
       className={cn(
-        'group flex items-center gap-3 rounded-md text-left',
+        'group flex w-full max-w-64 items-center gap-3 rounded-md text-left',
         'transition-colors duration-150 ease-expo',
-        compact ? 'w-16' : 'w-full max-w-64',
       )}
     >
       <span
@@ -100,14 +120,12 @@ export function GradeCell({ value, label, onCommit, compact = false }: GradeCell
       >
         {fmtGrade(value)}
       </span>
-      {!compact && (
-        <span className="h-2 flex-1 overflow-hidden rounded-full bg-gray-30">
-          <span
-            className={cn('block h-full rounded-full transition-[width] duration-200 ease-expo', style.fill)}
-            style={{ width: `${Math.max(2, (value / 10) * 100)}%` }}
-          />
-        </span>
-      )}
+      <span className="h-2 flex-1 overflow-hidden rounded-full bg-gray-30">
+        <span
+          className={cn('block h-full rounded-full transition-[width] duration-200 ease-expo', style.fill)}
+          style={{ width: `${Math.max(2, (value / 10) * 100)}%` }}
+        />
+      </span>
     </button>
   )
 }

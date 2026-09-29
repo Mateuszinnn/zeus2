@@ -12,7 +12,7 @@ import { EmptyState } from '@/components/EmptyState'
 import { Field, NativeSelect, TextInput } from '@/components/Field'
 import { DataTable, TableFooter, type Column } from '@/components/DataTable'
 import { useToast } from '@/components/Toast'
-import { shortDate } from '@/lib/format'
+import { dateWithYear } from '@/lib/format'
 import { delay } from '@/mocks/delay'
 import { STUDENTS, TERM, TURMAS, studentById, turmaById, type Student } from '@/mocks/data'
 import {
@@ -96,9 +96,9 @@ export function Matriculas() {
     {
       key: 'turma',
       header: 'Turma',
-      width: 'w-36',
+      width: 'w-40',
       cell: (s) => (
-        <span className="text-secondary">
+        <span className="whitespace-nowrap text-secondary">
           {turmaById(s.turmaId).name} · {turmaById(s.turmaId).stage}
         </span>
       ),
@@ -118,8 +118,12 @@ export function Matriculas() {
     {
       key: 'since',
       header: 'Desde',
-      width: 'w-28',
-      cell: (s) => <span className="text-secondary">{shortDate(enrollmentOf(s.id).since)}</span>,
+      width: 'w-36',
+      cell: (s) => (
+        <span className="whitespace-nowrap text-secondary">
+          {dateWithYear(enrollmentOf(s.id).since)}
+        </span>
+      ),
     },
     {
       key: 'status',
